@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "planb-react",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": []
+  }
+}
