@@ -16,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          PoggersButthole
+          Logo go brrrrrr
         </a>
       </header>
     </div>
