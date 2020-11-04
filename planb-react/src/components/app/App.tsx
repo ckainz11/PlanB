@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../images/LogoPlanB.png';
 import './App.css';
+import {FormField} from "semantic-ui-react";
 
 function App() {
   return (
