@@ -4,6 +4,8 @@ import './index.css';
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
 
+//Connect to firestore with data provided by .env
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
