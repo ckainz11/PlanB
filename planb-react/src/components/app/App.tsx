@@ -7,10 +7,10 @@ import {usePlanB} from "../../services/usePlanB";
 export const PlanBSessionContext = React.createContext({});
 
 function App() {
-    const PlanBSession = usePlanB();
+    const PlanB = usePlanB();
 
     return (
-        <PlanBSessionContext.Provider value={PlanBSession}>
+        <PlanBSessionContext.Provider value={PlanB}>
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
