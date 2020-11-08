@@ -49,15 +49,15 @@
           "songs": {
             "BackInBlack": true
           }
+        }
+      },
+      "votes": {
+        "Let's Jam session": {
+          "FlorianID": -1,
+          "ChristophID": 1
         },
-        "votes": {
-          "Let's Jam session": {
-            "FlorianID": -1,
-            "ChristophID": 1
-          },
-          "Final session": {
-            "FlorianID": 1
-          }
+        "Final session": {
+          "FlorianID": 1
         }
       }
     },
