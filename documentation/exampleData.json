@@ -5,7 +5,6 @@
   },
   "bands": {
     "FunnyBoysTM": {
-      "description": "Haha funny",
       "members": {
         "FlorianID": true,
         "ChristophID": true
