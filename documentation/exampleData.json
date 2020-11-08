@@ -30,7 +30,8 @@
       "meetings": {
         "Let's Jam session": {
           "date": "27.11.2020",
-          "time": "15:00-16:00",
+          "startTime": "15:00",
+          "endTime": "16:00",
           "description": "los geht's burschen",
           "location": "Proberaum Naschmarkt",
           "proposer": "FlorianID",
