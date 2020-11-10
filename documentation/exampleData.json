@@ -74,8 +74,10 @@
       }
     },
     "ChristophID": {
-      "FunnyBoysTM": true,
-      "Balls": true
+      "bands":{
+        "FunnyBoysTM": true,
+        "Balls": true
+      }
     }
   }
 }
