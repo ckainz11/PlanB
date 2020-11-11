@@ -1,17 +1,15 @@
 {
-  "bandNames": {
-    "FunnyBoysTM": true,
+  "bands": {
+    "FunnyBoysTM": {
+      "description": "A funny Band haha"
+    },
     "Balls": true
   },
-  "bands": {
+  "bandSpace": {
     "FunnyBoysTM": {
       "members": {
         "FlorianID": true,
         "ChristophID": true
-      },
-      "songNames": {
-        "BackInBlack": true,
-        "SweetHome": true
       },
       "songs": {
         "BackInBlack": {
@@ -23,10 +21,6 @@
           "Content": "Link to youtube"
         }
       },
-      "meetingNames": {
-        "Let's Jam session": true,
-        "Final session": true
-      },
       "meetings": {
         "Let's Jam session": {
           "date": "27.11.2020",
@@ -34,30 +28,34 @@
           "endTime": "16:00",
           "description": "los geht's burschen",
           "location": "Proberaum Naschmarkt",
-          "proposer": "FlorianID",
-          "songs": {
-            "BackInBlack": true,
-            "SweetHome": true
-          }
+          "proposer": "FlorianID"
         },
         "Final session": {
           "date": "29.11.2020",
           "time": "15:00-16:00",
           "description": "los geht's burschen",
           "location": "Proberaum Naschmarkt",
-          "proposer": "ChristophID",
-          "songs": {
-            "BackInBlack": true
-          }
+          "proposer": "ChristophID"
         }
       },
-      "votes": {
+      "meetingsSpace" : {
         "Let's Jam session": {
-          "FlorianID": -1,
-          "ChristophID": 1
+          "assignedSongs": {
+            "BackInBlack": true,
+            "SweetHome": true
+          },
+          "votes": {
+            "FlorianID": -1,
+            "ChristophID": 1
+          }
         },
         "Final session": {
-          "FlorianID": 1
+          "assignedSongs": {
+            "BackInBlack": true
+          },
+          "votes": {
+            "FlorianID": -1
+          }
         }
       }
     },
