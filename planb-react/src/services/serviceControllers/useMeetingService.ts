@@ -1,11 +1,18 @@
-import {useCallback, useContext} from "react";
-import {BServiceContext, useDatabaseSpaceElements, useDatabaseValue} from "../index";
-import {Meeting} from "../../resources";
-import {Band} from "../../resources/Band";
+import {useDatabaseValue} from "../index";
+import {Band, Meeting} from "../../resources";
+import {useEffect, useState} from "react";
 
-export function useMeetingService(band:Band | undefined): { meetings: Meeting[] | undefined } {
-    const databaseValue: any = useDatabaseValue(band ? `bandSpace/${band.name}/meetings` : undefined);
-    const meetings: Meeting[] = databaseValue ? Object.keys(databaseValue).map(key => databaseValue[key] as Meeting) : [];
+export function useMeetingService(band: Band | undefined): { meetings: Meeting[] | undefined } {
+    const databaseValue = useDatabaseValue(band ? `bandSpace/${band.name}/meetings` : undefined);
+    const [meetings, setMeetings] = useState<Meeting[]>();
+
+    useEffect(() => {
+        if (databaseValue) {
+            setMeetings(Object.keys(databaseValue.val()).map(key => {return {name: key,...databaseValue.val()[key]}}));
+        } else {
+            setMeetings(undefined);
+        }
+    }, [databaseValue]);
 
     return {
         meetings

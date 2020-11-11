@@ -1,10 +1,9 @@
 import {useCallback, useContext} from "react";
-import {BServiceContext, useDatabaseSpaceElements} from "../index";
-import {Band} from "../../resources/Band";
+import {useDatabaseSpaceElements} from "..";
+import {Band, User} from "../../resources";
 
-export function useBandService(): {bands: (Array<Band> | undefined)} {
-    const BService = useContext(BServiceContext);
-    const bands = useDatabaseSpaceElements<Band>(`userSpace/${BService.selectedUser.uid}/bands`, 'bands');
+export function useBandService(user: User | undefined): {bands: (Array<Band> | undefined)} {
+    const bands = useDatabaseSpaceElements<Band>(user && `userSpace/${user.uid}/bands`, 'bands');
 
     return {
         bands: bands

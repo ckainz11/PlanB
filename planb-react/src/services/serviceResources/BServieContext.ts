@@ -1,5 +1,5 @@
 import React from "react";
-import {BService, DefaultFirebaseConfig} from "../index";
+import {BService} from "../index";
 
 export const BServiceContext = React.createContext<BService>(new BService());
 
