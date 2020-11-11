@@ -3,7 +3,9 @@
     "FunnyBoysTM": {
       "description": "A funny Band haha"
     },
-    "Balls": true
+    "Balls": {
+      "description": "Ball Ball Ball Ball"
+    }
   },
   "bandSpace": {
     "FunnyBoysTM": {
@@ -22,7 +24,7 @@
         }
       },
       "meetings": {
-        "Let's Jam session": {
+        "Let's_Jam_session": {
           "date": "27.11.2020",
           "startTime": "15:00",
           "endTime": "16:00",
@@ -30,7 +32,7 @@
           "location": "Proberaum Naschmarkt",
           "proposer": "FlorianID"
         },
-        "Final session": {
+        "Final_session": {
           "date": "29.11.2020",
           "time": "15:00-16:00",
           "description": "los geht's burschen",
@@ -38,7 +40,7 @@
           "proposer": "ChristophID"
         }
       },
-      "meetingsSpace" : {
+      "meetingSpace" : {
         "Let's Jam session": {
           "assignedSongs": {
             "BackInBlack": true,
@@ -49,7 +51,7 @@
             "ChristophID": 1
           }
         },
-        "Final session": {
+        "Final_session": {
           "assignedSongs": {
             "BackInBlack": true
           },
@@ -57,11 +59,6 @@
             "FlorianID": -1
           }
         }
-      }
-    },
-    "Balls": {
-      "members": {
-        "ChristophID": true
       }
     }
   },

@@ -7,8 +7,8 @@ import {Band} from "../../resources/Band";
 import {User} from "../../resources/User";
 
 export class BService {
-    selectedUser: User = {uid: "FlorianID"} as User;
-    selectedBand: Band | undefined;
+    selectedUser: User = {uid: "ChristophID"} as User;
+    selectedBand: Band = {name: "FunnyBoysTM", description: "A funny Band haha"} as Band;
 
     constructor(config: FirebaseConfig = new DefaultFirebaseConfig()) {
         firebase.initializeApp(config);

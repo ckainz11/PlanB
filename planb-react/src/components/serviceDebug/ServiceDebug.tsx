@@ -1,13 +1,21 @@
 import React from "react";
-import {useBandService} from "../../services";
+import {useBandService, useMeetingService} from "../../services";
 
 export function ServiceDebug () {
-    const {bands, selectBand} = useBandService();
+    const {bands} = useBandService();
+    const {meetings} = useMeetingService(bands && bands[1]);
 
     return <div>
-        <h2>Debug:</h2>
+        <h1>Debug:</h1>
+        <h2>Bands:</h2>
         <pre>
             {JSON.stringify(bands, null, 2)}
         </pre>
+        <div style={{backgroundColor: "gray"}}>
+            <h2>Meetings</h2>
+            <pre>
+                {JSON.stringify(meetings, null, 2)}
+            </pre>
+        </div>
     </div>
 }

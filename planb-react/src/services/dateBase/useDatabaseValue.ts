@@ -2,16 +2,19 @@ import {useContext, useEffect, useState} from "react";
 import {BServiceContext} from "..";
 import firebase from "firebase";
 
-export function useDatabaseValue (path: string) {
+export function useDatabaseValue(path: string | undefined) {
     const [value, setValue] = useState();
-    const BService = useContext(BServiceContext);
 
     useEffect(() => {
-        const ref = firebase.database().ref(path);
-        const subscription = ref.on("value", snapshot => {
-            setValue(() => snapshot.val());
-        });
-        return () => {ref.off("value", subscription)}
+        if (path) {
+            const ref = firebase.database().ref(path);
+            const subscription = ref.on("value", snapshot => {
+                setValue(() => snapshot.val());
+            });
+            return () => {
+                ref.off("value", subscription)
+            }
+        }
     }, [path]);
 
     return value as object | undefined;
