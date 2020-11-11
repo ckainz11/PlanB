@@ -66,6 +66,9 @@
     }
   },
   "users": {
+
+  },
+  "userSpace": {
     "FlorianID": {
       "bands": {
         "FunnyBoysTM": true
