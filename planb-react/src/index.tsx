@@ -5,7 +5,6 @@ import App from './planB/App';
 import reportWebVitals from './reportWebVitals';
 import {BService} from "./services";
 
-const bService: BService = new BService();
 
 ReactDOM.render(
   <React.StrictMode>

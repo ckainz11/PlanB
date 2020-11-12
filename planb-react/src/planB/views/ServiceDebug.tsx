@@ -6,9 +6,9 @@ import {
     useMemberService,
     useSongService,
     useUserService
-} from "../../../services";
-import {Band, Meeting, User} from "../../../resources";
-import {useVoteService} from "../../../services/serviceControllers/useVoteService";
+} from "../../services";
+import {Band, Meeting, User} from "../../resources";
+import {useVoteService} from "../../services/serviceControllers/useVoteService";
 
 export function ServiceDebug() {
     const [users] = useUserService();

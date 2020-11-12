@@ -1,20 +1,72 @@
 html {
     background-color: #121212;
 }
+
 .header {
-    background-color: #8662BC !important;
+    background-color: #8662BC;
     display: flex;
-    padding: 10px;
-    justify-content: space-between;
-
-}
-.logo-placeholder{
-    min-width: 100px;
-    display: flex;
-}
-.header-band-user-controls{
-    display: flex;
+    height: 6em;
+    width: 100vw;
+    /*overflow: hidden;*/
 
 }
 
+.header .logo {
+    height: 100%;
+    animation: spin 1s;
+    position: relative;
+}
+
+.header .headerItem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header .left {
+    margin-left: 5em;
+}
+
+.header .right {
+    margin-right: 5em;
+}
+
+.header .push {
+    margin-left: auto;
+}
+
+.dropdownWrapper {
+    text-align: right;
+}
+
+
+.header .userIcon {
+    display: block;
+    width: 3em;
+    height: 3em;
+    border-radius: 50% 50% 50% 50%;
+    background-color: #C4C4C4;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(0.5);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0,1);
+    }
+    100% {
+        transform:  scale(1);
+    }
+}
 
