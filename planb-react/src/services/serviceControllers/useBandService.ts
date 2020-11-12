@@ -2,10 +2,10 @@ import {useCallback, useContext} from "react";
 import {useDatabaseSpaceElements} from "..";
 import {Band, User} from "../../resources";
 
-export function useBandService(user: User | undefined): {bands: (Array<Band> | undefined)} {
+export function useBandService(user: User | undefined): (Band[] | undefined)[] {
     const [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
 
-    return {
+    return [
         bands
-    };
+    ];
 }

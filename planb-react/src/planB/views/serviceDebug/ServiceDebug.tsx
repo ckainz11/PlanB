@@ -12,20 +12,20 @@ import {useVoteService} from "../../../services/serviceControllers/useVoteServic
 import firebase from "firebase";
 
 export function ServiceDebug() {
-    const {users} = useUserService();
+    const [users] = useUserService();
 
     const [selectedUser, setSelectedUser] = useState<User>();
-    const {bands} = useBandService(selectedUser);
+    const [bands]= useBandService(selectedUser);
 
 
     const [selectedBand, setSelectedBand] = useState<Band>();
-    const {members} = useMemberService(selectedBand);
-    const {meetings} = useMeetingService(selectedBand);
-    const {songs} = useSongService(selectedBand);
+    const members = useMemberService(selectedBand);
+    const [meetings] = useMeetingService(selectedBand);
+    const [songs]= useSongService(selectedBand);
 
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting>();
-    const {votes} = useVoteService(selectedBand, selectedMeeting);
-    const {assSongs} = useAssignedSongService(selectedBand, selectedMeeting);
+    const [votes] = useVoteService(selectedBand, selectedMeeting);
+    const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
 
     function login() {
         const provider = new firebase.auth.GoogleAuthProvider();

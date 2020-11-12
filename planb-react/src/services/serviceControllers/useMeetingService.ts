@@ -1,11 +1,11 @@
 import {useDatabase, useDatabaseElements} from "..";
-import {Band, Meeting} from "../../resources";
+import {Band, Meeting, User} from "../../resources";
 import {useEffect, useState} from "react";
 
-export function useMeetingService(band: Band | undefined): { meetings: (Meeting[] | undefined) } {
+export function useMeetingService(band: Band | undefined): (Meeting[] | undefined)[] {
     const [meetings] = useDatabaseElements<Meeting>(band && `bandSpace/${band.dataBaseID}/meetings`);
 
-    return {
+    return [
         meetings
-    };
+    ];
 }
