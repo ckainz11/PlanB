@@ -3,6 +3,7 @@ import {useBandService, useMeetingService} from "../../services";
 import {useSongService} from "../../services/serviceControllers/useSongService";
 import {Band, User} from "../../resources";
 import {useUserService} from "../../services/serviceControllers/useUserService";
+import {useMemberService} from "../../services/serviceControllers/useMemberService";
 
 export function ServiceDebug() {
     const {users} = useUserService();
@@ -12,6 +13,7 @@ export function ServiceDebug() {
 
 
     const [selectedBand, setSelectedBand] = useState<Band>();
+    const {members} = useMemberService(selectedBand);
     const {meetings} = useMeetingService(selectedBand);
     const {songs} = useSongService(selectedBand);
     useEffect(() => {
@@ -47,6 +49,10 @@ export function ServiceDebug() {
                     })
                 }
             </form>
+            <h4>Members</h4>
+            <pre>
+                {JSON.stringify(members, null, 2)}
+            </pre>
             <h4>Meetings</h4>
             <pre>
                 {JSON.stringify(meetings, null, 2)}
