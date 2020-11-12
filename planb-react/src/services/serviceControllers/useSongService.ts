@@ -8,7 +8,7 @@ export function useSongService(band:Band | undefined): {songs: Song[] | undefine
 
     useEffect(() => {
         if (databaseValue) {
-            setSongs(Object.keys(databaseValue.val()).map(key => {return {name: key, ...databaseValue.val()[key]}}));
+            setSongs(Object.keys(databaseValue.val()).map(key => {return {dataBaseID: key, ...databaseValue.val()[key]}}));
         }else {
             setSongs(undefined);
         }
