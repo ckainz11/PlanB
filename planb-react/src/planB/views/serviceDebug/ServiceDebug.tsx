@@ -9,6 +9,7 @@ import {
 } from "../../../services";
 import {Band, Meeting, User} from "../../../resources";
 import {useVoteService} from "../../../services/serviceControllers/useVoteService";
+import firebase from "firebase";
 
 export function ServiceDebug() {
     const {users} = useUserService();
@@ -26,6 +27,20 @@ export function ServiceDebug() {
     const {votes} = useVoteService(selectedBand, selectedMeeting);
     const {assSongs} = useAssignedSongService(selectedBand, selectedMeeting);
 
+    function login() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+    }
+
+    /*const user = firebase.auth().getRedirectResult().then(function(result){
+        //let token = undefined;
+        //if(result.credential) {
+        //    token = result.credential.accessToken;
+        //}
+        let user = result.user;
+        return user//, token]
+    })*/
+    console.log(bands);
 
     useEffect(() => {
         setSelectedBand(undefined);
@@ -37,6 +52,7 @@ export function ServiceDebug() {
 
     return <div>
         <h1>Debug:</h1>
+        <button onClick={login}>Sign in</button>
         <form>
             {
                 users?.map((user) => {
