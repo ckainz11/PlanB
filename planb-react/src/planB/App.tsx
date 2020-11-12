@@ -1,9 +1,6 @@
 import React, {useContext, useEffect} from 'react';
-import logo from '../images/LogoPlanB.png';
-// import './App.css';
-import {FormField} from "semantic-ui-react";
-import {ServiceDebug} from "../components";
-
+import {Planner} from './views';
+import './css/App.css';
 
 function App() {
     return (
@@ -22,7 +19,8 @@ function App() {
             {/*        Logo go brrrrrr*/}
             {/*    </a>*/}
             {/*</header>*/}
-            <ServiceDebug/>
+            {/*<ServiceDebug/>*/}
+            <Planner/>
         </div>
     );
 }
