@@ -8,12 +8,11 @@ export function useUserService(): { users: User[] | undefined } {
 
     useEffect(() => {
         if (databaseValue) {
-            setUsers(Object.keys(databaseValue.val()).map(key => {return {dataBaseID: key} as User}));
+            setUsers(Object.keys(databaseValue.val()).map(key => {return {dataBaseID: key, ...databaseValue.val()[key]} as User}));
         }else {
             setUsers(undefined);
         }
     }, [databaseValue]);
-
 
     return {
         users
