@@ -2,8 +2,8 @@ import {useDatabaseValue} from "..";
 import {Band, Meeting, Vote} from "../../resources";
 import {useEffect, useState} from "react";
 
-export function useSongService(band:Band | undefined, meeting:Meeting | undefined): {votes: Vote[] | undefined} {
-    const databaseValue = useDatabaseValue(band ? `bandSpace/${band.dataBaseID}/meetingSpace/${meeting?.dataBaseID}/votes` : undefined);
+export function useVoteService(band:Band | undefined, meeting:Meeting | undefined): {votes: Vote[] | undefined} {
+    const databaseValue = useDatabaseValue(band && meeting && `bandSpace/${band.dataBaseID}/meetingSpace/${meeting.dataBaseID}/votes`);
     const [votes, setVotes] = useState<Vote[]>();
 
     useEffect(() => {

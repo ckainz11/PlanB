@@ -7,8 +7,8 @@ export function useMeetingService(band: Band | undefined): { meetings: Meeting[]
     const [meetings, setMeetings] = useState<Meeting[]>();
 
     useEffect(() => {
-        if (databaseValue) {
-            setMeetings(Object.keys(databaseValue.val()).map(key => {return {dataBaseID: key,...databaseValue.val()[key]} as Meeting}));
+        if (databaseValue?.val()) {
+            setMeetings(Object.keys(databaseValue?.val()).map(key => {return {dataBaseID: key,...databaseValue?.val()[key]}}));
         } else {
             setMeetings(undefined);
         }

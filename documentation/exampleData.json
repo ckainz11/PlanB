@@ -57,9 +57,7 @@
           }
         },
         "Final_session": {
-          "assignedSongs": {
-            "BackInBlack": true
-          },
+          "assignedSongs": true,
           "votes": {
             "FlorianID":  {
               "value": 1
@@ -115,8 +113,7 @@
           "assignedSongs": {
             "Holdup": true
           },
-          "votes": {
-          }
+          "votes": true
         }
       }
     }
