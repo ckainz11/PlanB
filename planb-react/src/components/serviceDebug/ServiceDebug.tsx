@@ -27,9 +27,9 @@ export function ServiceDebug() {
         <form>
             {
                 users?.map((user) => {
-                    return <div key={user.uid}><label htmlFor={user.uid}>{user.uid}</label>
-                        <input checked={selectedUser && selectedUser.uid === user.uid} onChange={() => setSelectedUser(() => user)} type="radio" id={user.uid} name="band"
-                               value={user.uid}/><br/></div>
+                    return <div key={user.dataBaseID}><label htmlFor={user.dataBaseID}>{user.dataBaseID}</label>
+                        <input checked={selectedUser && selectedUser.dataBaseID === user.dataBaseID} onChange={() => setSelectedUser(() => user)} type="radio" id={user.dataBaseID} name="band"
+                               value={user.dataBaseID}/><br/></div>
                 })
             }
         </form>
@@ -41,9 +41,9 @@ export function ServiceDebug() {
             <form>
                 {
                     bands?.map((band) => {
-                        return <div key={band.name}><label htmlFor={band.name}>{band.name}</label>
-                            <input checked={selectedBand && selectedBand.name === band.name} onChange={() => setSelectedBand(() => band)} type="radio" id={band.name} name="band"
-                                   value={band.name}/><br/></div>
+                        return <div key={band.dataBaseID}><label htmlFor={band.dataBaseID}>{band.dataBaseID}</label>
+                            <input checked={selectedBand && selectedBand.dataBaseID === band.dataBaseID} onChange={() => setSelectedBand(() => band)} type="radio" id={band.dataBaseID} name="band"
+                                   value={band.dataBaseID}/><br/></div>
                     })
                 }
             </form>

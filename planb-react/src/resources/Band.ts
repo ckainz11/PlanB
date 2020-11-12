@@ -1,5 +1,5 @@
+import {DataBaseElement} from "./DataBaseElement";
 
-export interface Band {
-    name: string
+export interface Band extends DataBaseElement{
     description: string
 }

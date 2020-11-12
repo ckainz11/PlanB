@@ -1,6 +1,6 @@
+import {DataBaseElement} from "./DataBaseElement";
 
-export interface Song {
-    name: string;
+export interface Song extends DataBaseElement{
     rating: number;
     content: string;
 }
