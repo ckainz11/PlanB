@@ -1,9 +1,9 @@
-import {useDatabaseValue} from "../index";
+import {useDatabaseValue} from "..";
 import {Band, Song} from "../../resources";
 import {useEffect, useState} from "react";
 
 export function useSongService(band:Band | undefined): {songs: Song[] | undefined} {
-    const databaseValue = useDatabaseValue(band ? `bandSpace/${band.name}/songs` : undefined);
+    const databaseValue = useDatabaseValue(band ? `bandSpace/${band.dataBaseID}/songs` : undefined);
     const [songs, setSongs] = useState<Song[]>();
 
     useEffect(() => {

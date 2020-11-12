@@ -1,14 +1,14 @@
 import {useEffect, useReducer} from "react";
 import firebase from "firebase";
 import {useDatabaseValue} from "./useDatabaseValue";
-import {Band} from "../../resources";
+import {Band, DataBaseElement} from "../../resources";
 
-function addArrayReducer<T extends {name: string}>(state: T[], action: any): T[] {
+function addArrayReducer<T extends DataBaseElement>(state: T[], action: any): T[] {
     switch (action.type) {
         case "add":
             return [...state, action.payload] as T[]
         case "update":
-            return [...state.filter(e => e.name !== action.payload.name), action.payload];
+            return [...state.filter(e => e.dataBaseID !== action.payload.name), action.payload];
         case "clear":
             return [] as T[];
         default:
@@ -16,7 +16,7 @@ function addArrayReducer<T extends {name: string}>(state: T[], action: any): T[]
     }
 }
 
-export function useDatabaseSpaceElements<T extends {name: string}>(pathToSpace: string | undefined, pathToElements: string): T[] {
+export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string): T[] {
     const [elements, dispatch] = useReducer(addArrayReducer, [] as T[]);
     const databaseValue = useDatabaseValue(pathToSpace);
 
@@ -29,7 +29,7 @@ export function useDatabaseSpaceElements<T extends {name: string}>(pathToSpace: 
             for (let name of names) {
                 const ref = firebase.database().ref(pathToElements + "/" + name);
                 const subscriptionAdd = ref.on("value", snapshot => {
-                    dispatch({type: "update", payload: {name: snapshot.key, ...snapshot.val()} as T});
+                    dispatch({type: "update", payload: {dataBaseID: snapshot.key, ...snapshot.val()} as T});
                 });
 
                 cleanUps.push(() => ref.off("value", subscriptionAdd));

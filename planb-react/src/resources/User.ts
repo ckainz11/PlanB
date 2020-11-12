@@ -1,4 +1,4 @@
+import {DataBaseElement} from "./DataBaseElement";
 
-export interface User {
-    uid: string
+export interface User extends DataBaseElement{
 }
