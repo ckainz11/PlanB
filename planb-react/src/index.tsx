@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
+import {BService} from "./services";
 
-//Connect to firestore with data provided by .env
+const bService: BService = new BService();
 
 ReactDOM.render(
   <React.StrictMode>
