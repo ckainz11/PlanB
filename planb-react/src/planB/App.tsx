@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from 'react';
-import logo from '../../images/LogoPlanB.png';
+import logo from '../images/LogoPlanB.png';
 // import './App.css';
 import {FormField} from "semantic-ui-react";
-import {ServiceDebug} from "..";
+import {ServiceDebug} from "../components";
 
 
 function App() {

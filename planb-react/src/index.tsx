@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/app/App';
+import App from './planB/App';
 import reportWebVitals from './reportWebVitals';
 import {BService} from "./services";
 
