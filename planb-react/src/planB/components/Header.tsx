@@ -6,7 +6,7 @@ import logo from "../../images/LogoPlanB.png"
 
 export const Header = () => {
 
-    const {bands} = useBandService({dataBaseID: "ChristophID"});
+    const [bands] = useBandService({dataBaseID: "ChristophID"});
 
     const sampleBands = [
         {key: 1, text: "Band1"},

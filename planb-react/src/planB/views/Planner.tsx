@@ -5,5 +5,4 @@ export const Planner = () => {
     return <div>
         <Header/>
     </div>
-
 }
