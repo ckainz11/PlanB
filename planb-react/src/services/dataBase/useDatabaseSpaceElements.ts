@@ -1,6 +1,6 @@
 import {useEffect, useReducer} from "react";
 import firebase from "firebase";
-import {useDatabaseValue} from "./useDatabaseValue";
+import {useDatabase} from "./useDatabase";
 import {Band, DataBaseElement} from "../../resources";
 
 function addArrayReducer(state: any, action: any): any {
@@ -18,9 +18,9 @@ function addArrayReducer(state: any, action: any): any {
     }
 }
 
-export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): T[] | undefined {
+export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): (T[] | undefined)[]  {
     const [elements, dispatch] = useReducer(addArrayReducer, undefined);
-    const databaseValue = useDatabaseValue(pathToSpace);
+    const [databaseValue] = useDatabase(pathToSpace);
 
     useEffect(() => {
         if (pathToSpace && pathToElements && databaseValue?.val()) {
@@ -42,5 +42,5 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
 
     }, [pathToElements, databaseValue, pathToSpace]);
 
-    return elements;
+    return [elements];
 }

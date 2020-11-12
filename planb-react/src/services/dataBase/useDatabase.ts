@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import firebase from "firebase";
 
-export function useDatabaseValue(path: string | undefined) {
+export function useDatabase(path: string | undefined) {
     const [value, setValue] = useState<firebase.database.DataSnapshot>();
 
     useEffect(() => {
@@ -19,5 +19,5 @@ export function useDatabaseValue(path: string | undefined) {
         }
     }, [path]);
 
-    return value;
+    return [value];
 }

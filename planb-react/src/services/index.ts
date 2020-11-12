@@ -10,5 +10,6 @@ export * from "./serviceControllers/useUserService";
 export * from "./serviceControllers/useAssignedSongService";
 
 
-export * from "./dateBase/useDatabaseValue";
-export * from "./dateBase/useDatabaseSpaceElements";
+export * from "./dataBase/useDatabase";
+export * from "./dataBase/useDatabaseElements";
+export * from "./dataBase/useDatabaseSpaceElements";

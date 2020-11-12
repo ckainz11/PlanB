@@ -1,18 +1,9 @@
-import {useDatabaseValue} from "..";
+import {useDatabase, useDatabaseElements} from "..";
 import {Band, Song} from "../../resources";
 import {useEffect, useState} from "react";
 
 export function useSongService(band:Band | undefined): {songs: Song[] | undefined} {
-    const databaseValue = useDatabaseValue(band ? `bandSpace/${band.dataBaseID}/songs` : undefined);
-    const [songs, setSongs] = useState<Song[]>();
-
-    useEffect(() => {
-        if (databaseValue?.val()) {
-            setSongs(Object.keys(databaseValue.val()).map(key => {return {dataBaseID: key, ...databaseValue.val()[key]}}));
-        }else {
-            setSongs(undefined);
-        }
-    }, [databaseValue]);
+    const [songs] = useDatabaseElements<Song>(band && `bandSpace/${band.dataBaseID}/songs`);
 
     return {
         songs
