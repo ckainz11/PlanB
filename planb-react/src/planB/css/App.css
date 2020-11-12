@@ -2,6 +2,16 @@ html {
     background-color: #121212;
 }
 
+.Planner {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.BouncingLogo {
+    flex: 1 1 auto;
+}
+
 .header {
     background-color: #8662BC;
     display: flex;
