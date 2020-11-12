@@ -16,7 +16,7 @@ function addArrayReducer<T extends DataBaseElement>(state: T[], action: any): T[
     }
 }
 
-export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string): T[] {
+export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): T[] {
     const [elements, dispatch] = useReducer(addArrayReducer, [] as T[]);
     const databaseValue = useDatabaseValue(pathToSpace);
 

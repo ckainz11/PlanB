@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useBandService, useMeetingService} from "../../services";
 import {useSongService} from "../../services/serviceControllers/useSongService";
+import {useAssignedSongService} from "../../services/serviceControllers/useAssignedSongService";
 import {Band, User} from "../../resources";
 import {useUserService} from "../../services/serviceControllers/useUserService";
 import {useMemberService} from "../../services/serviceControllers/useMemberService";
