@@ -48,8 +48,12 @@
             "SweetHome": true
           },
           "votes": {
-            "FlorianID": -1,
-            "ChristophID": 1
+            "FlorianID": {
+              "value": 1
+            },
+            "ChristophID": {
+              "value": -1
+            }
           }
         },
         "Final_session": {
@@ -57,7 +61,9 @@
             "BackInBlack": true
           },
           "votes": {
-            "FlorianID": -1
+            "FlorianID":  {
+              "value": 1
+            }
           }
         }
       }
@@ -100,7 +106,9 @@
             "Airwaves": true
           },
           "votes": {
-            "ChristophID": 1
+            "ChristophID": {
+              "value": -1
+            }
           }
         },
         "Kranke_session": {
