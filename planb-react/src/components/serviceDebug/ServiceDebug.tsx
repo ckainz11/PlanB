@@ -14,21 +14,13 @@ export function ServiceDebug() {
     const [selectedBand, setSelectedBand] = useState<Band>();
     const {meetings} = useMeetingService(selectedBand);
     const {songs} = useSongService(selectedBand);
-
-    console.log(selectedBand);
-    console.log(meetings);
-
     useEffect(() => {
-        console.log("User changed");
-    }, [users]);
-
-    useEffect(() => {
-        console.log("Band changed");
-        setSelectedBand(undefined);
+        if (bands) {
+            setSelectedBand(bands[0]);
+        } else {
+            setSelectedBand(undefined);
+        }
     }, [bands]);
-
-
-
 
     return <div>
         <h1>Debug:</h1>
@@ -36,7 +28,7 @@ export function ServiceDebug() {
             {
                 users?.map((user) => {
                     return <div key={user.uid}><label htmlFor={user.uid}>{user.uid}</label>
-                        <input onChange={() => setSelectedUser(() => user)} type="radio" id={user.uid} name="band"
+                        <input checked={selectedUser && selectedUser.uid === user.uid} onChange={() => setSelectedUser(() => user)} type="radio" id={user.uid} name="band"
                                value={user.uid}/><br/></div>
                 })
             }
@@ -50,7 +42,7 @@ export function ServiceDebug() {
                 {
                     bands?.map((band) => {
                         return <div key={band.name}><label htmlFor={band.name}>{band.name}</label>
-                            <input onChange={() => setSelectedBand(() => band)} type="radio" id={band.name} name="band"
+                            <input checked={selectedBand && selectedBand.name === band.name} onChange={() => setSelectedBand(() => band)} type="radio" id={band.name} name="band"
                                    value={band.name}/><br/></div>
                     })
                 }
