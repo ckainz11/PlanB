@@ -1,13 +1,6 @@
-import React, {createContext} from "react";
+import React, {createContext, useState} from "react";
 import {Band} from "../../resources";
 
-function value ():[Band | undefined, (newBand: (Band | undefined)) => void] {
-    let band: Band | undefined = undefined;
-    const setBand = (newBand: Band | undefined) => {
-        band = newBand;
-    };
+type bandContextType = [band: Band | undefined, setBand: (newBand: Band | undefined) => any];
 
-    return [band, setBand];
-}
-
-export const BandContext= createContext(value());
+export const BandContext= createContext([undefined, () => {}] as bandContextType);

@@ -15,8 +15,10 @@ export const Header = () => {
     const [bands] = useBandService({dataBaseID: "ChristophID"});
 
     const [selectedBand, setSelectedBand] = useContext(BandContext);
-    const handleChange = useCallback(function (e, value) {
-        setSelectedBand?.(bands?.find(band => {return value === band.dataBaseID}))
+
+    const handleChange = useCallback(function (e, {value}) {
+        setSelectedBand?.(bands?.find(band => {
+            return value === band.dataBaseID}))
     }, [setSelectedBand, bands]);
     return (
         <div className="header">
@@ -27,10 +29,10 @@ export const Header = () => {
                 <div className={"dropdownWrapper"}>
                     <Dropdown
                         className={"selectBand"}
-                        loading={bands ? bands.length == 0 : true}
-                        disabled={bands ? bands.length == 0 : true}
+                        loading={bands ? bands.length === 0 : true}
+                        disabled={bands ? bands.length === 0 : true}
                         direction={"left"}
-                        onClick={handleChange}
+                        onChange={handleChange}
                         placeholder={"select band"}
                         options={bands?.map((band) => {
                             return {key: band.dataBaseID, value: band.dataBaseID, text: band.dataBaseID}
