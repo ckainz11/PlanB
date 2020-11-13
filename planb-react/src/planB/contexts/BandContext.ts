@@ -1,7 +1,7 @@
 import React, {createContext} from "react";
 import {Band} from "../../resources";
 
-function value () {
+function value ():[Band | undefined, (newBand: (Band | undefined)) => void] {
     let band: Band | undefined = undefined;
     const setBand = (newBand: Band | undefined) => {
         band = newBand;
