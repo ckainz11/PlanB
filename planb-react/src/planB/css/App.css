@@ -1,5 +1,5 @@
-html {
-    background-color: #121212;
+body {
+    background-color: #121212 !important;
 }
 
 .Planner {
@@ -8,8 +8,15 @@ html {
     height: 100vh;
 }
 
-.BouncingLogo {
+.bouncingLogo {
     flex: 1 1 auto;
+}
+
+.header .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
+    color: black !important;
+}
+.header .selectBand{
+    font-size: 13pt;
 }
 
 .header {
@@ -35,7 +42,7 @@ html {
 }
 
 .header .left {
-    margin-left: 5em;
+    margin-left: 2em;
 }
 
 .header .right {
@@ -50,6 +57,9 @@ html {
     text-align: right;
 }
 
+.header .selectBand{
+    color: black;
+}
 
 .header .userIcon {
     display: block;
