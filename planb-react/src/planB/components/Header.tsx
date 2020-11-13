@@ -1,13 +1,23 @@
-import React from "react";
+import React, {useCallback, useContext} from "react";
 import {useBandService} from "../../services";
-import {Dropdown, Container, Menu, FormField, Select, DropdownItemProps} from "semantic-ui-react";
+import {Dropdown, Container, Menu, FormField, Select, DropdownItemProps, DropdownProps} from "semantic-ui-react";
+import {BandContext} from "../contexts";
+
 
 import logo from "../../images/LogoPlanB.png"
 
+
+
 export const Header = () => {
+
+
 
     const [bands] = useBandService({dataBaseID: "ChristophID"});
 
+    const [selectedBand, setSelectedBand] = useContext(BandContext);
+    const handleChange = useCallback(function (e, value) {
+        setSelectedBand?.(bands?.find(band => {return value === band.dataBaseID}))
+    }, [setSelectedBand, bands]);
     return (
         <div className="header">
             <div className={"headerItem left"}>
@@ -20,7 +30,7 @@ export const Header = () => {
                         loading={bands ? bands.length == 0 : true}
                         disabled={bands ? bands.length == 0 : true}
                         direction={"left"}
-                        selection
+                        onClick={handleChange}
                         placeholder={"select band"}
                         options={bands?.map((band) => {
                             return {key: band.dataBaseID, value: band.dataBaseID, text: band.dataBaseID}
