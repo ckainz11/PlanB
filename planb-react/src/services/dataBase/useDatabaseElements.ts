@@ -1,6 +1,5 @@
 import {DataBaseElement} from "../../resources";
-import {useDatabase} from "./useDatabase";
-import {useEffect, useReducer, useState} from "react";
+import {useEffect, useReducer} from "react";
 import firebase from "firebase";
 
 enum arrayAction {
@@ -40,12 +39,12 @@ export function useDatabaseElements<T extends DataBaseElement>(pathToElements: s
                 dispatch({type: arrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
             });
 
-            ref.on('child_removed', function (oldChildSnapshot) {
-                dispatch({type: arrayAction.remove, payload:{dataBaseID: oldChildSnapshot.key, ...oldChildSnapshot.val()}})
+            ref.on('child_changed', function (childSnapshot) {
+                dispatch({type: arrayAction.change, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
             });
 
-            ref.on('child_changed', function (childSnapshot) {
-                dispatch({type: arrayAction.remove, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
+            ref.on('child_removed', function (oldChildSnapshot) {
+                dispatch({type: arrayAction.remove, payload:{dataBaseID: oldChildSnapshot.key, ...oldChildSnapshot.val()}})
             });
         } else {
             dispatch({type: arrayAction.undefine});
