@@ -19,20 +19,20 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                     elementRef.once("value").then(snapshot => {
                         snapshot.key && dispatch({
                             type: ArrayAction.add,
-                            payload: {dataBaseID: childSnapshot.key, ...snapshot.val()}
+                            payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                         })
                     });
 
-                    let first = true;
+                    // let first = true;
 
                     listeners.current.set(childSnapshot.key, elementRef.on("value", snapshot => {
-                        if (first) first = false
-                        else {
+                        // if (first) first = false
+                        // else {
                             snapshot.key && dispatch({
                                 type: ArrayAction.change,
                                 payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                             })
-                        }
+                        // }
                     }));
                 }
             });

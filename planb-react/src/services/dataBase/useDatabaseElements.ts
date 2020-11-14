@@ -3,26 +3,29 @@ import {useEffect, useReducer} from "react";
 import firebase from "firebase";
 import {ArrayAction, ArrayReducer} from "../../reducers/ArrayReducer";
 
-export function useDatabaseElements<T extends DataBaseElement>(pathToElements: string | undefined): (T[] | undefined)[] {
+export function useDatabaseElements<T extends DataBaseElement>(pathToElements: string | undefined, orderByChild?: string): (T[] | undefined)[] {
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
 
     useEffect(() => {
 
         if (pathToElements) {
-            const ref = firebase.database().ref(pathToElements).orderByKey();
+            const ref = orderByChild ? firebase.database().ref(pathToElements).orderByChild(orderByChild) : firebase.database().ref(pathToElements).orderByKey();
             dispatch({type: ArrayAction.clear});
-            ref.on('child_added', function (childSnapshot) {
-                dispatch({type: ArrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
-                console.log("Child added")
+            ref.on('child_added', function (childSnapshot, prevChildKey) {
+                dispatch({type: ArrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey})
             });
 
             ref.on('child_changed', function (childSnapshot) {
                 dispatch({type: ArrayAction.change, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
-
             });
 
             ref.on('child_removed', function (oldChildSnapshot) {
                 dispatch({type: ArrayAction.remove, payload:{dataBaseID: oldChildSnapshot.key, ...oldChildSnapshot.val()}})
+
+            });
+
+            ref.on('child_moved', function (childSnapshot, prevChildKey) {
+                dispatch({type: ArrayAction.move, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey: prevChildKey})
             });
         } else {
             dispatch({type: ArrayAction.undefine});
