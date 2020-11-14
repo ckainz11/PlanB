@@ -10,7 +10,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
 
     useEffect(() => {
         if (pathToSpace && pathToElements) {
-            const ref = firebase.database().ref(pathToSpace);
+            const ref = firebase.database().ref(pathToSpace).orderByKey();
             dispatch({type: ArrayAction.clear});
 
             ref.on('child_added', function (childSnapshot) {

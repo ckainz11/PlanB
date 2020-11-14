@@ -9,14 +9,16 @@ export function useDatabaseElements<T extends DataBaseElement>(pathToElements: s
     useEffect(() => {
 
         if (pathToElements) {
-            const ref = firebase.database().ref(pathToElements);
+            const ref = firebase.database().ref(pathToElements).orderByKey();
             dispatch({type: ArrayAction.clear});
             ref.on('child_added', function (childSnapshot) {
                 dispatch({type: ArrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
+                console.log("Child added")
             });
 
             ref.on('child_changed', function (childSnapshot) {
                 dispatch({type: ArrayAction.change, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
+
             });
 
             ref.on('child_removed', function (oldChildSnapshot) {
