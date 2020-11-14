@@ -35,7 +35,7 @@ export function ServiceDebug() {
         setSelectedMeeting(undefined);
     }, [selectedBand]);
 
-    return <div>
+    return <div style={{backgroundColor: "white"}}>
         <h1>Debug:</h1>
         <form>
             {
