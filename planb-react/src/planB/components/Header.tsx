@@ -1,5 +1,5 @@
 import React, {useCallback, useContext} from "react";
-import {useBandService} from "../../services";
+import {useBandService, usePersonalService} from "../../services";
 import {Dropdown, Container, Menu, FormField, Select, DropdownItemProps, DropdownProps} from "semantic-ui-react";
 import {BandContext} from "../contexts";
 
@@ -10,9 +10,9 @@ import logo from "../../images/LogoPlanB.png"
 
 export const Header = () => {
 
+    const [me] = usePersonalService();
 
-
-    const [bands] = useBandService({dataBaseID: "ChristophID"});
+    const [bands] = useBandService(me);
 
     const [selectedBand, setSelectedBand] = useContext(BandContext);
 

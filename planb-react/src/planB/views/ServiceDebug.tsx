@@ -3,14 +3,20 @@ import {
     useAssignedSongService,
     useBandService,
     useMeetingService,
-    useMemberService,
+    useMemberService, usePersonalService,
     useSongService,
     useUserService
 } from "../../services";
 import {Band, Meeting, User} from "../../resources";
 import {useVoteService} from "../../services/serviceControllers/useVoteService";
+import firebase from "firebase";
 
 export function ServiceDebug() {
+
+    //Authentication
+    const [me, signInWithGoogle] = usePersonalService();
+
+    //Data
     const [users] = useUserService();
 
     const [selectedUser, setSelectedUser] = useState<User>();
@@ -36,6 +42,14 @@ export function ServiceDebug() {
     }, [selectedBand]);
 
     return <div style={{backgroundColor: "white"}}>
+        <h1>Authentication:</h1>
+        <button
+        onClick={(event) => {
+            signInWithGoogle();
+        }}
+        >Authenticate with Google</button>
+        <h2>Current User:</h2>
+        <pre>{JSON.stringify(me, null, 2)}</pre>
         <h1>Debug:</h1>
         <form>
             {

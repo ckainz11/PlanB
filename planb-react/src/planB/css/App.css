@@ -2,6 +2,9 @@ body {
     background-color: #121212 !important;
 }
 
+* {
+}
+
 .Planner {
     display: flex;
     flex-direction: column;

@@ -7,30 +7,36 @@ export function useDatabaseElements<T extends DataBaseElement>(pathToElements: s
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
 
     useEffect(() => {
-
         if (pathToElements) {
             const ref = orderByChild ? firebase.database().ref(pathToElements).orderByChild(orderByChild) : firebase.database().ref(pathToElements).orderByKey();
             dispatch({type: ArrayAction.clear});
-            ref.on('child_added', function (childSnapshot, prevChildKey) {
+            const childAdd = ref.on('child_added', function (childSnapshot, prevChildKey) {
                 dispatch({type: ArrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey})
             });
 
-            ref.on('child_changed', function (childSnapshot) {
+            const childChange = ref.on('child_changed', function (childSnapshot) {
                 dispatch({type: ArrayAction.change, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
             });
 
-            ref.on('child_removed', function (oldChildSnapshot) {
+            const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 dispatch({type: ArrayAction.remove, payload:{dataBaseID: oldChildSnapshot.key, ...oldChildSnapshot.val()}})
 
             });
 
-            ref.on('child_moved', function (childSnapshot, prevChildKey) {
+            const childMove = ref.on('child_moved', function (childSnapshot, prevChildKey) {
                 dispatch({type: ArrayAction.move, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey: prevChildKey})
             });
+
+            return () => {
+                ref.off("child_added", childAdd);
+                ref.off("child_changed", childChange);
+                ref.off("child_removed", childRemove);
+                ref.off("child_moved", childMove);
+            }
         } else {
             dispatch({type: ArrayAction.undefine});
         }
-    }, [pathToElements]);
+    }, [pathToElements, orderByChild]);
 
     return [elements && elements as T[]];
 }

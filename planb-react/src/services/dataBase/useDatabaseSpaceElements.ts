@@ -6,14 +6,14 @@ import {ArrayAction, ArrayReducer} from "../../reducers/ArrayReducer";
 
 export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): (T[] | undefined)[] {
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
-    const listeners = useRef(new Map<string, (a: firebase.database.DataSnapshot | null, b?: string | null | undefined) => any>());
+    const listeners = useRef(new Map<string, any>());
 
     useEffect(() => {
         if (pathToSpace && pathToElements) {
             const ref = firebase.database().ref(pathToSpace).orderByKey();
             dispatch({type: ArrayAction.clear});
 
-            ref.on('child_added', function (childSnapshot) {
+            const childAdd = ref.on('child_added', function (childSnapshot) {
                 if (childSnapshot.key) {
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
                     elementRef.once("value").then(snapshot => {
@@ -37,7 +37,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                 }
             });
 
-            ref.on('child_removed', function (oldChildSnapshot) {
+            const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 if (oldChildSnapshot.key) {
                     listeners.current.delete(oldChildSnapshot.key);
                     dispatch({
@@ -46,6 +46,18 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                     });
                 }
             });
+
+            return () => {
+                ref.off("child_added", childAdd);
+                ref.off("child_removed", childRemove);
+
+                listeners.current.forEach((value, key) => {
+                    ref.off("value", listeners.current.get(value));
+
+                });
+
+                listeners.current.clear();
+            }
         } else {
             dispatch({type: ArrayAction.undefine});
         }
