@@ -3,7 +3,8 @@ import {
     useAssignedSongService,
     useBandService,
     useMeetingService,
-    useMemberService, usePersonalService,
+    useMemberService,
+    usePersonalService,
     useSongService,
     useUserService
 } from "../../services";
