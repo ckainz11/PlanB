@@ -18,9 +18,10 @@ export const Planner = () => {
 
             <div style={{color: "white"}}>
                 <h2>Meetings: </h2>
-                <pre>
-                {JSON.stringify(meetings, null, 4)}
-            </pre>
+                <h2>{selectedBand?.dataBaseID}</h2>
+                {meetings?.map(meeting => {
+                    return <MeetingDisplay meeting={meeting} key={meeting.dataBaseID}/>
+                })}
             </div>
         </BandContext.Provider>
     </div>

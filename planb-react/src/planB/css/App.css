@@ -69,6 +69,34 @@ body {
     background-color: #C4C4C4;
 }
 
+.meeting-header{
+    background-color: #B464A8;
+    text-align: center;
+}
+.meeting-display{
+    margin: 5%;
+    background-color: #323232;
+}
+.meeting-controls{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5%;
+}
+.meeting-vote-yes{
+    background-color: #008A96 !important;
+    color: #dddddd !important;
+}
+.meeting-vote-no{
+    background-color: #CF6679 !important;
+    color: #dddddd !important;
+}
+.meeting-vote
+
+.meeting-date-info{
+    display: flex;
+}
+
+
 @keyframes spin {
     0% {
         transform: rotate(0) scale(1);

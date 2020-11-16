@@ -1,16 +1,20 @@
 import React from "react";
 
 import {Meeting} from "../../resources";
-import {Segment} from "semantic-ui-react";
+import {Button, Container, Segment} from "semantic-ui-react";
+import {MeetingControls} from "./MeetingControls";
+import {VoteDisplay} from "./VoteDisplay";
 
 export const MeetingDisplay = ({meeting}: MeetingDisplayProps) => {
 
 
 
-    return <Segment inverted basic >
-        <h1>{meeting.name}</h1>
-        <h1>{meeting.date}</h1>
-    </Segment>
+    return <Container className={"meeting-display"} inverted basic >
+        <h1 className={"meeting-header"} >{meeting.dataBaseID}</h1>
+        <MeetingControls meeting={meeting}/>
+
+
+    </Container>
 
 
 };
