@@ -1,20 +1,120 @@
-html {
-    background-color: #121212;
+body {
+    background-color: #121212 !important;
 }
+
+.Planner {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.bouncingLogo {
+    flex: 1 1 auto;
+}
+
+.header .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
+    color: black !important;
+}
+.header .selectBand{
+    font-size: 13pt;
+}
+
 .header {
-    background-color: #8662BC !important;
+    background-color: #8662BC;
     display: flex;
-    padding: 10px;
+    height: 6em;
+    width: 100vw;
+    /*overflow: hidden;*/
+
+}
+
+.header .logo {
+    height: 100%;
+    animation: spin 1s;
+    position: relative;
+}
+
+.header .headerItem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header .left {
+    margin-left: 2em;
+}
+
+.header .right {
+    margin-right: 5em;
+}
+
+.header .push {
+    margin-left: auto;
+}
+
+.dropdownWrapper {
+    text-align: right;
+}
+
+.header .selectBand{
+    color: black;
+}
+
+.header .userIcon {
+    display: block;
+    width: 3em;
+    height: 3em;
+    border-radius: 50% 50% 50% 50%;
+    background-color: #C4C4C4;
+}
+
+.meeting-header{
+    background-color: #B464A8;
+    text-align: center;
+}
+.meeting-display{
+    margin: 5%;
+    background-color: #323232;
+}
+.meeting-controls{
+    display: flex;
     justify-content: space-between;
-
+    padding: 0.5%;
 }
-.logo-placeholder{
-    min-width: 100px;
+.meeting-vote-yes{
+    background-color: #008A96 !important;
+    color: #dddddd !important;
+}
+.meeting-vote-no{
+    background-color: #CF6679 !important;
+    color: #dddddd !important;
+}
+.meeting-vote
+
+.meeting-date-info{
     display: flex;
 }
-.header-band-user-controls{
-    display: flex;
 
+
+@keyframes spin {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(0.5);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
 }
 
+@keyframes grow {
+    0% {
+        transform: scale(0,1);
+    }
+    100% {
+        transform:  scale(1);
+    }
+}
 

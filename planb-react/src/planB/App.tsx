@@ -1,26 +1,24 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {Planner} from './views';
 import './css/App.css';
+import {BService} from "../services";
+import 'semantic-ui-css/semantic.min.css'
+import {Route, Switch } from 'react-router-dom';
+import {ServiceDebug} from "./views/ServiceDebug";
 
-function App() {
+const bService: BService = new BService();
+
+export function App() {
     return (
         <div className="App">
-            {/*<header className="App-header">*/}
-            {/*    <img src={logo} className="App-logo" alt="logo"/>*/}
-            {/*    <p>*/}
-            {/*        Plan B haha funny*/}
-            {/*    </p>*/}
-            {/*    <a*/}
-            {/*        className="App-link"*/}
-            {/*        href="https://reactjs.org"*/}
-            {/*        target="_blank"*/}
-            {/*        rel="noopener noreferrer"*/}
-            {/*    >*/}
-            {/*        Logo go brrrrrr*/}
-            {/*    </a>*/}
-            {/*</header>*/}
-            {/*<ServiceDebug/>*/}
-            <Planner/>
+            <Switch>
+                <Route exact path="/console">
+                    <ServiceDebug/>
+                </Route>
+                <Route path="/">
+                    <Planner/>
+                </Route>
+            </Switch>
         </div>
     );
 }
