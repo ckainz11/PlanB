@@ -16,8 +16,7 @@ export const Planner = () => {
             <Header/>
             <Link to="/console">Link to Developer Console</Link>
 
-            <div style={{color: "white"}}>
-                <h2>Meetings: </h2>
+            <div style={{color: "#dddddd"}}>
                 <h2>{selectedBand?.dataBaseID}</h2>
                 {meetings?.map(meeting => {
                     return <MeetingDisplay meeting={meeting} key={meeting.dataBaseID}/>

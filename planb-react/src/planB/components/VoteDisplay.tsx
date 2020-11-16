@@ -7,6 +7,7 @@ export const VoteDisplay = () => {
 
     return <div>
         <Image avatar />
+
     </div>
 
 }
