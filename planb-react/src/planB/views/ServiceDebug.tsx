@@ -23,7 +23,7 @@ export function ServiceDebug() {
 
 
     const [selectedBand, setSelectedBand] = useState<Band>();
-    const members = useMemberService(selectedBand);
+    const [members] = useMemberService(selectedBand);
     const [meetings] = useMeetingService(selectedBand);
     const [songs]= useSongService(selectedBand);
 
