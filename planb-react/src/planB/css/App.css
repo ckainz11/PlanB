@@ -85,11 +85,11 @@ body {
     justify-content: space-between;
     padding: 0.5%;
 }
-.meeting-vote-yes{
+.color-positive{
     background-color: #008A96 !important;
     color: #dddddd !important;
 }
-.meeting-vote-no{
+.color-negative{
     background-color: #CF6679 !important;
     color: #dddddd !important;
 }

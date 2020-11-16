@@ -1,5 +1,5 @@
 import React from "react";
-import {Dropdown, Image} from "semantic-ui-react";
+import {Image} from "semantic-ui-react";
 
 
 
