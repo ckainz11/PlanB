@@ -8,19 +8,21 @@ export function useBandService(user: User | undefined): (Band[] | undefined)[] {
 
     const createBand = useCallback(
         (user: User, band: Band) => {
-            firebase.database().ref("bands/" + band.dataBaseID).set({
-                description: band.description
-            });
+            if(firebase.database().ref("bands/" + band.dataBaseID).equalTo(null)) {
 
-            firebase.database().ref("bandSpace/" + band.dataBaseID).set({
-                members: [user],
-                leader: [user]
-            });
+                firebase.database().ref("bands/" + band.dataBaseID).set({
+                    description: band.description
+                });
 
-            firebase.database().ref("userSpace/" + user + "/bands").set({
-                [band.dataBaseID]: true
-            })
+                firebase.database().ref("bandSpace/" + band.dataBaseID).set({
+                    members: [user],
+                    leader: [user]
+                });
 
+                firebase.database().ref("userSpace/" + user + "/bands").set({
+                    [band.dataBaseID]: true
+                })
+            }
         },
         [],
         );
