@@ -1,15 +1,15 @@
 import {useEffect, useReducer, useRef} from "react";
 import firebase from "firebase";
-import {useDatabase} from "./useDatabase";
-import {Band, DataBaseElement} from "../../resources";
+import {DataBaseElement} from "../../resources";
 import {ArrayAction, ArrayReducer} from "../../reducers/ArrayReducer";
 
 export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): (T[] | undefined)[] {
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
-    const listeners = useRef(new Map<string, any>());
+    const listenersRef = useRef(new Map<string, any>());
 
     useEffect(() => {
         if (pathToSpace && pathToElements) {
+            const listeners: Map<string, any> = listenersRef.current;
             const ref = firebase.database().ref(pathToSpace).orderByKey();
             dispatch({type: ArrayAction.clear});
 
@@ -25,7 +25,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
 
                     // let first = true;
 
-                    listeners.current.set(childSnapshot.key, elementRef.on("value", snapshot => {
+                    listeners.set(childSnapshot.key, elementRef.on("value", snapshot => {
                         // if (first) first = false
                         // else {
                             snapshot.key && dispatch({
@@ -39,7 +39,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 if (oldChildSnapshot.key) {
-                    listeners.current.delete(oldChildSnapshot.key);
+                    listeners.delete(oldChildSnapshot.key);
                     dispatch({
                         type: ArrayAction.remove,
                         payload: {dataBaseID: oldChildSnapshot.key}
@@ -51,12 +51,12 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                 ref.off("child_added", childAdd);
                 ref.off("child_removed", childRemove);
 
-                listeners.current.forEach((value, key) => {
-                    ref.off("value", listeners.current.get(value));
+                listeners.forEach((value) => {
+                    ref.off("value", listeners.get(value));
 
                 });
 
-                listeners.current.clear();
+                listeners.clear();
             }
         } else {
             dispatch({type: ArrayAction.undefine});
