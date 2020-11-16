@@ -7,17 +7,17 @@ interface databaseVote extends DataBaseElement {
     value: number
 }
 
-export function useVoteService(band:Band | undefined, meeting:Session | undefined): (Vote[] | undefined)[] {
-    const [databaseVotes] = useDatabaseElements<databaseVote>(band && meeting && `bandSpace/${band.dataBaseID}/meetingSpace/${meeting.dataBaseID}/votes`);
+export function useVoteService(band:Band | undefined, session:Session | undefined): (Vote[] | undefined)[] {
+    const [databaseVotes] = useDatabaseElements<databaseVote>(band && session && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes`);
     const [users] = useMemberService(band);
     const [votes, setVotes] = useState<Vote[]>();
 
     useEffect(() => {
-        databaseVotes && users && users?.map((user) => {
-            return {dataBaseID: user.dataBaseID, value: databaseVotes.find((vote) => vote.dataBaseID === user.dataBaseID) || 0} as Vote
-        });
+        setVotes(databaseVotes && users && users?.map((user) => {
+            return {dataBaseID: user.dataBaseID, value: databaseVotes.find((vote) => vote.dataBaseID === user.dataBaseID)?.value || 0} as Vote
+        }));
     }, [databaseVotes, users])
     return [
-
+        votes
     ];
 }
