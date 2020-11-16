@@ -6,6 +6,8 @@ export interface Meeting extends DataBaseElement{
     date: firebase.firestore.Timestamp
     start: firebase.firestore.Timestamp
     end: firebase.firestore.Timestamp
+    endTime: string
+    startTime: string
     description: string
     location: string
     proposer: string
