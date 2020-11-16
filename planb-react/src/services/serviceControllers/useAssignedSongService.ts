@@ -1,9 +1,9 @@
 import {useCallback, useContext} from "react";
 import {useDatabaseSpaceElements} from "..";
-import {Band, Song, Meeting, User} from "../../resources";
+import {Band, Song, Session, User} from "../../resources";
 
-export function useAssignedSongService(band: (Band | undefined), meeting: (Meeting | undefined)): (Song[] | undefined)[] {
-    const [assSongs] = useDatabaseSpaceElements<Song>(band && meeting && `bandSpace/${band.dataBaseID}/meetingSpace/${meeting.dataBaseID}/assignedSongs`, band && `bandSpace/${band.dataBaseID}/songs`);
+export function useAssignedSongService(band: (Band | undefined), session: (Session | undefined)): (Song[] | undefined)[] {
+    const [assSongs] = useDatabaseSpaceElements<Song>(band && session && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs`, band && `bandSpace/${band.dataBaseID}/songs`);
 
     return [
         assSongs
