@@ -1,0 +1,156 @@
+{
+  "bandSpace" : {
+    "Balls" : {
+      "meetingSpace" : {
+        "Flamingo_session" : {
+          "assignedSongs" : {
+            "Airwaves" : true
+          },
+          "votes" : {
+            "ChristophID" : {
+              "value" : -1
+            }
+          }
+        },
+        "Kranke_session" : {
+          "assignedSongs" : {
+            "Holdup" : true
+          },
+          "votes" : true
+        }
+      },
+      "meetings" : {
+        "Alph" : true,
+        "Azph" : true,
+        "Delta" : {
+          "date" : "11.11.2020"
+        },
+        "Kranke_session" : {
+          "date" : "21.11.2020",
+          "description" : "gemma",
+          "endTime" : "16:00",
+          "location" : "Proberaum Naschmarkt",
+          "proposer" : "ChristophID",
+          "startTime" : "15:00"
+        },
+        "random" : true
+      },
+      "members" : {
+        "ChristophID" : true,
+        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
+      },
+      "songs" : {
+        "Airwaves" : {
+          "Content" : "chillig man",
+          "rating" : 1
+        },
+        "Holdup" : {
+          "Content" : "Another one",
+          "rating" : 9
+        }
+      }
+    },
+    "FunnyBoysTM" : {
+      "meetingSpace" : {
+        "Final_session" : {
+          "assignedSongs" : true,
+          "votes" : {
+            "FlorianID" : {
+              "value" : 1
+            }
+          }
+        },
+        "Let's_Jam_session" : {
+          "assignedSongs" : {
+            "BackInBlack" : true,
+            "SweetHome" : true
+          },
+          "votes" : {
+            "ChristophID" : {
+              "value" : -1
+            },
+            "FlorianID" : {
+              "value" : 1
+            }
+          }
+        }
+      },
+      "meetings" : {
+        "Final_session" : {
+          "date" : "29.11.2020",
+          "description" : "hallo",
+          "endTime" : "16:00",
+          "location" : "Proberaum Naschmarkt",
+          "proposer" : "ChristophID",
+          "startTime" : "15:00"
+        },
+        "Let's_Jam_session" : {
+          "date" : "27.11.2020",
+          "description" : "los geht's burschen",
+          "endTime" : "16:00",
+          "location" : "Proberaum Naschmarkt",
+          "proposer" : "FlorianID",
+          "startTime" : "15:00"
+        }
+      },
+      "members" : {
+        "ChristophID" : true,
+        "FlorianID" : true,
+        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
+      },
+      "songs" : {
+        "BackInBlack" : {
+          "Content" : "Link to youtube",
+          "rating" : 6
+        },
+        "SweetHome" : {
+          "Content" : "Link to youtube",
+          "rating" : 9
+        }
+      }
+    }
+  },
+  "bands" : {
+    "Balls" : {
+      "description" : "Ball Ball Ball Ball"
+    },
+    "FunnyBoysTM" : {
+      "description" : "A funny Band haha"
+    }
+  },
+  "userSpace" : {
+    "ChristophID" : {
+      "bands" : {
+        "Balls" : true,
+        "FunnyBoysTM" : true
+      }
+    },
+    "FlorianID" : {
+      "bands" : {
+        "FunnyBoysTM" : true
+      }
+    },
+    "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : {
+      "bands" : {
+        "Balls" : true,
+        "FunnyBoysTM" : true
+      }
+    }
+  },
+  "users" : {
+    "ChristophID" : true,
+    "FlorianID" : true,
+    "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : {
+      "email" : "zort0s420@gmail.com",
+      "emailVerified" : true,
+      "photoUrl" : "https://lh3.googleusercontent.com/-8N6G6aeAvLo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclnjYGTSVd-Ilx4tnVIxd09_cDZfQ/s96-c/photo.jpg",
+      "userName" : "Christoph Kainz"
+    },
+    "pj4SopaDRLMoolmF4zMrwVugaQ42" : {
+      "email" : "florian.flatscher@gmail.com",
+      "emailVerified" : true,
+      "photoUrl" : "https://lh3.googleusercontent.com/a-/AOh14GjNi2XgoSbFW7EyWCgiM1NK2ejMV1owHXprmG9-vg=s96-c",
+      "userName" : "greenappleFF"
+    }
+  }
+}
