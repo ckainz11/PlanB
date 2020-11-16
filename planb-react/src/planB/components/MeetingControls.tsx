@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Container} from "semantic-ui-react";
-import {Meeting} from "../../resources";
+import {Session} from "../../resources";
 
 export const MeetingControls = ({meeting}: MeetingControlsProps) => {
 
@@ -18,5 +18,5 @@ export const MeetingControls = ({meeting}: MeetingControlsProps) => {
 }
 
 type MeetingControlsProps = {
-    meeting: Meeting;
+    meeting: Session;
 }

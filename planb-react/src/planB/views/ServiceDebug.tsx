@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {
     useAssignedSongService,
     useBandService,
-    useMeetingService,
+    useSessionService,
     useMemberService,
     usePersonalService,
     useSongService,
     useUserService
 } from "../../services";
-import {Band, Meeting, User} from "../../resources";
+import {Band, Session, User} from "../../resources";
 import {useVoteService} from "../../services/serviceControllers/useVoteService";
 
 export function ServiceDebug() {
@@ -25,10 +25,10 @@ export function ServiceDebug() {
 
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members] = useMemberService(selectedBand);
-    const [meetings] = useMeetingService(selectedBand);
+    const [meetings] = useSessionService(selectedBand);
     const [songs]= useSongService(selectedBand);
 
-    const [selectedMeeting, setSelectedMeeting] = useState<Meeting>();
+    const [selectedMeeting, setSelectedMeeting] = useState<Session>();
     const [votes] = useVoteService(selectedBand, selectedMeeting);
     const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
 

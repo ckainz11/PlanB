@@ -3,7 +3,7 @@ export * from "./serviceResources/FirebaseConfig";
 export * from "./serviceResources/DefaultFirebaseConfig";
 
 export * from "./serviceControllers/useBandService";
-export * from "./serviceControllers/useMeetingService";
+export * from "./serviceControllers/useSessionService";
 export * from "./serviceControllers/useMemberService";
 export * from "./serviceControllers/useSongService";
 export * from "./serviceControllers/useUserService";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Meeting} from "../../resources";
+import {Session} from "../../resources";
 import {Button, Container, Segment} from "semantic-ui-react";
 import {MeetingControls} from "./MeetingControls";
 import {VoteDisplay} from "./VoteDisplay";
@@ -20,5 +20,5 @@ export const MeetingDisplay = ({meeting}: MeetingDisplayProps) => {
 };
 
 type MeetingDisplayProps = {
-    meeting: Meeting;
+    meeting: Session;
 }
