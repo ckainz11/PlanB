@@ -2,10 +2,12 @@ import {useEffect, useReducer, useRef} from "react";
 import firebase from "firebase";
 import {DataBaseElement} from "../../resources";
 import {ArrayAction, ArrayReducer} from "../../reducers/ArrayReducer";
+import {type} from "os";
 
 export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): (T[] | undefined)[] {
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
     const listenersRef = useRef(new Map<string, any>());
+
 
     useEffect(() => {
         if (pathToSpace && pathToElements) {
@@ -63,5 +65,6 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
         }
     }, [pathToElements, pathToSpace]);
 
-    return [elements as T[] | undefined];
+
+    return [elements ? elements as T[] : undefined];
 }
