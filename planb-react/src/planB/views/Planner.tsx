@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {Header, MeetingDisplay} from "../components";
 import {Link} from "react-router-dom";
-import {BandContext} from "../contexts";
+import {BandContext} from "../../contexts";
 import {useMeetingService} from "../../services";
 import {Band} from "../../resources";
 

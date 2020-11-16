@@ -9,7 +9,6 @@ import {
 } from "../../services";
 import {Band, Meeting, User} from "../../resources";
 import {useVoteService} from "../../services/serviceControllers/useVoteService";
-import firebase from "firebase";
 
 export function ServiceDebug() {
 
