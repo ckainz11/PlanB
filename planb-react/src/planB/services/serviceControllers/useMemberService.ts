@@ -1,5 +1,5 @@
 import {Band, User} from "../../resources";
-import {useDatabaseSpaceElements} from "..";
+import {useDatabaseSpaceElements} from "../index";
 
 export function useMemberService(band: Band | undefined): (User[] | undefined)[] {
     const [members] = useDatabaseSpaceElements<User>(band && `bandSpace/${band.dataBaseID}/members`, 'users');

@@ -1,5 +1,5 @@
 import {useCallback, useContext} from "react";
-import {useDatabaseSpaceElements} from "..";
+import {useDatabaseSpaceElements} from "../index";
 import {Band, Song, Session, User} from "../../resources";
 
 export function useAssignedSongService(band: (Band | undefined), session: (Session | undefined)): (Song[] | undefined)[] {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Planner} from './views';
 import './css/App.css';
-import {BService} from "../services";
+import {BService} from "./services";
 import 'semantic-ui-css/semantic.min.css'
 import {Route, Switch } from 'react-router-dom';
 import {ServiceDebug} from "./views/ServiceDebug";

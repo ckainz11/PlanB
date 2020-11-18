@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './planB/App';
 import reportWebVitals from './reportWebVitals';
-import {BService} from "./services";
+import {BService} from "./planB/services";
 import {BrowserRouter} from "react-router-dom";
 
 

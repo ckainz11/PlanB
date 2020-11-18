@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import {useCallback, useEffect, useState} from "react";
 import {User} from "../../resources";
-import {useDatabase} from "..";
+import {useDatabase} from "../index";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
 

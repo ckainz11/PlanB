@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Session} from "../../resources";
+import {Session} from "../resources";
 import {Button, Container, Segment} from "semantic-ui-react";
 import {MeetingControls} from "./MeetingControls";
 import {VoteDisplay} from "./VoteDisplay";

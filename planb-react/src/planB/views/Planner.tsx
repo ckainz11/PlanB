@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react";
 import {Header, MeetingDisplay} from "../components";
 import {Link} from "react-router-dom";
-import {BandContext} from "../../contexts";
-import {useSessionService, usePersonalService} from "../../services";
-import {Band} from "../../resources";
+import {BandContext} from "../contexts";
+import {useSessionService, usePersonalService} from "../services";
+import {Band} from "../resources";
 import {Button, Divider, Input} from "semantic-ui-react";
 import {MeetingCreater} from "../components/MeetingCreater";
 

@@ -1,4 +1,4 @@
-import {useDatabase, useDatabaseElements} from "..";
+import {useDatabase, useDatabaseElements} from "../index";
 import {Band, Session, Song, User} from "../../resources";
 import {useCallback, useEffect, useState} from "react";
 import firebase from "firebase";
