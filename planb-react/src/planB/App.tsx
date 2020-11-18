@@ -1,10 +1,9 @@
 import React from 'react';
-import {Planner} from './views';
+import {Planner, ServiceView} from './views';
 import './css/App.css';
 import {BService} from "./services";
 import 'semantic-ui-css/semantic.min.css'
 import {Route, Switch } from 'react-router-dom';
-import {ServiceDebug} from "./views/ServiceDebug";
 
 const bService: BService = new BService();
 
@@ -13,7 +12,7 @@ export function App() {
         <div className="App">
             <Switch>
                 <Route exact path="/console">
-                    <ServiceDebug/>
+                    <ServiceView/>
                 </Route>
                 <Route path="/">
                     <Planner/>

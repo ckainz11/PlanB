@@ -5,9 +5,9 @@ import {useDatabase} from "../index";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
 
-export function usePersonalService () : [User | undefined, () => void]{
+export function usePersonalService () : [User | undefined, () => void, () => void]{
     const [uid, setUid] = useState<string>();
-    const [currentUser] = useDatabaseSingleElement<User>(`users/${uid}`)
+    const [currentUser] = useDatabaseSingleElement<User>(uid && `users/${uid}`)
     const [googleProvider, setGoogleProvider] = useState(new firebase.auth.GoogleAuthProvider())
 
     useEffect(() => {
@@ -19,24 +19,21 @@ export function usePersonalService () : [User | undefined, () => void]{
                     setUid(newUser.dataBaseID);
                 });
             } else {
-                // No user is signed in.
+                setUid(undefined);
             }
         });
     }, [setUid]);
 
     const signInWithGoogle = useCallback(() => {
         firebase.auth().signInWithPopup(googleProvider).then(function(result) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const token = result?.credential;
-            console.log(token);
-            // The signed-in user info.
-            const user = result.user;
-            console.log(user);
-            // ...
         }).catch(function(error) {
             alert(error)
         });
-    }, [googleProvider])
+    }, [googleProvider]);
 
-    return [currentUser, signInWithGoogle];
+    const signOut = useCallback(() => {
+        firebase.auth().signOut();
+    }, [])
+
+    return [currentUser, signInWithGoogle, signOut];
 }

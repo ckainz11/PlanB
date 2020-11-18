@@ -10,23 +10,24 @@ import {
 } from "../services";
 import {Band, Session, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
+import {Link} from "react-router-dom";
 
-export function ServiceDebug() {
+export function ServiceView() {
 
     //Authentication
-    const [me, signInWithGoogle] = usePersonalService();
+    const [me, signInWithGoogle, signOut] = usePersonalService();
 
     //Data
     const [users] = useUserService();
 
     const [selectedUser, setSelectedUser] = useState<User>();
-    const [bands]= useBandService(selectedUser);
+    const [bands] = useBandService(selectedUser);
 
 
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members] = useMemberService(selectedBand);
     const [meetings] = useSessionService(selectedBand);
-    const [songs]= useSongService(selectedBand);
+    const [songs] = useSongService(selectedBand);
 
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
     const [votes] = useVoteService(selectedBand, selectedMeeting);
@@ -42,12 +43,13 @@ export function ServiceDebug() {
     }, [selectedBand]);
 
     return <div style={{backgroundColor: "white"}}>
+        <Link to={""}>Back To landing page</Link>
         <h1>Authentication:</h1>
-        <button
-        onClick={(event) => {
-            signInWithGoogle();
-        }}
-        >Authenticate with Google</button>
+        {!me ?
+            <button onClick={signInWithGoogle}>Authenticate with Google</button>
+            :
+            <button onClick={signOut}>Sign out </button>
+        }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
         <h1>Debug:</h1>
@@ -66,7 +68,7 @@ export function ServiceDebug() {
         <h2>Bands:</h2>
         <pre>
             {JSON.stringify(bands, null, 2)}
-        </pre>
+            </pre>
         {selectedUser && <div style={{backgroundColor: "lightgray"}}>
             <form>
                 {
@@ -82,15 +84,15 @@ export function ServiceDebug() {
             </form>
             <h4>Members</h4>
             <pre>
-                {JSON.stringify(members, null, 2)}
+            {JSON.stringify(members, null, 2)}
             </pre>
             <h4>Meetings</h4>
             <pre>
-                {JSON.stringify(meetings, null, 2)}
+            {JSON.stringify(meetings, null, 2)}
             </pre>
             <h4>Songs</h4>
             <pre>
-                {JSON.stringify(songs, null, 2)}
+            {JSON.stringify(songs, null, 2)}
             </pre>
 
             {selectedBand && <div style={{backgroundColor: "gray"}}>
