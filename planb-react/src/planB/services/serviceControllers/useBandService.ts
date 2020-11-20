@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import {useCallback, useContext} from "react";
-import {useDatabase, useDatabaseSpaceElements} from "..";
+import {useDatabase, useDatabaseSpaceElements} from "../index";
 import {Band, User} from "../../resources";
 
 export function useBandService(user: User | undefined): (Band[] | undefined)[] {

@@ -1,5 +1,5 @@
 import {Band, Song, User} from "../../resources";
-import {useDatabase, useDatabaseElements} from "..";
+import {useDatabase, useDatabaseElements} from "../index";
 import {useEffect, useState} from "react";
 
 export function useUserService(): (User[] | undefined)[] {

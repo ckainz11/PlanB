@@ -1,4 +1,4 @@
-import {useDatabase, useDatabaseElements, useMemberService, useUserService} from "..";
+import {useDatabase, useDatabaseElements, useMemberService, useUserService} from "../index";
 import {Band, DataBaseElement, Session, Song, User, Vote} from "../../resources";
 import {type} from "os";
 import {useEffect, useState} from "react";

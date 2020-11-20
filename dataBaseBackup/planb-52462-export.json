@@ -1,7 +1,11 @@
 {
   "bandSpace" : {
     "Balls" : {
-      "meetingSpace" : {
+      "members" : {
+        "ChristophID" : true,
+        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
+      },
+      "sessionSpace" : {
         "Flamingo_session" : {
           "assignedSongs" : {
             "Airwaves" : true
@@ -19,7 +23,7 @@
           "votes" : true
         }
       },
-      "meetings" : {
+      "sessions" : {
         "Alph" : true,
         "Azph" : true,
         "Delta" : {
@@ -35,10 +39,6 @@
         },
         "random" : true
       },
-      "members" : {
-        "ChristophID" : true,
-        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
-      },
       "songs" : {
         "Airwaves" : {
           "Content" : "chillig man",
@@ -51,7 +51,12 @@
       }
     },
     "FunnyBoysTM" : {
-      "meetingSpace" : {
+      "members" : {
+        "ChristophID" : true,
+        "FlorianID" : true,
+        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
+      },
+      "sessionSpace" : {
         "Final_session" : {
           "assignedSongs" : true,
           "votes" : {
@@ -75,7 +80,7 @@
           }
         }
       },
-      "meetings" : {
+      "sessions" : {
         "Final_session" : {
           "date" : "29.11.2020",
           "description" : "hallo",
@@ -93,11 +98,6 @@
           "startTime" : "15:00"
         }
       },
-      "members" : {
-        "ChristophID" : true,
-        "FlorianID" : true,
-        "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : true
-      },
       "songs" : {
         "BackInBlack" : {
           "Content" : "Link to youtube",
@@ -112,7 +112,7 @@
   },
   "bands" : {
     "Balls" : {
-      "description" : "Ball Ball Ball Ball"
+      "description" : "Something else"
     },
     "FunnyBoysTM" : {
       "description" : "A funny Band haha"
@@ -140,6 +140,18 @@
   "users" : {
     "ChristophID" : true,
     "FlorianID" : true,
+    "GQ8i388hFFPpzvWqXeiCGuF19Eh2" : {
+      "email" : "christoph.kainz11@gmail.com",
+      "emailVerified" : true,
+      "photoUrl" : "https://lh3.googleusercontent.com/-kGyX5-Ch7Fs/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm2xO_ooNSlP4Uzwt2y8q0AM-Siqw/s96-c/photo.jpg",
+      "userName" : "Christoph Kainz"
+    },
+    "LTCCA3svSubgbi4QCyUxKx3j8ev1" : {
+      "email" : "paoloholman@gmail.com",
+      "emailVerified" : true,
+      "photoUrl" : "https://lh3.googleusercontent.com/-juf_SbVr0WM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmQXG8wwsSbvTEAiaqBxacC03yfaA/s96-c/photo.jpg",
+      "userName" : "Paolo Holman"
+    },
     "VrhndZ0ylxbbcCFH6HlZePoIQ6w1" : {
       "email" : "zort0s420@gmail.com",
       "emailVerified" : true,
