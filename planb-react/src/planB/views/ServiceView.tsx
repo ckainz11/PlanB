@@ -6,7 +6,7 @@ import {
     useMemberService,
     usePersonalService,
     useSongService,
-    useUserService
+    usePlanBUserService
 } from "../services";
 import {Band, Session, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
@@ -15,10 +15,10 @@ import {Link} from "react-router-dom";
 export function ServiceView() {
 
     //Authentication
-    const [me, signInWithGoogle, signOut] = usePersonalService();
+    const [me, personalOperation] = usePersonalService();
 
     //Data
-    const [users] = useUserService();
+    const [users] = usePlanBUserService();
 
     const [selectedUser, setSelectedUser] = useState<User>();
     const [bands] = useBandService(selectedUser);
@@ -30,7 +30,6 @@ export function ServiceView() {
     const [songs] = useSongService(selectedBand);
 
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
-    const [votes] = useVoteService(selectedBand, selectedMeeting);
     const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
 
 
@@ -46,22 +45,25 @@ export function ServiceView() {
         <Link to={""}>Back To landing page</Link>
         <h1>Authentication:</h1>
         {!me ?
-            <button onClick={signInWithGoogle}>Authenticate with Google</button>
+            <button onClick={() => personalOperation({type: "signInWithGoogle"})}>Authenticate with Google</button>
             :
-            <button onClick={signOut}>Sign out </button>
+            <button onClick={() => personalOperation({type: "signOut"})}>Sign out </button>
         }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
-        <h1>Debug:</h1>
+        <h1>Debug for:</h1>
         <form>
             {
                 users?.map((user) => {
-                    return <div key={user.dataBaseID}><label htmlFor={user.dataBaseID}>{user.dataBaseID}</label>
+                    return <div key={user.dataBaseID}>
+                        <label htmlFor={user.dataBaseID}>{user.userName}</label>
                         <input
-                            // checked={selectedUser && selectedUser.dataBaseID === user.dataBaseID}
-                            onChange={() => setSelectedUser(() => user)} type="radio" id={user.dataBaseID}
+                            onChange={() => setSelectedUser(() => user)}
+                            type="radio"
+                            id={user.dataBaseID}
                             name="band"
-                            value={user.dataBaseID}/><br/></div>
+                            value={user.userName}/>
+                    </div>
                 })
             }
         </form>
@@ -109,15 +111,30 @@ export function ServiceView() {
                         })
                     }
                 </form>
-                <h4>Assigned Songs</h4>
-                <pre>
-                {JSON.stringify(assSongs, null, 2)}
-            </pre>
-                <h4>Votes</h4>
-                <pre>
-                {JSON.stringify(votes, null, 2)}
-            </pre>
+                {selectedMeeting && <div style={{backgroundColor: "darkgray"}}>
+                    <h4>Assigned Songs</h4>
+                    <pre>
+                        {JSON.stringify(assSongs, null, 2)}
+                    </pre>
+                    <h4>Votes</h4>
+                    {members?.map(user => {
+                        return <div key={user.dataBaseID}>
+                            <p>
+                                {user.userName}:
+                                {<VoteDisplay user={user} band={selectedBand} session={selectedMeeting} />}
+                            </p>
+                        </div>
+                    })}
+                </div>}
             </div>}
         </div>}
     </div>
+}
+
+function VoteDisplay({user, band, session}: { user: User, band: Band, session: Session }) {
+    const [vote] = useVoteService(user, band, session);
+
+    return <pre>
+                {JSON.stringify(vote, null, 2)}
+            </pre>
 }

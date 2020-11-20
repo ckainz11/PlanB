@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import {DataBaseElement} from "./DataBaseElement";
 
+//TODO: Proposer service
 export interface Session extends DataBaseElement{
     name: string
     date: Date
@@ -10,5 +11,4 @@ export interface Session extends DataBaseElement{
     startTime: string
     description: string
     location: string
-    proposer: string
 }

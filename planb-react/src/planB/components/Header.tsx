@@ -12,13 +12,13 @@ export const Header = () => {
 
     const [me] = usePersonalService();
 
-    const [bands] = useBandService(me);
+    const [bands, bandOperation] = useBandService(me);
 
     const [selectedBand, setSelectedBand] = useContext(BandContext);
 
     const handleChange = useCallback(function (e, {value}) {
         setSelectedBand?.(bands?.find(band => {
-            return value === band.dataBaseID}))
+            return value === band.dataBaseID}));
     }, [setSelectedBand, bands]);
     return (
         <div className="header">

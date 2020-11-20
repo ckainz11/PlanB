@@ -1,23 +1,28 @@
-import {useDatabase, useDatabaseElements, useMemberService, useUserService} from "../index";
+import {useDatabase, useDatabaseElements, useMemberService, usePersonalService, usePlanBUserService} from "../index";
 import {Band, DataBaseElement, Session, Song, User, Vote} from "../../resources";
 import {type} from "os";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import firebase from "firebase";
+import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
-interface databaseVote extends DataBaseElement {
-    value: number
-}
+type OperationType =
+    { type: "add", payload: Vote }
+    ;
 
-export function useVoteService(band:Band | undefined, session:Session | undefined): (Vote[] | undefined)[] {
-    const [databaseVotes] = useDatabaseElements<databaseVote>(band && session && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes`);
-    const [users] = useMemberService(band);
-    const [votes, setVotes] = useState<Vote[]>();
+export function useVoteService(user:User | undefined, band:Band | undefined, session:Session | undefined): [Vote | undefined, (operation: OperationType) => void] {
+    const [vote] = useDatabaseSingleElement<Vote>(band && session && user && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`);
 
-    useEffect(() => {
-        setVotes(databaseVotes && users && users?.map((user) => {
-            return {dataBaseID: user.dataBaseID, value: databaseVotes.find((vote) => vote.dataBaseID === user.dataBaseID)?.value || 0} as Vote
-        }));
-    }, [databaseVotes, users])
+    const voteOperation = useCallback((operation: OperationType) => {
+        if (band && session && user) {
+            switch (operation.type) {
+                case "add":
+                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`).set({...operation.payload, dataBaseID: undefined}).catch(error => console.log(error));
+                    break;
+            }
+        }
+    }, [band, session, user]);
+
     return [
-        votes
+        vote, voteOperation
     ];
 }
