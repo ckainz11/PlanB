@@ -1,14 +1,15 @@
-import {useDatabase, useDatabaseElements} from "../index";
-import {Band, Session, Song, User} from "../../resources";
-import {useCallback, useEffect, useState} from "react";
+import {useDatabaseElements} from "..";
+import {Band, Session, Song} from "../../resources";
+import {useCallback} from "react";
 import firebase from "firebase";
 
-export function useSessionService(band: Band | undefined): (Session[] | undefined)[] {
+export function useSessionService(band: Band | undefined): [Session[] | undefined, (session: Session, songs: Song[]) => void] {
     const [sessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
 
     const createSession = useCallback(
-        (band: Band, session: Session, songs: Song[]) => {
-            if(firebase.database().ref("bandSpace/" + band.dataBaseID + "/sessions/" + session.dataBaseID).equalTo(null)) {
+        (session: Session, songs: Song[]) => {
+            if (band) {
+
 
                 firebase.database().ref("bandSpace/" + band.dataBaseID + "/sessions/" + session.dataBaseID).set({
                     date: session.date,
@@ -24,10 +25,11 @@ export function useSessionService(band: Band | undefined): (Session[] | undefine
                 }).catch(error => console.log(error));
             }
         },
-        []
+        [band]
     )
 
     return [
-        sessions
+        sessions,
+        createSession
     ];
 }

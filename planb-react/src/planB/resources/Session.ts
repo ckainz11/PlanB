@@ -3,7 +3,7 @@ import {DataBaseElement} from "./DataBaseElement";
 
 export interface Session extends DataBaseElement{
     name: string
-    date: firebase.firestore.Timestamp
+    date: Date
     start: firebase.firestore.Timestamp
     end: firebase.firestore.Timestamp
     endTime: string

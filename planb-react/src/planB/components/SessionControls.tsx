@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Container} from "semantic-ui-react";
 import {Session} from "../resources";
 
-export const MeetingControls = ({meeting}: MeetingControlsProps) => {
+export const SessionControls = ({meeting}: MeetingControlsProps) => {
 
     return     <div className={"meeting-controls"}>
         <Button inverted icon="list" basic/>
