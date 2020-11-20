@@ -13,7 +13,7 @@ export function useSongService(band: Band | undefined): (Song[] | undefined)[] {
                 firebase.database().ref("bandSpace/" + band.dataBaseID + "/songs/" + song.dataBaseID).set({
                     content: song.content,
                     rating: song.rating
-                })
+                }).catch(error => console.log(error));
             }
         },
         []

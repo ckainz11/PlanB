@@ -12,16 +12,16 @@ export function useBandService(user: User | undefined): (Band[] | undefined)[] {
 
                 firebase.database().ref("bands/" + band.dataBaseID).set({
                     description: band.description
-                });
+                }).catch(error => console.log(error));
 
                 firebase.database().ref("bandSpace/" + band.dataBaseID).set({
                     members: [user],
                     leader: [user]
-                });
+                }).catch(error => console.log(error));
 
                 firebase.database().ref("userSpace/" + user + "/bands").set({
                     [band.dataBaseID]: true
-                })
+                }).catch(error => console.log(error));
             }
         },
         [],

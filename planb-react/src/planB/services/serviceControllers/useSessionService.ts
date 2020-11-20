@@ -17,11 +17,11 @@ export function useSessionService(band: Band | undefined): (Session[] | undefine
                     location: session.location,
                     proposer: session.proposer,
                     startTime: session.start
-                });
+                }).catch(error => console.log(error));
 
                 firebase.database().ref("bandSpace/" + band.dataBaseID + "/sessionSpace" + session.dataBaseID).set({
                     assignedSongs: songs
-                })
+                }).catch(error => console.log(error));
             }
         },
         []
