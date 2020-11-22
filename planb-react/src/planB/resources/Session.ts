@@ -4,11 +4,8 @@ import {DataBaseElement} from "./DataBaseElement";
 //TODO: Proposer service
 export interface Session extends DataBaseElement{
     name: string
-    date: Date
-    start: firebase.firestore.Timestamp
-    end: firebase.firestore.Timestamp
-    endTime: string
-    startTime: string
+    start: Date
+    end: Date
     description: string
     location: string
 }

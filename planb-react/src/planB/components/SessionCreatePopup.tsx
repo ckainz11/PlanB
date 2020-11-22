@@ -20,7 +20,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         <Modal.Content>
             <Form>
                 <FormField>
-                        <SemanticDatepicker inverted onChange={(event, data) => { data.value && setSession({...session, date: data.value as Date}) }} />
+                        <SemanticDatepicker inverted onChange={(event, data) => { data.value && setSession({...session, start: data.value as Date}) }} />
                 </FormField>
                 <FormField>
                     <Input label="Session Name" placeholder={sessionName} />
