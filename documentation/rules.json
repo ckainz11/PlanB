@@ -1,0 +1,105 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": true,
+        ".write": "$uid === auth.uid && newData.hasChildren(['email', 'emailVerified', 'photoUrl', 'userName'])",
+        "email": {
+          ".validate": "newData.val() === auth.token.email"
+        },
+        "emailVerified": {
+          ".validate": "newData.val() === auth.token.email_verified"
+        },
+        "photoUrl": {
+          ".validate": "newData.isString()"
+        },
+        "userName": {
+          ".validate": "newData.val() === auth.token.name"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "userSpace": {
+      "$uid": {
+        "bands": {
+          ".read": "auth.uid === $uid",
+          "$band": {
+            ".write": "root.child('users/'+$uid).exists() && root.child('bandSpace/'+$band+'/leaders/'+auth.uid).exists()",
+            ".validate": "newData.val() === true"
+          }
+        }
+      }
+    },
+    "bands": {
+      "$band": {
+        ".write": "(!data.exists() || root.child('bandSpace/'+$band+'/leaders/'+auth.uid).exists()) && newData.hasChildren(['description', 'name'])",
+        ".read": "root.child('bandSpace/'+$band+'/members/'+auth.uid).exists()",
+        "description": {
+          ".validate": "newData.isString()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {".validate": false}
+      }
+    },
+    "bandSpace": {
+      "$band": {
+        ".read": "root.child('bandSpace/'+$band+'/members/'+auth.uid).exists()",
+        "leaders": {
+          ".write": "root.child('bands/'+$band).exists() && !data.exists()",
+          "$leaderID": {
+            ".validate": "newData.val() === true"
+          }
+        },
+        "members": {
+          ".write": "root.child('bands/'+$band).exists() && (!data.exists() || root.child('bandSpace/'+$band+'leaders/'+auth.uid).exists())",
+          "$leaderID": {
+            ".validate": "newData.val() === true"
+          }
+        },
+        "songs": {
+          "$songID": {
+            ".write": "root.child('bandSpace/'+$band+'/members/'+auth.uid).exists() && newData.hasChildren(['name', 'content', 'rating'])",
+            "name": {".validate": "newData.isString()"},
+            "content": {".validate": "newData.isString()"},
+            "rating": {".validate": "newData.isString()"},
+            "$other": {".validate": false},
+          }
+        },
+        "sessions": {
+          "$sessionID": {
+            ".write": "root.child('bandSpace/'+$band+'/members/'+auth.uid).exists() && newData.hasChildren(['start', 'end', 'description', 'location', 'name'])",
+            "name": {".validate": "newData.isString()"},
+            "start": {".validate": "newData.isString()"},
+            "end": {".validate": "newData.isString()"},
+            "description": {".validate": "newData.isString()"},
+            "location": {".validate": "newData.isString()"},
+            "$other": {".validate": false},
+          }
+        },
+        "sessionSpace": {
+          "$sessionID": {
+            "assignedSongs": {
+              "$songID":{
+                ".write": "root.child('bandSpace/'+$band+'sessions/'+$sessionID).exists() && root.child('bandSpace/'+$band+'/members/'+auth.uid).exists() && root.child('bandSpace/'+$band+'songs/'+$songID).exists()",
+                ".validate": "newData.val() === true"
+              }
+            },
+            "votes": {
+              "$member": {
+                ".write": "root.child('bandSpace/'+$band+'sessions/'+$sessionID).exists() && root.child('bandSpace/'+$band+'/members/'+auth.uid).exists() && root.child('bandSpace/'+$band+'members/'+$member).exists() && newData.hasChildren(['value'])",
+                "value": {
+                  ".validate": "newData.val() === 1 || newData.val() === -1",
+                },
+                "$other": {".validate": "false"},
+              }
+            }
+          }
+        }
+      },
+    },
+  }
+}

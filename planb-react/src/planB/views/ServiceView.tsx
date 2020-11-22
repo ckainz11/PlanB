@@ -6,7 +6,6 @@ import {
     useMemberService,
     usePersonalService,
     useSongService,
-    usePlanBUserService
 } from "../services";
 import {Band, Session, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
@@ -18,11 +17,7 @@ export function ServiceView() {
     const [me, personalOperation] = usePersonalService();
 
     //Data
-    const [users] = usePlanBUserService();
-
-    const [selectedUser, setSelectedUser] = useState<User>();
-    const [bands] = useBandService(selectedUser);
-
+    const [bands] = useBandService(me);
 
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members] = useMemberService(selectedBand);
@@ -35,7 +30,7 @@ export function ServiceView() {
 
     useEffect(() => {
         setSelectedBand(undefined);
-    }, [selectedUser]);
+    }, [me]);
 
     useEffect(() => {
         setSelectedMeeting(undefined);
@@ -51,27 +46,27 @@ export function ServiceView() {
         }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
-        <h1>Debug for:</h1>
-        <form>
-            {
-                users?.map((user) => {
-                    return <div key={user.dataBaseID}>
-                        <label htmlFor={user.dataBaseID}>{user.userName}</label>
-                        <input
-                            onChange={() => setSelectedUser(() => user)}
-                            type="radio"
-                            id={user.dataBaseID}
-                            name="band"
-                            value={user.userName}/>
-                    </div>
-                })
-            }
-        </form>
+        {/*<h1>Debug for:</h1>*/}
+        {/*<form>*/}
+        {/*    {*/}
+        {/*        user?.map((user) => {*/}
+        {/*            return <div key={user.dataBaseID}>*/}
+        {/*                <label htmlFor={user.dataBaseID}>{user.userName}</label>*/}
+        {/*                <input*/}
+        {/*                    onChange={() => setSelectedUser(() => user)}*/}
+        {/*                    type="radio"*/}
+        {/*                    id={user.dataBaseID}*/}
+        {/*                    name="band"*/}
+        {/*                    value={user.userName}/>*/}
+        {/*            </div>*/}
+        {/*        })*/}
+        {/*    }*/}
+        {/*</form>*/}
         <h2>Bands:</h2>
         <pre>
             {JSON.stringify(bands, null, 2)}
             </pre>
-        {selectedUser && <div style={{backgroundColor: "lightgray"}}>
+        {<div style={{backgroundColor: "lightgray"}}>
             <form>
                 {
                     bands?.map((band) => {

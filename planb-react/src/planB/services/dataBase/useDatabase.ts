@@ -10,7 +10,7 @@ export function useDatabase(path: string | undefined) {
             const subscription = ref.on("value", snapshot =>
             {
                 setValue(() => snapshot);
-            });
+            }, (err: any) => console.error(err));
             return () => {
                 ref.off("value", subscription)
             }

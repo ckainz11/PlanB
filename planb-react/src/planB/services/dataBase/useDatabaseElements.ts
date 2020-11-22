@@ -12,20 +12,20 @@ export function useDatabaseElements<T extends DataBaseElement>(pathToElements: s
             dispatch({type: ArrayAction.clear});
             const childAdd = ref.on('child_added', function (childSnapshot, prevChildKey) {
                 dispatch({type: ArrayAction.add, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey})
-            });
+            }, (err: any) => console.error(err));
 
             const childChange = ref.on('child_changed', function (childSnapshot) {
                 dispatch({type: ArrayAction.change, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}})
-            });
+            }, (err: any) => console.error(err));
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 dispatch({type: ArrayAction.remove, payload:{dataBaseID: oldChildSnapshot.key, ...oldChildSnapshot.val()}})
 
-            });
+            }, (err: any) => console.error(err));
 
             const childMove = ref.on('child_moved', function (childSnapshot, prevChildKey) {
                 dispatch({type: ArrayAction.move, payload:{dataBaseID: childSnapshot.key, ...childSnapshot.val()}, prevChildKey: prevChildKey})
-            });
+            }, (err: any) => console.error(err));
 
             return () => {
                 ref.off("child_added", childAdd);
