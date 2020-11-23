@@ -4,8 +4,8 @@ import {useCallback, useEffect} from "react";
 import firebase from "firebase";
 
 type OperationType =
-    { type: "add", payload: Band } |
-    { type: "remove", payload: Band }
+    { type: "add", payload: Session } |
+    { type: "remove", payload: Session }
     ;
 
 export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => void] {
@@ -37,7 +37,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                     }
 
                     sessionRef.set({
-                        ...operation.payload, dataBaseID: undefined
+                        ...operation.payload,
                     }).catch(error => console.log(error));
                     break;
                 case "remove":
