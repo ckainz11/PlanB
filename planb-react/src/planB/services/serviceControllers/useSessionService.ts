@@ -1,6 +1,6 @@
 import {useDatabaseElements} from "..";
 import {Band, Session, Song} from "../../resources";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
 import firebase from "firebase";
 
 type OperationType =
@@ -9,15 +9,15 @@ type OperationType =
     ;
 
 export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => void] {
-    const [sessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
+    const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
+    const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
     //Todo: optimize
-    if (sessions) {
-        for (let session of sessions) {
-            session.start = new Date(session.start);
-            session.end = new Date(session.end);
+    useEffect(() => {
+        if (rawSessions) {
+            setCompiledSessions(rawSessions.map((session) => ({...session, start: new Date(session.start), end: new Date(session.end)})));
         }
-    }
+    }, [rawSessions]);
 
     const sessionOperation = useCallback((operation: OperationType) => {
         if (band) {
@@ -35,5 +35,5 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         }
     }, [band]);
 
-    return [sessions, sessionOperation];
+    return [compiledSessions, sessionOperation];
 }
