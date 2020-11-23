@@ -1,12 +1,16 @@
 import React, {useContext, useState} from "react";
 
-import {Button, Form, FormField, Input, Modal} from "semantic-ui-react";
+import {Button, Form, FormField, FormGroup, Input, Modal} from "semantic-ui-react";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 
 import {BandContext} from "../contexts";
 import {Session} from "../resources";
 
 import {useSessionService} from "../services";
+
+const convertToDatabaseID = (name: string): string => {
+    return name.replace(" ", "_");
+};
 
 export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreatePopupProps) => {
 
@@ -20,12 +24,15 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         <Modal.Content>
             <Form>
                 <FormField>
-                        <SemanticDatepicker inverted onChange={(event, data) => { data.value && setSession({...session, date: data.value as Date}) }} />
+                    <Input label="Session Name" placeholder={sessionName} onChange={(event, data) => {setSession({...session, dataBaseID: convertToDatabaseID(data.value)})}} />
                 </FormField>
-                <FormField>
-                    <Input label="Session Name" placeholder={sessionName} />
-                </FormField>
-                <Button content={"Create!"}  />
+                <FormGroup widths={"equal"} >
+                    <FormField control={SemanticDatepicker} label={"Date"} onChange={(value: Date) => {value && setSession({...session, date:value})}} />
+                    <FormField control={Input} label={"From"} />
+                    <FormField control={Input} label={"To"}  />
+                </FormGroup>
+
+                <Button content={"Create!"} onClick={() => console.log(session.date)}  />
             </Form>
         </Modal.Content>
 
