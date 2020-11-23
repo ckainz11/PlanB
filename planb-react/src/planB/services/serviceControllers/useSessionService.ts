@@ -23,7 +23,6 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (band) {
             switch (operation.type) {
                 case "add":
-
                     firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
                         ...operation.payload, start: operation.payload.start.toString(), end: operation.payload.end.toString()
                     }, (err) => console.log(err));
