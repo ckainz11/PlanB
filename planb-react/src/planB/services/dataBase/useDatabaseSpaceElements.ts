@@ -8,38 +8,28 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
     const listenersRef = useRef(new Map<string, any>());
 
-
     useEffect(() => {
         if (pathToSpace && pathToElements) {
             const listeners: Map<string, any> = listenersRef.current;
             const ref = firebase.database().ref(pathToSpace).orderByKey();
-            dispatch({type: ArrayAction.clear});
+
+            ref.limitToFirst(1).once("value", (snapshot) => {
+                if (!snapshot.val()) {
+                    dispatch({type: ArrayAction.clear});
+                }
+            });
 
             const childAdd = ref.on('child_added', function (childSnapshot) {
                 if (childSnapshot.key) {
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
-
-                    //TODO: Optimize
-                    elementRef.once("value").then(snapshot => {
+                    listeners.set(childSnapshot.key, elementRef.on("value", snapshot => {
                         snapshot.key && dispatch({
                             type: ArrayAction.add,
                             payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                         })
-                    }, (err: any) => console.error(err));
-
-                    // let first = true;
-
-                    listeners.set(childSnapshot.key, elementRef.on("value", snapshot => {
-                        // if (first) first = false
-                        // else {
-                            snapshot.key && dispatch({
-                                type: ArrayAction.change,
-                                payload: {dataBaseID: snapshot.key, ...snapshot.val()}
-                            })
-                        // }
-                    }, (err: any) => console.error(err)));
+                    }, (err: any) => {if (err) console.error(err)}));
                 }
-            }, (err: any) => console.error(err));
+            }, (err: any) => {if (err) console.error(err)});
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 if (oldChildSnapshot.key) {
@@ -49,7 +39,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                         payload: {dataBaseID: oldChildSnapshot.key}
                     });
                 }
-            }, (err: any) => console.error(err));
+            }, (err: any) => {if (err) console.error(err)});
 
             return () => {
                 ref.off("child_added", childAdd);

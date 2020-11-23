@@ -6,7 +6,6 @@ export * from "./serviceControllers/useBandService";
 export * from "./serviceControllers/useSessionService";
 export * from "./serviceControllers/useMemberService";
 export * from "./serviceControllers/useSongService";
-export * from "./serviceControllers/usePlanBUserService";
 export * from "./serviceControllers/useAssignedSongService";
 export * from "./serviceControllers/usePersonalService";
 

@@ -12,7 +12,6 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
     const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
-    //Todo: optimize
     useEffect(() => {
         if (rawSessions) {
             setCompiledSessions(rawSessions.map((session) => ({...session, start: new Date(session.start), end: new Date(session.end)})));

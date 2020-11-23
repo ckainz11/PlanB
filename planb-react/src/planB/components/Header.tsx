@@ -41,7 +41,7 @@ export const Header = () => {
                 </div>
             </div>
             <div className={"headerItem right"}>
-                <div style={{backgroundImage: `url(${me?.photoUrl})`}} className={"userIcon"}/>
+                <div style={{backgroundColor: "#8662BC",backgroundImage: `url(${me?.photoUrl})`}} className={"userIcon"}/>
             </div>
 
         </div>
