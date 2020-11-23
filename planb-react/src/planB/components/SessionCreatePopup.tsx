@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 
-import {Button, Form, FormField, FormGroup, Input, Modal} from "semantic-ui-react";
+import {Button, Form, FormField, FormGroup, Input, Modal, TextArea} from "semantic-ui-react";
 
 import {BandContext} from "../contexts";
 import {Session} from "../resources";
@@ -52,12 +52,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
             ...session,
             start: parseDateString(date, startTime),
             end: parseDateString(date, endTime),
-            description: "cooler test yayayaya",
-            location: "Proberaum Naschmarkt"
         };
-
-        console.log(JSON.stringify(finalSession));
-
         sessionOperation({type:"add", payload:finalSession})
 
     }
@@ -67,21 +62,27 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         <Modal.Content>
             <Form>
                 <FormField>
-                    <Input placeholder={sessionName} onChange={(event, data) => {
-                        setSession({...session, name: data.value})
+                    <Input defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
+                        setSession((oldValue) => {return {...session, name: data.value}})
                     }}/>
                 </FormField>
                 <FormField>
                     <DateInput inline name="date" value={date} onChange={handleDateInput}/>
                 </FormField>
-                <FormGroup>
+                <FormGroup widths={"equal"} >
                     <FormField>
                         <TimeInput value={startTime} name={"start"} onChange={handleTimeInput}/>
                     </FormField>
                     <FormField>
                         <TimeInput value={endTime} name={"end"} onChange={handleTimeInput}/>
                     </FormField>
+                    <FormField>
+                        <Input onChange={((event, data) => {setSession({...session, location: data.value})})} />
+                    </FormField>
                 </FormGroup>
+                <FormField>
+                    <TextArea onChange={(event, data) => {setSession({...session, description: data.value as string})}} />
+                </FormField>
 
                 <Button className={"color-positive"} content={"Create!"} onClick={() => pushSession()}/>
             </Form>

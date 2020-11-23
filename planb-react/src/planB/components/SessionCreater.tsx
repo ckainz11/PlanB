@@ -15,26 +15,25 @@ export const SessionCreater = () => {
 
 
     return <div>
-    <Input type={"text"} inverted placeholder={"Enter a name..."} action={
-        <Button
-            className={"color-positive"}
-            content={"Create!"}
-            onClick={event => {
-                setOpen(true);
-                console.log(sessionName);
-            }}
+        <Input type={"text"} inverted placeholder={"Enter a name..."}
+               onChange={(event, data) => setSessionName(data.value)}
+               onKeyDown={(e: { keyCode: number; }) => {
+                   if (e.keyCode === 13) {
+                       setOpen(true);
+                   }
+               }}
+               action={
+                   <Button
+                       className={"color-positive"}
+                       content={"Create!"}
+                       onClick={event => {
+                           setOpen(true);
+                       }}
+                   />
+               }
+
         />
-    }
-                  onChange={(event, data) => setSessionName(data.value)}
-                  onKeyDown={(e: { keyCode: number; }) => {
-                      if (e.keyCode === 13)
-                          {
-                              setOpen(true);
-                              console.log(sessionName);
-                          }
-                  }}
-    />
-    <SessionCreatePopup open={open} sessionName={sessionName} closeModal={close} />
+        {open && <SessionCreatePopup open={true} sessionName={sessionName} closeModal={close}/>}
     </div>
 
 
