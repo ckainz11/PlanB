@@ -8,12 +8,9 @@ import {VoteDisplay} from "./VoteDisplay";
 export const SessionDisplay = ({meeting}: MeetingDisplayProps) => {
 
 
-
-    return <Container className={"meeting-display"} inverted basic >
-        <h1 className={"meeting-header"} >{meeting.dataBaseID}</h1>
+    return <Container className={"meeting-display"} inverted basic>
+        <h1 className={"meeting-header"}>{meeting.name}</h1>
         <SessionControls meeting={meeting}/>
-
-
     </Container>
 
 

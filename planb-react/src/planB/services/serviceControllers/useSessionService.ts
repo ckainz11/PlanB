@@ -11,17 +11,11 @@ type OperationType =
 export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => void] {
     const [sessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
 
-    useEffect(() => {
-
-    }, [sessions]);
-
-    //TODO: Remove with sample data
+    //Todo: optimize
     if (sessions) {
-        for (let s of sessions) {
-            if (!s.start)
-                s.start = new Date(9999, 1, 1, 4, 20);
-            if (!s.end)
-                s.end = new Date(9999, 1, 1, 4, 21);
+        for (let session of sessions) {
+            session.start = new Date(session.start);
+            session.end = new Date(session.end);
         }
     }
 
@@ -29,9 +23,10 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (band) {
             switch (operation.type) {
                 case "add":
+                    console.log(operation.payload);
                     firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
-                        ...operation.payload,
-                    }, (err) => console.log(err?.message));
+                        ...operation.payload, start: operation.payload.start.toString(), end: operation.payload.end.toString()
+                    }, (err) => console.log(err));
                     break;
                 case "remove":
                     firebase.database().ref("bandSpace/sessions/").remove().catch(error => console.log(error));
