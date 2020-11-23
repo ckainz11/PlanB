@@ -56,6 +56,8 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
             location: "Proberaum Naschmarkt"
         };
 
+        console.log(JSON.stringify(finalSession));
+
         sessionOperation({type:"add", payload:finalSession})
 
     }

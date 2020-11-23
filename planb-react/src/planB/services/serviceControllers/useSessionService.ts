@@ -29,16 +29,9 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (band) {
             switch (operation.type) {
                 case "add":
-                    const sessionRef = firebase.database().ref("bandSpace/sessions/").push();
-                    const sessionID = sessionRef.key;
-
-                    if (!sessionID) {
-                        return;
-                    }
-
-                    sessionRef.set({
+                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
                         ...operation.payload,
-                    }).catch(error => console.log(error));
+                    }, (err) => console.log(err?.message));
                     break;
                 case "remove":
                     firebase.database().ref("bandSpace/sessions/").remove().catch(error => console.log(error));

@@ -11,6 +11,11 @@ import {Band, Session, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
 import {Link} from "react-router-dom";
 
+function addMember (event: any) {
+
+}
+
+
 export function ServiceView() {
 
     //Authentication
@@ -26,6 +31,10 @@ export function ServiceView() {
 
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
     const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
+
+    //Forms
+    const [addMemberUid, setAddMemberUid] = useState("");
+
 
 
     useEffect(() => {
@@ -83,6 +92,12 @@ export function ServiceView() {
             <pre>
             {JSON.stringify(members, null, 2)}
             </pre>
+            <form onSubmit={() => {
+                console.log(`Add member ${addMemberUid}`)
+            }}>
+                <input onChange={(e) => setAddMemberUid(e.target.value)} value={addMemberUid} type="text" placeholder={"uid"}/>
+                <button type={"submit"}>Add member</button>
+            </form>
             <h4>Meetings</h4>
             <pre>
             {JSON.stringify(meetings, null, 2)}
