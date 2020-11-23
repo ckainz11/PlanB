@@ -10,7 +10,7 @@ import {SessionCreater} from "../components/SessionCreater";
 
 export const Planner = () => {
     const [selectedBand, setSelectedBand] = useState<Band>();
-    const [user, signIn] = usePersonalService();
+    const [user, userOperation] = usePersonalService();
     const [sessions, addSession] = useSessionService(selectedBand);
 
     return <div className={"Planner"}>

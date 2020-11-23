@@ -18,12 +18,14 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
             const childAdd = ref.on('child_added', function (childSnapshot) {
                 if (childSnapshot.key) {
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
+
+                    //TODO: Optimize
                     elementRef.once("value").then(snapshot => {
                         snapshot.key && dispatch({
                             type: ArrayAction.add,
                             payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                         })
-                    });
+                    }, (err: any) => console.error(err));
 
                     // let first = true;
 
@@ -35,9 +37,9 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                                 payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                             })
                         // }
-                    }));
+                    }, (err: any) => console.error(err)));
                 }
-            });
+            }, (err: any) => console.error(err));
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 if (oldChildSnapshot.key) {
@@ -47,7 +49,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                         payload: {dataBaseID: oldChildSnapshot.key}
                     });
                 }
-            });
+            }, (err: any) => console.error(err));
 
             return () => {
                 ref.off("child_added", childAdd);

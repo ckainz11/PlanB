@@ -4,16 +4,25 @@ import {User} from "../../resources";
 import {useDatabase} from "../index";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
+type OperationType =
+    { type: "signInWithGoogle" } |
+    { type: "signOut" }
+    ;
 
-export function usePersonalService () : [User | undefined, () => void, () => void]{
+export function usePersonalService(): [User | undefined, (operation: OperationType) => void] {
     const [uid, setUid] = useState<string>();
     const [currentUser] = useDatabaseSingleElement<User>(uid && `users/${uid}`)
-    const [googleProvider, setGoogleProvider] = useState(new firebase.auth.GoogleAuthProvider())
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                const newUser: User = {dataBaseID: user.uid, email: user.email, emailVerified: user.emailVerified, photoUrl: user.photoURL, userName: user.displayName};
+                const newUser: User = {
+                    dataBaseID: user.uid,
+                    email: user.email || undefined,
+                    emailVerified: user.emailVerified,
+                    photoUrl: user.photoURL || undefined,
+                    userName: user.displayName || undefined
+                };
                 const {dataBaseID, ...userData} = newUser;
                 firebase.database().ref(`users/${dataBaseID}`).update(userData).then(() => {
                     setUid(newUser.dataBaseID);
@@ -24,16 +33,17 @@ export function usePersonalService () : [User | undefined, () => void, () => voi
         });
     }, [setUid]);
 
-    const signInWithGoogle = useCallback(() => {
-        firebase.auth().signInWithPopup(googleProvider).then(function(result) {
-        }).catch(function(error) {
-            alert(error)
-        });
-    }, [googleProvider]);
+    const personalOperation = useCallback((operation: OperationType) => {
+        switch (operation.type) {
+            case "signInWithGoogle":
+                const googleProvider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithPopup(googleProvider).catch(error => {alert(error)});
+                break;
+            case "signOut":
+                firebase.auth().signOut().catch(error => console.log(error));
+                break;
+        }
+    }, []);
 
-    const signOut = useCallback(() => {
-        firebase.auth().signOut();
-    }, [])
-
-    return [currentUser, signInWithGoogle, signOut];
+    return [currentUser, personalOperation];
 }

@@ -7,7 +7,7 @@ export const SessionControls = ({meeting}: MeetingControlsProps) => {
     return     <div className={"meeting-controls"}>
         <Button inverted icon="list" basic/>
         <div className={"meeting-date-info"} >
-            <h5>{meeting.date}, {meeting.startTime}-{meeting.endTime}</h5>
+            <h5>{meeting.start.toLocaleDateString()}, {meeting.start.toLocaleTimeString()}-{meeting.end.toLocaleTimeString()}</h5>
         </div>
         <div className={"meeting-vote-controls"}>
             <Button className={"color-positive"} icon="check" />
