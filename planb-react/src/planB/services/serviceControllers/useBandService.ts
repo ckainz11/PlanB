@@ -14,6 +14,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
     const bandOperation = useCallback((operation: OperationType) => {
         if (user) {
             switch (operation.type) {
+                //TODO: fix
                 case "add":
                     const bandRef = firebase.database().ref("bands/").push();
                     const bandID = bandRef.key;
