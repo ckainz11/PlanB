@@ -13,6 +13,8 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
             const listeners: Map<string, any> = listenersRef.current;
             const ref = firebase.database().ref(pathToSpace).orderByKey();
 
+            dispatch({type: ArrayAction.undefine});
+
             ref.limitToFirst(1).once("value", (snapshot) => {
                 if (!snapshot.val()) {
                     dispatch({type: ArrayAction.clear});

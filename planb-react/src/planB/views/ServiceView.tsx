@@ -25,7 +25,7 @@ export function ServiceView() {
     const [bands] = useBandService(me);
 
     const [selectedBand, setSelectedBand] = useState<Band>();
-    const [members] = useMemberService(selectedBand);
+    const [members, memberOperation] = useMemberService(selectedBand);
     const [meetings] = useSessionService(selectedBand);
     const [songs] = useSongService(selectedBand);
 
@@ -92,8 +92,10 @@ export function ServiceView() {
             <pre>
             {JSON.stringify(members, null, 2)}
             </pre>
-            <form onSubmit={() => {
+            <form onSubmit={(event) => {
+                event.preventDefault();
                 console.log(`Add member ${addMemberUid}`)
+                memberOperation({type: "add", payload: {dataBaseID: addMemberUid} as User});
             }}>
                 <input onChange={(e) => setAddMemberUid(e.target.value)} value={addMemberUid} type="text" placeholder={"uid"}/>
                 <button type={"submit"}>Add member</button>

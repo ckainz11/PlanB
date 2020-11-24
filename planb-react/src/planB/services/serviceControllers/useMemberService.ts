@@ -8,7 +8,7 @@ type OperationType =
     {type: "remove", payload: User}
     ;
 
-export function useMemberService(band: Band | undefined): (User[] | undefined)[] {
+export function useMemberService(band: Band | undefined): [User[] | undefined, (operation: OperationType) => void] {
     const [members] = useDatabaseSpaceElements<User>(band && `bandSpace/${band.dataBaseID}/members`, 'users');
 
     const memberOperation = useCallback((operation: OperationType) => {
@@ -28,6 +28,6 @@ export function useMemberService(band: Band | undefined): (User[] | undefined)[]
 
 
     return [
-        members
+        members, memberOperation
     ];
 }
