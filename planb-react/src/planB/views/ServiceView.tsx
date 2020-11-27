@@ -10,10 +10,8 @@ import {
 import {Band, Session, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
 import {Link} from "react-router-dom";
+import faker from 'faker'
 
-function addMember(event: any) {
-
-}
 
 
 export function ServiceView() {
@@ -22,7 +20,7 @@ export function ServiceView() {
     const [me, personalOperation] = usePersonalService();
 
     //Data
-    const [bands] = useBandService(me);
+    const [bands, bandOperation] = useBandService(me);
 
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members, memberOperation] = useMemberService(selectedBand);
@@ -76,7 +74,15 @@ export function ServiceView() {
         <h2>Bands:</h2>
         <pre>
             {JSON.stringify(bands, null, 2)}
-            </pre>
+        </pre>
+
+        <form onSubmit={(event) => {
+            event.preventDefault();
+            console.log(`Add random band`)
+            bandOperation({type: "add", payload: {dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase()}});
+        }}>
+            <button type={"submit"}>Add random band</button>
+        </form>
 
         <form>
             {

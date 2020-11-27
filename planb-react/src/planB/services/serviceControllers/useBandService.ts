@@ -14,38 +14,43 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
     const bandOperation = useCallback((operation: OperationType) => {
         if (user) {
             switch (operation.type) {
-                //TODO: fix
+                //TODO: test
+                //TODO: update rules
                 case "add":
-                    const bandRef = firebase.database().ref("bands/").push();
-                    const bandID = bandRef.key;
+                    const bandID = firebase.database().ref("bands/").push({
+                        ...operation.payload, dataBaseID: null
+                    }, (error) => {
+                        error && console.log("1 " + error)
+                    }).key;
 
                     if (!bandID) {
                         return;
                     }
 
-                    bandRef.set({
-                        ...operation.payload, dataBaseID: undefined
-                    }).catch(error => console.log(error));
+                    firebase.database().ref("bandSpace/" + bandID + "/leaders").set({[user.dataBaseID]: true})
+                        .catch(error => {
+                            error && console.log("2.0 " + error)
+                        });
 
+                    firebase.database().ref("bandSpace/" + bandID + "/members").set({[user.dataBaseID]: true})
+                        .catch(error => {
+                            error && console.log("2.1 " + error)
+                        });
 
-                    firebase.database().ref("bandSpace/" + bandID).set({
-                        members: {[user.dataBaseID]: true},
-                        leader: {[user.dataBaseID]: true},
-                    }).catch(error => console.log(error));
+                    firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + bandID).set(true)
+                        .catch(error => {
+                            error && console.log("3 " + error)
+                        });
 
-                    firebase.database().ref("userSpace/" + user + "/bands").set({
-                        [bandID]: true
-                    }).catch(error => console.log(error));
                     break;
                 case "remove":
-                    firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
-                    firebase.database().ref("userSpace/" + user + "/bands").remove().catch(error => console.log(error));
+                    firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
+                    firebase.database().ref("userSpace/" + user + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     break;
             }
         }
     }, [user]);
-
 
 
     return [bands, bandOperation];

@@ -34,7 +34,8 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                         ...operation.payload,
                         start: operation.payload.start.toString(),
                         end: operation.payload.end.toString(),
-                        proposer: uid
+                        proposer: uid,
+                        dataBaseID: null
                     }, (err) => {
                         if (err) {
                             console.log(err)
