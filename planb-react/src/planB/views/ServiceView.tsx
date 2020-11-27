@@ -35,6 +35,7 @@ export function ServiceView() {
     //Forms
     const [addMemberUid, setAddMemberUid] = useState("");
     const [removeSessionId, setRemoveSessionId] = useState("");
+    const [removeBandId, setRemoveBandId] = useState("");
 
 
     useEffect(() => {
@@ -82,6 +83,16 @@ export function ServiceView() {
             bandOperation({type: "add", payload: {dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase()}});
         }}>
             <button type={"submit"}>Add random band</button>
+        </form>
+
+        <form onSubmit={(event) => {
+            event.preventDefault();
+            console.log(`Remove band ${addMemberUid}`)
+            bandOperation({type: "remove", payload: {dataBaseID: removeBandId} as Band});
+        }}>
+            <input onChange={(e) => setRemoveBandId(e.target.value)} value={removeBandId} type="text"
+                   placeholder={"id"}/>
+            <button type={"submit"}>Remove band</button>
         </form>
 
         <form>
