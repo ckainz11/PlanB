@@ -84,7 +84,10 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                     <TextArea onChange={(event, data) => {setSession({...session, description: data.value as string})}} />
                 </FormField>
 
-                <Button className={"color-positive"} content={"Create!"} onClick={() => pushSession()}/>
+                <Button className={"color-positive"} content={"Create!"} onClick={() => {
+                    pushSession();
+                    closeModal();
+                }}/>
             </Form>
         </Modal.Content>
 
