@@ -98,6 +98,18 @@ body {
 .meeting-date-info{
     display: flex;
 }
+.single-vote-display{
+
+}
+.single-vote-square{
+    position: relative;
+    height: 15px;
+    width: 15px;
+    border-radius: 2px;
+    background-color: #008A96;
+    left:50.25%;
+    top:-20%;
+}
 
 
 @keyframes spin {

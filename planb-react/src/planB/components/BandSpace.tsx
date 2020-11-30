@@ -17,7 +17,7 @@ export const BandSpace = () => {
             <Divider/>
             <SessionCreater/>
             {sessions?.map(session => {
-                return <SessionDisplay meeting={session} key={session.dataBaseID}/>
+                return <SessionDisplay session={session} key={session.dataBaseID}/>
             })}
         </div>
     } else {

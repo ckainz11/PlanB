@@ -1,21 +1,24 @@
 import React from "react";
 
 import {Session} from "../resources";
-import {Button, Container, Segment} from "semantic-ui-react";
+import {Container} from "semantic-ui-react";
 import {SessionControls} from "./SessionControls";
 import {VoteDisplay} from "./VoteDisplay";
 
-export const SessionDisplay = ({meeting}: MeetingDisplayProps) => {
+
+export const SessionDisplay = ({session}: MeetingDisplayProps) => {
 
 
     return <Container className={"meeting-display"} inverted basic>
-        <h1 className={"meeting-header"}>{meeting.name}</h1>
-        <SessionControls meeting={meeting}/>
+        <h1 className={"meeting-header"}>{session.name}</h1>
+        <VoteDisplay session={session} />
+        <SessionControls meeting={session}/>
+
     </Container>
 
 
 };
 
 type MeetingDisplayProps = {
-    meeting: Session;
+    session: Session;
 }
