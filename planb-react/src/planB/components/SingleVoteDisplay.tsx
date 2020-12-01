@@ -8,10 +8,8 @@ export const SingleVoteDisplay = ({userID, voteValue}: SingleVoteDisplayProps) =
     const [me] = usePersonalService();
 
     return <div className={"single-vote-display"}>
-        <div>
-            <Image size={"mini"} avatar src={me?.photoUrl}></Image>
+            <Image size={"mini"} avatar src={me?.photoUrl}/>
             <div className={"single-vote-square"}/>
-        </div>
     </div>
 }
 

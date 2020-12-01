@@ -99,16 +99,17 @@ body {
     display: flex;
 }
 .single-vote-display{
+    display: inline-block;
 
 }
-.single-vote-square{
+.single-vote-square {
     position: relative;
     height: 15px;
     width: 15px;
     border-radius: 2px;
     background-color: #008A96;
-    left:50.25%;
-    top:-20%;
+    bottom: 25%;
+    left: 60%;
 }
 
 
