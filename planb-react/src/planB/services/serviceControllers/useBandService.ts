@@ -10,15 +10,12 @@ type OperationType =
 
 export function useBandService(user: User | undefined): [Band[] | undefined, (operation: OperationType) => void] {
     const [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
-
     const bandOperation = useCallback((operation: OperationType) => {
         if (user) {
             switch (operation.type) {
-                //TODO: test
-                //TODO: update rules
                 case "add":
                     const bandID = firebase.database().ref("bands/").push({
-                        ...operation.payload, dataBaseID: null
+                        ...operation.payload, dataBaseID: null, leader: user.dataBaseID
                     }, (error) => {
                         error && console.log("1 " + error)
                     }).key;
@@ -27,12 +24,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                         return;
                     }
 
-                    firebase.database().ref("bandSpace/" + bandID + "/leaders").set({[user.dataBaseID]: true})
-                        .catch(error => {
-                            error && console.log("2.0 " + error)
-                        });
-
-                    firebase.database().ref("bandSpace/" + bandID + "/members").set({[user.dataBaseID]: true})
+                    firebase.database().ref("bandSpace/" + bandID + "/members/"+user.dataBaseID).set(true)
                         .catch(error => {
                             error && console.log("2.1 " + error)
                         });
@@ -45,8 +37,8 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                     break;
                 case "remove":
                     firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
+                    firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
-                    firebase.database().ref("userSpace/" + user + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     break;
             }
         }

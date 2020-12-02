@@ -6,50 +6,77 @@ import {type} from "os";
 
 export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace: string | undefined, pathToElements: string | undefined): (T[] | undefined)[] {
     const [elements, dispatch] = useReducer(ArrayReducer, undefined);
-    const listenersRef = useRef(new Map<string, any>());
 
+    //Be careful! This data structure was a vary bad idea... :(
+    const listenersRef = useRef(new Map<string, [firebase.database.Reference, () => any]>());
+
+    //If any path changes then reload all listeners
     useEffect(() => {
         if (pathToSpace && pathToElements) {
+            //Store all open listeners in a map, to close them later
             const listeners: Map<string, any> = listenersRef.current;
-            const ref = firebase.database().ref(pathToSpace).orderByKey();
 
+            //Ref to the ids of the elements
+            const ref = firebase.database().ref(pathToSpace);
+
+            //Clear current elements
             dispatch({type: ArrayAction.undefine});
 
+            //Check if there is at least one item. If yes, then set the array to clear
             ref.limitToFirst(1).once("value", (snapshot) => {
                 if (!snapshot.val()) {
                     dispatch({type: ArrayAction.clear});
                 }
+            }, (err: any) => {
+                if (err) console.error(err)
             });
 
+
+            //Listen to ids of added element
             const childAdd = ref.on('child_added', function (childSnapshot) {
                 if (childSnapshot.key) {
+                    //Ref to the added element
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
-                    listeners.set(childSnapshot.key, elementRef.on("value", snapshot => {
+
+                    //Add a listener to listen to its value and store it for later cleaning
+                     const elementListener = elementRef.on("value", snapshot => {
+                        console.log("Band changed: "+snapshot.key)
+                        //Update or add the element
                         snapshot.key && dispatch({
-                            type: ArrayAction.add,
+                            type: ArrayAction.change,
                             payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                         })
-                    }, (err: any) => {if (err) console.error(err)}));
+                    }, (err: any) => {
+                        if (err) console.error(err)
+                    });
+
+                    listeners.set(childSnapshot.key, [elementRef, elementListener]);
                 }
-            }, (err: any) => {if (err) console.error(err)});
+            }, (err: any) => {
+                if (err) console.error(err)
+            });
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
+                console.log("Band removed from list: " + oldChildSnapshot.key)
                 if (oldChildSnapshot.key) {
+                    const listenerArr = listeners.get(oldChildSnapshot.key);
+                    listenerArr[0].off("value", listenerArr[1]);
                     listeners.delete(oldChildSnapshot.key);
                     dispatch({
                         type: ArrayAction.remove,
                         payload: {dataBaseID: oldChildSnapshot.key}
                     });
                 }
-            }, (err: any) => {if (err) console.error(err)});
+            }, (err: any) => {
+                if (err) console.error(err)
+            });
 
             return () => {
                 ref.off("child_added", childAdd);
                 ref.off("child_removed", childRemove);
 
-                listeners.forEach((value) => {
-                    ref.off("value", listeners.get(value));
-
+                listeners.forEach((value, key) => {
+                    value[0].off("value", listeners.get(value[1]));
                 });
 
                 listeners.clear();

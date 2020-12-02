@@ -35,7 +35,7 @@ export const Header = () => {
                         onChange={handleChange}
                         placeholder={"select band"}
                         options={bands?.map((band) => {
-                            return {key: band.dataBaseID, value: band.dataBaseID, text: band.dataBaseID}
+                            return {key: band.dataBaseID, value: band.dataBaseID, text: band.name}
                         }) || []}
                     />
                 </div>
