@@ -17,9 +17,8 @@ const getColor = (value: number) => {
 
 export const SingleVoteDisplay = ({user, session}: SingleVoteDisplayProps) => {
 
-    const [me] = usePersonalService();
     const [band] = useContext(BandContext);
-    const [vote] = useVoteService(me, band, session);
+    const [vote] = useVoteService(user, band, session);
 
     return <div className={"single-vote-display"}>
             <Image size={"mini"} avatar src={user.photoUrl}/>
