@@ -14,7 +14,7 @@ export function useSongService(band: Band | undefined): (Song[] | undefined)[] {
     const songOperation = useCallback((operation: OperationType) => {
         if (band) {
             switch (operation.type) {
-                //TODO: fix
+                //TODO: implement
                 case "add":
                     const songRef = firebase.database().ref("bandSpace/songs/").push();
                     const songID = songRef.key;

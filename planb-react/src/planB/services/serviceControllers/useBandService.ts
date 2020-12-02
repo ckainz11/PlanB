@@ -36,7 +36,6 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
 
                     break;
                 case "remove":
-                    //TODO: Fix rules
                     firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
