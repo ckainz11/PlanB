@@ -12,7 +12,7 @@ export const SessionDisplay = ({session}: MeetingDisplayProps) => {
     return <Container className={"meeting-display"} inverted basic>
         <h1 className={"meeting-header"}>{session.name}</h1>
         <VoteDisplay session={session} />
-        <SessionControls meeting={session}/>
+        <SessionControls session={session}/>
 
     </Container>
 

@@ -1,4 +1,3 @@
-import {useDatabase, useDatabaseElements, useMemberService, usePersonalService} from "../index";
 import {Band, DataBaseElement, Session, Song, User, Vote} from "../../resources";
 import {type} from "os";
 import {useCallback, useEffect, useState} from "react";
@@ -16,7 +15,7 @@ export function useVoteService(user:User | undefined, band:Band | undefined, ses
         if (band && session && user) {
             switch (operation.type) {
                 case "add":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`).set({...operation.payload, dataBaseID: undefined}).catch(error => console.log(error));
+                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`).set({...operation.payload, dataBaseID: null}).catch(error => console.log(error));
                     break;
             }
         }

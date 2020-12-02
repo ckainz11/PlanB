@@ -17,13 +17,12 @@ const getColor = (value: number) => {
 
 export const SingleVoteDisplay = ({user, session}: SingleVoteDisplayProps) => {
 
-    const [me] = usePersonalService();
     const [band] = useContext(BandContext);
-    const [vote] = useVoteService(me, band, session);
+    const [vote] = useVoteService(user, band, session);
 
     return <div className={"single-vote-display"}>
-            <Image size={"tiny"} avatar src={user.photoUrl}/>
-            <div className={"single-vote-square" + getColor(vote?.value as number)}/>
+            <Image size={"mini"} avatar src={user.photoUrl}/>
+            <div className={"single-vote-square " + getColor(vote?.value as number)}/>
     </div>
 }
 
