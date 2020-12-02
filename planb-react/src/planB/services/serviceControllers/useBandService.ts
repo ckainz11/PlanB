@@ -10,7 +10,6 @@ type OperationType =
 
 export function useBandService(user: User | undefined): [Band[] | undefined, (operation: OperationType) => void] {
     const [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
-
     const bandOperation = useCallback((operation: OperationType) => {
         if (user) {
             switch (operation.type) {
@@ -39,8 +38,8 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                 case "remove":
                     //TODO: Fix rules
                     firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
-                    firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
+                    firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
                     break;
             }
         }
