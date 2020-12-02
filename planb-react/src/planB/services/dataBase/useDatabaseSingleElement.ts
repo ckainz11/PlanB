@@ -7,6 +7,7 @@ export function useDatabaseSingleElement<T extends DataBaseElement>(pathToElemen
     const [element, setElement] = useState<T>();
 
     useEffect(() => {
+
         if (databaseValue) {
             setElement({dataBaseID: databaseValue.key, ...databaseValue.val()})
         } else {
