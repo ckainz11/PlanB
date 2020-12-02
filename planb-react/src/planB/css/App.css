@@ -85,6 +85,10 @@ body {
     justify-content: space-between;
     padding: 0.5%;
 }
+.color-grey{
+    background-color: #dddddd !important;
+    color: #dddddd !important;
+}
 .color-positive{
     background-color: #008A96 !important;
     color: #dddddd !important;
@@ -93,11 +97,31 @@ body {
     background-color: #CF6679 !important;
     color: #dddddd !important;
 }
-.meeting-vote
+
 
 .meeting-date-info{
     display: flex;
 }
+.single-vote-display{
+    display: inline-block;
+    margin: .5%;
+}
+.single-vote-square {
+    position: relative;
+    height: 15px;
+    width: 15px;
+    border-radius: 2px;
+    background-color: #008A96;
+    display: block;
+    top: -12px;
+    left: 25px;
+
+}
+.vote-display-wrapper{
+    display: flex;
+    margin-left: 0.1%;
+}
+
 
 
 @keyframes spin {
