@@ -75,7 +75,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                 ref.off("child_added", childAdd);
                 ref.off("child_removed", childRemove);
 
-                listeners.forEach((value) => {
+                listeners.forEach((value, key) => {
                     value[0].off("value", listeners.get(value[1]));
                 });
 
