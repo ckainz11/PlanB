@@ -46,7 +46,7 @@ export function ServiceView() {
         setSelectedMeeting(undefined);
     }, [selectedBand]);
 
-    return <div style={{backgroundColor: "white"}}>
+    return <div>
         <Link to={""}>Back To landing page</Link>
         <h1>Authentication:</h1>
         {!me ?

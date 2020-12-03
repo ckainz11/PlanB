@@ -1,9 +1,9 @@
 body {
     background-color: #121212 !important;
+    color: #dddddd !important;
 }
 
-* {
-}
+
 
 .Planner {
     display: flex;
@@ -35,6 +35,20 @@ body {
     height: 100%;
     animation: spin 1s;
     position: relative;
+}
+.login {
+    text-align: center;
+}
+
+
+
+.login-logo{
+    height: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
 }
 
 .header .headerItem {
