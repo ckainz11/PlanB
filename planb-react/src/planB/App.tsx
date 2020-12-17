@@ -3,7 +3,7 @@ import {Login, Planner, ServiceView} from './views';
 import './css/App.css';
 import {BService, usePersonalService} from "./services";
 import 'semantic-ui-css/semantic.min.css'
-import {Route, Switch, Redirect } from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 
 const bService: BService = new BService();
 

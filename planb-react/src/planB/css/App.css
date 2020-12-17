@@ -136,6 +136,11 @@ body {
     margin-left: 0.1%;
 }
 
+.serviceView, .serviceView button, .serviceView form * {
+    background-color: #121212;
+    color: lawngreen;
+}
+
 
 
 @keyframes spin {

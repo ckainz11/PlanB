@@ -46,7 +46,7 @@ export function ServiceView() {
         setSelectedMeeting(undefined);
     }, [selectedBand]);
 
-    return <div>
+    return <div className={"serviceView"}>
         <Link to={""}>Back To landing page</Link>
         <h1>Authentication:</h1>
         {!me ?
@@ -107,7 +107,7 @@ export function ServiceView() {
                 })
             }
         </form>
-        {selectedBand && <div style={{backgroundColor: "lightgray"}}>
+        {selectedBand && <div>
             <h4>Members</h4>
             <pre>
             {JSON.stringify(members, null, 2)}
@@ -140,7 +140,7 @@ export function ServiceView() {
             {JSON.stringify(songs, null, 2)}
             </pre>
 
-            {selectedBand && <div style={{backgroundColor: "gray"}}>
+            {selectedBand && <div>
                 <form>
                     {
                         sessions?.map((meeting) => {
@@ -154,7 +154,7 @@ export function ServiceView() {
                         })
                     }
                 </form>
-                {selectedMeeting && <div style={{backgroundColor: "darkgray"}}>
+                {selectedMeeting && <div>
                     <h4>Proposer: {proposer?.userName}</h4>
                     <h4>Assigned Songs</h4>
                     <pre>
