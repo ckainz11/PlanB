@@ -1,4 +1,3 @@
-import firebase from 'firebase';
 import {DataBaseElement} from "./DataBaseElement";
 
 export interface Session extends DataBaseElement{

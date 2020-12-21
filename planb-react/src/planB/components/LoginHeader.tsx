@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "../../images/LogoPlanB.png";
-import {Dropdown} from "semantic-ui-react";
 
 export const LoginHeader = () => {
     return <div className="header">

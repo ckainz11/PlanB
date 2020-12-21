@@ -11,6 +11,7 @@ body {
     height: 100vh;
 }
 
+/*noinspection ALL*/
 .bouncingLogo {
     flex: 1 1 auto;
 }
@@ -31,6 +32,7 @@ body {
 
 }
 
+/*noinspection ALL*/
 .header .logo {
     height: 100%;
     animation: spin 1s;
@@ -41,16 +43,14 @@ body {
 }
 
 
-
+/*noinspection ALL*/
 .login-logo{
     height: 40rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin: 2% auto;
 
 }
 
+/*noinspection ALL*/
 .header .headerItem {
     height: 100%;
     display: flex;
@@ -66,10 +66,12 @@ body {
     margin-right: 5em;
 }
 
+/*noinspection ALL*/
 .header .push {
     margin-left: auto;
 }
 
+/*noinspection ALL*/
 .dropdownWrapper {
     text-align: right;
 }
@@ -78,6 +80,7 @@ body {
     color: black;
 }
 
+/*noinspection ALL*/
 .header .userIcon {
     display: block;
     width: 3em;
@@ -116,10 +119,14 @@ body {
 .meeting-date-info{
     display: flex;
 }
+
+/*noinspection ALL*/
 .single-vote-display{
     display: inline-block;
     margin: .5%;
 }
+
+/*noinspection ALL*/
 .single-vote-square {
     position: relative;
     height: 15px;
@@ -131,11 +138,14 @@ body {
     left: 25px;
 
 }
+
+/*noinspection ALL*/
 .vote-display-wrapper{
     display: flex;
     margin-left: 0.1%;
 }
 
+/*noinspection ALL*/
 .serviceView, .serviceView button, .serviceView form * {
     background-color: #121212;
     color: lawngreen;

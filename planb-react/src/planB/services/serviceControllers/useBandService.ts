@@ -1,7 +1,7 @@
 import firebase from "firebase";
-import {useCallback, useContext} from "react";
-import {useDatabase, useDatabaseSpaceElements} from "../index";
-import {Band, Song, User} from "../../resources";
+import {useCallback} from "react";
+import {useDatabaseSpaceElements} from "../index";
+import {Band, User} from "../../resources";
 
 type OperationType =
     { type: "add", payload: Band } |

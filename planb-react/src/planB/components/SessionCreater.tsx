@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {Button, Input} from "semantic-ui-react";
 import {SessionCreatePopup} from "./SessionCreatePopup";
 

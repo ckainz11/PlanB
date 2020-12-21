@@ -1,8 +1,7 @@
 import React, {useContext} from "react";
-import {useVoteService} from "../services/serviceControllers/useVoteService";
-import {Session, Vote} from "../resources";
+import {Session} from "../resources";
 import {BandContext} from "../contexts";
-import {useMemberService, usePersonalService} from "../services";
+import {useMemberService} from "../services";
 import {SingleVoteDisplay} from "./SingleVoteDisplay";
 
 export const VoteDisplay = ({session}:VoteDisplayProps) => {

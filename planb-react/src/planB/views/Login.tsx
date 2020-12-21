@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {usePersonalService} from "../services";
 import {LoginHeader} from "../components/LoginHeader";
 import purpleLogo from "../../images/LogoPlanB_purple.png";

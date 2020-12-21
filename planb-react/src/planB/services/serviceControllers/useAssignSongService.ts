@@ -1,18 +1,17 @@
-import {useCallback, useContext} from "react";
+import {useCallback} from "react";
 import {useDatabaseSpaceElements} from "../index";
-import {Band, Song, Session, User, DataBaseElement} from "../../resources";
+import {Band, Song, Session} from "../../resources";
 import firebase from "firebase";
 
 type OperationType =
     {type: "add", payload: Song} |
-    {type: "remove", payload: DataBaseElement}
+    {type: "remove", payload: Song}
     ;
 
-export function useAssignedSongService(band: (Band | undefined), session: (Session | undefined)): (Song[] | undefined)[] {
+export function useAssignSongService(band: (Band | undefined), session: (Session | undefined)): [(Song[] | undefined), ((operation: OperationType) => void)] {
     const [assignedSongs] = useDatabaseSpaceElements<Song>(band && session && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs`, band && `bandSpace/${band.dataBaseID}/songs`);
 
-    //Todo: Test!!!
-    const memberOperation = useCallback((operation: OperationType) => {
+    const assignSongOperation = useCallback((operation: OperationType) => {
         if (band && session) {
             switch (operation.type) {
                 case "add":
@@ -26,6 +25,7 @@ export function useAssignedSongService(band: (Band | undefined), session: (Sessi
     }, [band, session]);
 
     return [
-        assignedSongs
+        assignedSongs,
+        assignSongOperation
     ];
 }

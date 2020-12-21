@@ -1,6 +1,6 @@
 import {useDatabaseElements} from "..";
-import {Band, Session, Song, User} from "../../resources";
-import {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {Band, Session} from "../../resources";
+import {useCallback, useEffect, useState} from "react";
 import firebase from "firebase";
 
 type OperationType =

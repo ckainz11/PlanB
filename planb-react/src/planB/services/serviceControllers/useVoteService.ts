@@ -1,6 +1,5 @@
-import {Band, DataBaseElement, Session, Song, User, Vote} from "../../resources";
-import {type} from "os";
-import {useCallback, useEffect, useState} from "react";
+import {Band, Session, User, Vote} from "../../resources";
+import {useCallback} from "react";
 import firebase from "firebase";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 

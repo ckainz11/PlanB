@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {
-    useAssignedSongService,
+    useAssignSongService,
     useBandService,
     useSessionService,
     useMemberService,
     usePersonalService,
-    useSongService, useProposerService,
+    useSongService
 } from "../services";
 import {Band, Session, Song, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
@@ -29,8 +29,7 @@ export function ServiceView() {
 
     //Band
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
-    const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
-    const [proposer] = useProposerService(selectedBand, selectedMeeting);
+    const [assSongs, assOperation] = useAssignSongService(selectedBand, selectedMeeting);
     const [songs, songOperation] = useSongService(selectedBand)
 
     //Forms
@@ -39,6 +38,8 @@ export function ServiceView() {
     const [removeBandId, setRemoveBandId] = useState("");
     const [removeSongId, setRemoveSongId] = useState("");
     const [removeMemberID, setRemoveMemberId] = useState("");
+    const [assignSongId, setAssignSongId] = useState("");
+    const [unAssignSongId, setUnAssignSongId] = useState("");
 
 
     useEffect(() => {
@@ -167,11 +168,28 @@ export function ServiceView() {
                     }
                 </form>
                 {selectedMeeting && <div>
-                    <h4>Proposer: {proposer?.userName}</h4>
                     <h4>Assigned Songs</h4>
                     <pre>
                         {JSON.stringify(assSongs, null, 2)}
                     </pre>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                        console.log(`Assign Song ${addMemberUid}`)
+                        assOperation({type: "add", payload: {dataBaseID: assignSongId} as Song});
+                    }}>
+                        <input onChange={(e) => setAssignSongId(e.target.value)} value={assignSongId} type="text"
+                               placeholder={"uid"}/>
+                        <button type={"submit"}>Assign song</button>
+                    </form>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                        console.log(`Un assign song ${unAssignSongId}`)
+                        assOperation({type: "remove", payload: {dataBaseID: unAssignSongId} as Song});
+                    }}>
+                        <input onChange={(e) => setUnAssignSongId(e.target.value)} value={unAssignSongId} type="text"
+                               placeholder={"uid"}/>
+                        <button type={"submit"}>Un asign song</button>
+                    </form>
                     <h4>Votes</h4>
                     {members?.map(user => {
                         return <div key={user.dataBaseID}>

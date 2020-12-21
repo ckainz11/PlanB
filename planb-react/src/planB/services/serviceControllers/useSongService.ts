@@ -1,5 +1,5 @@
-import {Band, Song, User} from "../../resources";
-import {useCallback, useEffect, useState} from "react";
+import {Band, Song} from "../../resources";
+import {useCallback} from "react";
 import firebase from "firebase";
 import {useDatabaseElements} from "..";
 
@@ -14,7 +14,6 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
     const songOperation = useCallback((operation: OperationType) => {
         if (band) {
             switch (operation.type) {
-                //TODO: implement
                 case "add":
                     firebase.database().ref(`bandSpace/${band.dataBaseID}/songs`).push({...operation.payload, dataBaseID: null}, (err) => {if (err) {console.log(err)}});
                     break;

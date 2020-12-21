@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 
 import {Image} from "semantic-ui-react";
-import {usePersonalService} from "../services";
 import {Session, User} from "../resources";
 import {BandContext} from "../contexts";
 import {useVoteService} from "../services/serviceControllers/useVoteService";

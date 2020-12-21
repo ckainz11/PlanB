@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import firebase from "firebase";
 
 export function useDatabase(path: string | undefined) {

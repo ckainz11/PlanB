@@ -11,7 +11,6 @@ type OperationType =
 export function useMemberService(band: Band | undefined): [User[] | undefined, (operation: OperationType) => void] {
     const [members] = useDatabaseSpaceElements<User>(band && `bandSpace/${band.dataBaseID}/members`, 'users');
 
-    //TODO: Implement remove
     const memberOperation = useCallback((operation: OperationType) => {
         if (band) {
             switch (operation.type) {

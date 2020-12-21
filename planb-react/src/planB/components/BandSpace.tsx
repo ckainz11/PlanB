@@ -1,8 +1,8 @@
-import React, {Suspense, useContext} from "react";
+import React, {useContext} from "react";
 import {Divider} from "semantic-ui-react";
 import {SessionCreater} from "./SessionCreater";
 import {SessionDisplay} from "./SessionDisplay";
-import {useBandService, usePersonalService, useSessionService} from "../services";
+import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
 
 export const BandSpace = () => {

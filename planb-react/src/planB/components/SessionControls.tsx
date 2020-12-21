@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Button, Container} from "semantic-ui-react";
+import {Button} from "semantic-ui-react";
 import {Session, Vote} from "../resources";
 import {usePersonalService} from "../services";
 import {BandContext} from "../contexts";
