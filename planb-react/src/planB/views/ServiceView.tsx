@@ -5,12 +5,12 @@ import {
     useSessionService,
     useMemberService,
     usePersonalService,
-    useSongService, useLeaderService, useProposerService,
+    useSongService, useProposerService,
 } from "../services";
-import {Band, Session, User} from "../resources";
+import {Band, Session, Song, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
 import {Link} from "react-router-dom";
-import faker from 'faker'
+import faker from 'faker';
 
 
 
@@ -22,20 +22,23 @@ export function ServiceView() {
     //Data
     const [bands, bandOperation] = useBandService(me);
 
+    //User
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members, memberOperation] = useMemberService(selectedBand);
-    const [leaders, leaderOperation] = useLeaderService(selectedBand);
     const [sessions, sessionOperation] = useSessionService(selectedBand);
-    const [songs] = useSongService(selectedBand);
 
+    //Band
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
     const [assSongs] = useAssignedSongService(selectedBand, selectedMeeting);
     const [proposer] = useProposerService(selectedBand, selectedMeeting);
+    const [songs, songOperation] = useSongService(selectedBand)
 
     //Forms
     const [addMemberUid, setAddMemberUid] = useState("");
     const [removeSessionId, setRemoveSessionId] = useState("");
     const [removeBandId, setRemoveBandId] = useState("");
+    const [removeSongId, setRemoveSongId] = useState("");
+    const [removeMemberID, setRemoveMemberId] = useState("");
 
 
     useEffect(() => {
@@ -56,22 +59,7 @@ export function ServiceView() {
         }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
-        {/*<h1>Debug for:</h1>*/}
-        {/*<form>*/}
-        {/*    {*/}
-        {/*        user?.map((user) => {*/}
-        {/*            return <div key={user.dataBaseID}>*/}
-        {/*                <label htmlFor={user.dataBaseID}>{user.userName}</label>*/}
-        {/*                <input*/}
-        {/*                    onChange={() => setSelectedUser(() => user)}*/}
-        {/*                    type="radio"*/}
-        {/*                    id={user.dataBaseID}*/}
-        {/*                    name="band"*/}
-        {/*                    value={user.userName}/>*/}
-        {/*            </div>*/}
-        {/*        })*/}
-        {/*    }*/}
-        {/*</form>*/}
+
         <h2>Bands:</h2>
         <pre>
             {JSON.stringify(bands, null, 2)}
@@ -112,7 +100,6 @@ export function ServiceView() {
             <pre>
             {JSON.stringify(members, null, 2)}
             </pre>
-
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Add member ${addMemberUid}`)
@@ -122,13 +109,22 @@ export function ServiceView() {
                        placeholder={"uid"}/>
                 <button type={"submit"}>Add member</button>
             </form>
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                console.log(`Remove member ${removeMemberID}`)
+                memberOperation({type: "remove", payload: {dataBaseID: removeMemberID} as User});
+            }}>
+                <input onChange={(e) => setRemoveMemberId(e.target.value)} value={removeMemberID} type="text"
+                       placeholder={"uid"}/>
+                <button type={"submit"}>Remove member</button>
+            </form>
             <h4>Sessions</h4>
             <pre>
             {JSON.stringify(sessions, null, 2)}
             </pre>
             <form onSubmit={(event) => {
                 event.preventDefault();
-                console.log(`Remove session ${addMemberUid}`)
+                console.log(`Remove session ${removeSessionId}`)
                 sessionOperation({type: "remove", payload: {dataBaseID: removeSessionId} as Session});
             }}>
                 <input onChange={(e) => setRemoveSessionId(e.target.value)} value={removeSessionId} type="text"
@@ -139,6 +135,22 @@ export function ServiceView() {
             <pre>
             {JSON.stringify(songs, null, 2)}
             </pre>
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                console.log(`Add random song`)
+                songOperation({type: "add", payload: {dataBaseID: "", name: faker.random.word(), content: faker.hacker.phrase(), rating: 5}});
+            }}>
+                <button type={"submit"}>Add random song</button>
+            </form>
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                console.log(`Remove song ${removeSongId}`)
+                songOperation({type: "remove", payload: {dataBaseID: removeSongId} as Song});
+            }}>
+                <input onChange={(e) => setRemoveSongId(e.target.value)} value={removeSongId} type="text"
+                       placeholder={"uid"}/>
+                <button type={"submit"}>Remove song</button>
+            </form>
 
             {selectedBand && <div>
                 <form>
