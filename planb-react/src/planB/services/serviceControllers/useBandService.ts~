@@ -58,7 +58,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                         }))
                     })
 
-                    if (members.length === 0) {
+                    if (members.length == 0) {
                         members.push(user.dataBaseID)
                     }
 

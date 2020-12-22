@@ -40,7 +40,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         selectDate(value);
     }
     const handleTimeInput = (event: any, {value, name}: any) => {
-        if (name === "start")
+        if (name == "start")
             setStartTime(value);
         else
             setEndTime(value);
