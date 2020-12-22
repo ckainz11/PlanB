@@ -22,7 +22,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
     //     }
     // }, [bands])
 
-    const bandOperation = useCallback((operation: OperationType) => {
+    const bandOperation = useCallback(async (operation: OperationType) => {
         if (user) {
             switch (operation.type) {
                 case "add":
@@ -36,7 +36,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                         return;
                     }
 
-                    firebase.database().ref("bandSpace/" + bandID + "/members/"+user.dataBaseID).set(true)
+                    firebase.database().ref("bandSpace/" + bandID + "/members/" + user.dataBaseID).set(true)
                         .catch(error => {
                             error && console.log("2.1 " + error)
                         });
@@ -48,14 +48,28 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
 
                     break;
                 case "remove":
+                    let members: string[] = [];
+                    await firebase.database().ref("bandSpace/" + operation.payload.dataBaseID + "/members").once("value", (snapshot) => {
+                        if (!snapshot.val()) {
+                            return
+                        }
+                        members = (Object.keys(snapshot.val()).map((key) => {
+                            return key
+                        }))
+                    })
+
+                    if (members.length == 0) {
+                        members.push(user.dataBaseID)
+                    }
+
                     firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove()
                         .then(() => {
-                        firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove()
-                            .then(() => {
                             firebase.database().ref("bands/" + operation.payload.dataBaseID).remove()
                                 .catch(error => console.log(error));
+                            members.forEach((member) => {
+                                firebase.database().ref("userSpace/"+member+"/bands/" + operation.payload.dataBaseID).remove().catch(err => console.log(err))
+                            })
                         }).catch(error => console.log(error));
-                    }).catch(error => console.log(error));
                     break;
             }
         }

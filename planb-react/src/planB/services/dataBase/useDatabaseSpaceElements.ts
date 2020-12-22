@@ -35,18 +35,24 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
             const childAdd = ref.on('child_added', function (childSnapshot) {
                 if (childSnapshot.key) {
                     //Ref to the added element
+
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
+
+                    elementRef.once("value", snapshot => {
+                        if (!snapshot.exists()) {
+                            firebase.database().ref(pathToSpace + "/" + childSnapshot.key).remove()
+                                .then( r => {
+                                    childSnapshot.key && listeners.get(childSnapshot.key)[0].off("value", listeners.get(listeners.get(childSnapshot.key)[1]));
+                                    console.log("Automatically removed band")
+                                })
+                                .catch(r => console.log(r));
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
 
                     //Add a listener to listen to its value and store it for later cleaning
                      const elementListener = elementRef.on("value", snapshot => {
-                        if (!snapshot.key) {
-                            firebase.database().ref(pathToSpace + "/" + childSnapshot.key).remove()
-                                .then( r => {
-                                    console.log("Automatically removed " + childSnapshot.key);
-                                    childSnapshot.key && listeners.get(childSnapshot.key)[0].off("value", listeners.get(listeners.get(childSnapshot.key)[1]));
-                                })
-                                .catch(r => console.error(r));
-                        }
                         console.log("Band changed: "+snapshot.key)
                         //Update or add the element
                         snapshot.key && dispatch({
