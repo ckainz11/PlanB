@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {useDatabaseSpaceElements} from "../index";
 import {Band, User} from "../../resources";
 
@@ -9,7 +9,19 @@ type OperationType =
     ;
 
 export function useBandService(user: User | undefined): [Band[] | undefined, (operation: OperationType) => void] {
-    const [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
+    let [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
+
+    // useEffect(() => {
+    //     if (bands && user) {
+    //         bands = bands.filter((band) => {
+    //             if (!band.dataBaseID) {
+    //                 return false
+    //             }
+    //             return true
+    //         })
+    //     }
+    // }, [bands])
+
     const bandOperation = useCallback((operation: OperationType) => {
         if (user) {
             switch (operation.type) {
@@ -36,9 +48,14 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
 
                     break;
                 case "remove":
-                    firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
-                    firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
-                    firebase.database().ref("bands/" + operation.payload.dataBaseID).remove().catch(error => console.log(error));
+                    firebase.database().ref("bandSpace/" + operation.payload.dataBaseID).remove()
+                        .then(() => {
+                        firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + operation.payload.dataBaseID).remove()
+                            .then(() => {
+                            firebase.database().ref("bands/" + operation.payload.dataBaseID).remove()
+                                .catch(error => console.log(error));
+                        }).catch(error => console.log(error));
+                    }).catch(error => console.log(error));
                     break;
             }
         }
