@@ -6,7 +6,7 @@ import {BandContext} from "../contexts";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
 
 export const SessionControls = ({session}: MeetingControlsProps) => {
-    const [me] = usePersonalService();
+    const [me] = usePersonalService()
     const [band] = useContext(BandContext)
     const [vote, voteOperation] = useVoteService(me, band, session)
 
@@ -18,8 +18,8 @@ export const SessionControls = ({session}: MeetingControlsProps) => {
             <h5>{session.start.toLocaleDateString()}, {session.start.toLocaleTimeString()}-{session.end.toLocaleTimeString()}</h5>
         </div>
         <div className={"meeting-vote-controls"}>
-            <Button  className={"color-positive"} icon="check" onClick={()=> voteOperation({payload: {value: 1} as Vote, type: "add"})} />
-            <Button className={"color-negative"} icon="close" onClick={()=> voteOperation({payload: {value: -1} as Vote, type: "add"})}/>
+            {vote?.value == 0 && <Button  className={"color-positive"} icon="check" onClick={()=> voteOperation({payload: {value: 1} as Vote, type: "add"})} /> }
+            {vote?.value == 0 && <Button className={"color-negative"} icon="close" onClick={()=> voteOperation({payload: {value: -1} as Vote, type: "add"})}/>}
         </div>
     </div>
 

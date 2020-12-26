@@ -19,18 +19,15 @@ body {
 .header .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
     color: black !important;
 }
-.header .selectBand{
-    font-size: 13pt;
-}
 
-.header {
-    background-color: #8662BC;
-    display: flex;
-    height: 6em;
-    width: 100vw;
+
+.nav {
+    background-color: #8662BC !important;
+    height: 5rem !important;
     /*overflow: hidden;*/
 
 }
+
 
 /*noinspection ALL*/
 .header .logo {
@@ -76,18 +73,9 @@ body {
     text-align: right;
 }
 
-.header .selectBand{
-    color: black;
-}
 
-/*noinspection ALL*/
-.header .userIcon {
-    display: block;
-    width: 3em;
-    height: 3em;
-    border-radius: 50% 50% 50% 50%;
-    background-color: #C4C4C4;
-}
+
+
 
 .meeting-header{
     background-color: #B464A8;

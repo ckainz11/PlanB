@@ -1,11 +1,10 @@
 import React, {useCallback, useContext} from "react";
 import {useBandService, usePersonalService} from "../services";
-import {Dropdown} from "semantic-ui-react";
+import {Dropdown, Menu, Image} from "semantic-ui-react";
 import {BandContext} from "../contexts";
 
 
 import logo from "../../images/LogoPlanB.png"
-
 
 
 export const Header = () => {
@@ -16,34 +15,37 @@ export const Header = () => {
 
     const [selectedBand, setSelectedBand] = useContext(BandContext);
 
-    const handleChange = useCallback(function (e, {value}) {
-        setSelectedBand?.(bands?.find(band => {
-            return value === band.dataBaseID}));
-    }, [setSelectedBand, bands]);
     return (
-        <div className="header">
-            <div className={"headerItem left"}>
+        <Menu className={"nav"} secondary>
+            <Menu.Item position={"left"}>
                 <img className={"logo"} src={logo} alt={"logo"}/>
-            </div>
-            <div className={"headerItem push right"}>
-                <div className={"dropdownWrapper"}>
-                    <Dropdown
-                        className={"selectBand"}
-                        loading={bands ? bands.length === 0 : true}
-                        disabled={bands ? bands.length === 0 : true}
-                        direction={"left"}
-                        onChange={handleChange}
-                        placeholder={"select band"}
-                        options={bands?.map((band) => {
-                            return {key: band.dataBaseID, value: band.dataBaseID, text: band.name}
-                        }) || []}
-                    />
-                </div>
-            </div>
-            <div className={"headerItem right"}>
-                <div style={{backgroundSize: "100%",backgroundPosition: "50% 50%",backgroundColor: "#8662BC",backgroundImage: `url(${me?.photoUrl})`}} className={"userIcon"}/>
-            </div>
-
-        </div>
+            </Menu.Item>
+            <Dropdown item
+                      className={"selectBand"}
+                      loading={bands ? bands.length === 0 : true}
+                      disabled={bands ? bands.length === 0 : true}
+                      placeholder={"Bands"}>
+                <Dropdown.Menu>
+                    {bands?.map(band => {
+                        return <Dropdown.Item icon={"check"} key={band.dataBaseID} onClick={event => {
+                            setSelectedBand(band)
+                        }}>{band.name}</Dropdown.Item>
+                    })}
+                </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown simple item placeholder={"Account"}>
+                <Dropdown.Menu>
+                    <Dropdown.Header>{selectedBand?.name}</Dropdown.Header>
+                    <Dropdown.Item>Add Member</Dropdown.Item>
+                    <Dropdown.Item>Leave Band</Dropdown.Item>
+                    <Dropdown.Divider/>
+                    <Dropdown.Header>Account</Dropdown.Header>
+                    <Dropdown.Item>Log out</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+            <Menu.Item>
+                <Image src={me?.photoUrl} avatar/>
+            </Menu.Item>
+        </Menu>
     )
 }
