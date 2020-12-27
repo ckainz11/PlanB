@@ -19,7 +19,11 @@ body {
 .header .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
     color: black !important;
 }
-
+.login-header {
+    background-color: #8662BC;
+    height: 5rem;
+    display: flex;
+}
 
 .nav {
     background-color: #8662BC !important;
@@ -30,7 +34,7 @@ body {
 
 
 /*noinspection ALL*/
-.header .logo {
+.login-header .logo {
     height: 100%;
     animation: spin 1s;
     position: relative;
@@ -44,7 +48,6 @@ body {
 .login-logo{
     height: 40rem;
     margin: 2% auto;
-
 }
 
 /*noinspection ALL*/
@@ -55,11 +58,11 @@ body {
     justify-content: center;
 }
 
-.header .left {
+.login-header .left {
     margin-left: 2em;
 }
 
-.header .right {
+.login-header .right {
     margin-right: 5em;
 }
 
