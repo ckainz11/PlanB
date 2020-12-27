@@ -9,7 +9,7 @@ import logo from "../../images/LogoPlanB.png"
 
 export const Header = () => {
 
-    const [me] = usePersonalService();
+    const [me, signOut] = usePersonalService();
 
     const [bands, bandOperation] = useBandService(me);
 
@@ -27,20 +27,20 @@ export const Header = () => {
                       placeholder={"Bands"}>
                 <Dropdown.Menu>
                     {bands?.map(band => {
-                        return <Dropdown.Item icon={"check"} key={band.dataBaseID} onClick={event => {
+                        return <Dropdown.Item icon={"check"} key={band.dataBaseID} onClick={() => {
                             setSelectedBand(band)
                         }}>{band.name}</Dropdown.Item>
                     })}
                 </Dropdown.Menu>
             </Dropdown>
-            <Dropdown simple item placeholder={"Account"}>
+            <Dropdown item placeholder={"Account"}>
                 <Dropdown.Menu>
                     <Dropdown.Header>{selectedBand?.name}</Dropdown.Header>
-                    <Dropdown.Item>Add Member</Dropdown.Item>
+                    { <Dropdown.Item>Add Member</Dropdown.Item>}
                     <Dropdown.Item>Leave Band</Dropdown.Item>
                     <Dropdown.Divider/>
                     <Dropdown.Header>Account</Dropdown.Header>
-                    <Dropdown.Item>Log out</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {signOut({type: "signOut"}); console.log(me)}} >Log out</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             <Menu.Item>
