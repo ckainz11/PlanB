@@ -7,7 +7,7 @@ import {useVoteService} from "../services/serviceControllers/useVoteService";
 
 const getColor = (value: number) => {
     switch (value) {
-        case 0: return "color-grey";
+        case undefined: return "color-grey";
         case 1: return "color-positive";
         case -1: return "color-negative";
     }
