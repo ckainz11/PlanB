@@ -18,8 +18,8 @@ export const SessionControls = ({session}: MeetingControlsProps) => {
             <h5>{session.start.toLocaleDateString()}, {session.start.toLocaleTimeString()}-{session.end.toLocaleTimeString()}</h5>
         </div>
         <div className={"meeting-vote-controls"}>
-            {vote?.value == undefined && <Button  className={"color-positive"} icon="check" onClick={()=> voteOperation({payload: {value: 1} as Vote, type: "add"})} /> }
-            {vote?.value == undefined && <Button className={"color-negative"} icon="close" onClick={()=> voteOperation({payload: {value: -1} as Vote, type: "add"})}/>}
+            {vote?.value === undefined && <Button  className={"color-positive"} icon="check" onClick={()=> voteOperation({payload: {value: 1} as Vote, type: "add"})} /> }
+            {vote?.value === undefined && <Button className={"color-negative"} icon="close" onClick={()=> voteOperation({payload: {value: -1} as Vote, type: "add"})}/>}
         </div>
     </div>
 
