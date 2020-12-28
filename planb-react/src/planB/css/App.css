@@ -27,11 +27,18 @@ body {
 
 .nav {
     background-color: #8662BC !important;
-    height: 5rem !important;
-    /*overflow: hidden;*/
-
+    height: 5rem;
+    display: flex;
+    justify-content: space-between;
 }
-
+.nav .custom-menu {
+    display: flex;
+    margin-right: 2em;
+}
+.nav .logo{
+    height: 100%;
+    margin-left: 2em;
+}
 
 /*noinspection ALL*/
 .login-header .logo {

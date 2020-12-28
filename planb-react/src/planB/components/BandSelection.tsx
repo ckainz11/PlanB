@@ -13,7 +13,7 @@ export const BandSelection = () => {
             {!currentBand &&
             <div>
                 {bands.length > 0 ?
-                    <p>yo check mal band aus</p>
+                    <p>yo wähl mal band aus</p>
                     :
                     <p>yo du hast keine band</p>
                 }

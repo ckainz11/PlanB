@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {Button, Input} from "semantic-ui-react";
 import {SessionCreatePopup} from "./SessionCreatePopup";
+import {Band} from "../resources";
+import {usePersonalService} from "../services";
 
 export const SessionCreater = () => {
 
     const [open, setOpen] = React.useState(false);
-
 
     const [sessionName, setSessionName] = useState<string>("");
 
