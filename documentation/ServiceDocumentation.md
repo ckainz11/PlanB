@@ -70,3 +70,8 @@ useVoteService provides all votes on a specific session
 + data: Array of songs
 + dataOperation
     + type "add": Adds the payloaded Vote to the session. If the member already voted for the session, the old vote is overwritten
+
+## useUserService
+useUserService provides all users
++ data: Array of all users
++ dataOperation: No operations yet
