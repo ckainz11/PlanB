@@ -5,7 +5,7 @@ import {
     useSessionService,
     useMemberService,
     usePersonalService,
-    useSongService
+    useSongService, useUserService
 } from "../services";
 import {Band, Session, Song, User} from "../resources";
 import {useVoteService} from "../services/serviceControllers/useVoteService";
@@ -21,6 +21,7 @@ export function ServiceView() {
 
     //Data
     const [bands, bandOperation] = useBandService(me);
+    const [users] = useUserService()
 
     //User
     const [selectedBand, setSelectedBand] = useState<Band>();
@@ -40,6 +41,7 @@ export function ServiceView() {
     const [removeMemberID, setRemoveMemberId] = useState("");
     const [assignSongId, setAssignSongId] = useState("");
     const [unAssignSongId, setUnAssignSongId] = useState("");
+    const [searchUserEmail, setSearchUserEmail] = useState("");
 
 
     useEffect(() => {
@@ -60,6 +62,25 @@ export function ServiceView() {
         }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
+        <form onSubmit={(event) => {
+            if (!users) {
+                console.log("Not able to load users");
+                return;
+            }
+            event.preventDefault();
+            const user = users.find((user) => {
+                return user.email === searchUserEmail
+            });
+            if (user) {
+                alert(JSON.stringify(user, null, 2));
+            } else {
+                alert("No user found");
+            }
+        }}>
+            <input onChange={(e) => setSearchUserEmail(e.target.value)} value={searchUserEmail} type="text"
+                   placeholder={"email"}/>
+            <button type={"submit"}>Search user by email</button>
+        </form>
 
         <h2>Bands:</h2>
         <pre>
