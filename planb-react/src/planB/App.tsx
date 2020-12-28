@@ -14,14 +14,15 @@ export function App() {
         <div className="App">
             <Switch>
                 <Route exact path="/">
-                    {me === undefined ? <Login/> : <Redirect to="/planner"/>}
+                    {me !== undefined ? <Planner/> : <Redirect to="/login"/>}
+                </Route>
+                <Route path="/login">
+                    {me === undefined ? <Login/> : <Redirect to="/"/>}
                 </Route>
                 <Route exact path="/console">
                     <ServiceView/>
                 </Route>
-                <Route path="/planner">
-                    <Planner/>
-                </Route>
+
 
             </Switch>
         </div>
