@@ -90,7 +90,7 @@ export function ServiceView() {
         <form onSubmit={(event) => {
             event.preventDefault();
             console.log(`Add random band`)
-            bandOperation({type: "add", payload: {dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase()}});
+            bandOperation({type: "add", payload: {dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase()} as Band});
         }}>
             <button type={"submit"}>Add random band</button>
         </form>
