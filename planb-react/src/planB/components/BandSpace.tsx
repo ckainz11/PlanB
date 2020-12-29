@@ -1,9 +1,10 @@
-import React, {useContext} from "react";
-import {Divider} from "semantic-ui-react";
+import React, {useContext, useState} from "react";
+import {Button, Divider} from "semantic-ui-react";
 import {SessionCreater} from "./SessionCreater";
 import {SessionDisplay} from "./SessionDisplay";
 import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
+import {BandCreatePopup} from "./BandCreatePopup";
 
 export const BandSpace = () => {
 
@@ -11,11 +12,23 @@ export const BandSpace = () => {
     const [currentBand] = useContext(BandContext);
     const [sessions] = useSessionService(currentBand);
 
+    const [createOpen, setCreateOpen] = useState(false)
+    const createOnClose = () => {
+        setCreateOpen(false)
+    };
+
+
+
+
     if (user?.userName) {
         return <div>
             <h3>Hey {user?.userName}, here are your next scheduled sessions</h3>
             <Divider/>
             <SessionCreater/>
+            <br/>
+            <Button primary onClick={()=>setCreateOpen(true)} >Create new Band</Button>
+            {createOpen && <BandCreatePopup open={createOpen} onClose={createOnClose}/>}
+            <Button primary>Edit selected Band</Button>
             {sessions?.map(session => {
                 return <SessionDisplay session={session} key={session.dataBaseID}/>
             })}
