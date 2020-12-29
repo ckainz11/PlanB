@@ -134,7 +134,10 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
+.edit-band-controls {
+    display: flex;
+    justify-content: space-between;
+}
 
 
 /*noinspection ALL*/

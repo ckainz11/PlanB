@@ -45,6 +45,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                 </FormField>
                 <Button className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => {
                     pushBand()
+                    onClose()
                 }} />
             </Form>
 

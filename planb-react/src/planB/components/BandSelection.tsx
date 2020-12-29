@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import {useBandService, usePersonalService} from "../services";
 import {BandContext} from "../contexts";
+import {NoBand} from "./NoBand";
 
 export const BandSelection = () => {
 
@@ -15,7 +16,7 @@ export const BandSelection = () => {
                 {bands.length > 0 ?
                     <p>yo wähl mal band aus</p>
                     :
-                    <p>yo du hast keine band</p>
+                    <NoBand/>
                 }
             </div>}
         </div>
