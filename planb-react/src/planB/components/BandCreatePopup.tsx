@@ -5,21 +5,20 @@ import {useBandService, useMemberService, usePersonalService, useUserService} fr
 import {BandContext} from "../contexts";
 
 
-export const BandCreatePopup = ({open, onClose}: BandCreatePopupProps) => {
-    const [me] = usePersonalService()
+export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopupProps) => {
     const [newBand, setNewBand] = useState<Band>({leader: me ? me.dataBaseID : ""} as Band)
     const [users] = useUserService()
     const [memberList, setMemberList] = useState<string[]>([])
-    const [band, selectBand] = useContext(BandContext)
     const [bands, bandOperation] = useBandService(me)
     const [members, memberOperation] = useMemberService(newBand)
     const pushBand = () => {
         bandOperation({type: "add", payload: newBand})
         memberList.forEach(userid => memberOperation({type: "add", payload: {dataBaseID: userid} as User}))
+        selectBand(newBand)
     }
 
 
-    const options = users?.map(user => {
+    const options = users?.filter(user => user.dataBaseID != me?.dataBaseID).map(user => {
         return {key: user.dataBaseID, text: user.userName, value: user.dataBaseID, image: {avatar: true, src: user.photoUrl}}
     })
 
@@ -59,4 +58,6 @@ export const BandCreatePopup = ({open, onClose}: BandCreatePopupProps) => {
 type BandCreatePopupProps = {
     open: boolean
     onClose: () => void
+    selectBand: (b: Band) => void
+    me: User
 }
