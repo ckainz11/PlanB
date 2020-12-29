@@ -5,30 +5,36 @@ import {SessionDisplay} from "./SessionDisplay";
 import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
 import {BandCreatePopup} from "./BandCreatePopup";
+import {BandEditPopup} from "./BandEditPopup";
 
 export const BandSpace = () => {
 
-    const [user] = usePersonalService();
-    const [currentBand] = useContext(BandContext);
+    const [me] = usePersonalService();
+    const [currentBand, selectBand] = useContext(BandContext);
     const [sessions] = useSessionService(currentBand);
 
     const [createOpen, setCreateOpen] = useState(false)
     const createOnClose = () => {
         setCreateOpen(false)
     };
+    const [editOpen, setEditOpen] = useState(false)
+    const editOnClose = () => {
+        setEditOpen(false)
+    }
 
 
 
 
-    if (user?.userName) {
+    if (me) {
         return <div>
-            <h3>Hey {user?.userName}, here are your next scheduled sessions</h3>
+            <h3>Hey, {me?.userName}! Here are your next scheduled sessions</h3>
             <Divider/>
             <SessionCreater/>
             <br/>
             <Button primary onClick={()=>setCreateOpen(true)} >Create new Band</Button>
-            {createOpen && <BandCreatePopup open={createOpen} onClose={createOnClose}/>}
-            <Button primary>Edit selected Band</Button>
+            <Button primary onClick={()=>setEditOpen(true)}>Edit selected Band</Button>
+            {createOpen && <BandCreatePopup open={createOpen} me={me} selectBand={selectBand} onClose={createOnClose}/>}
+            {editOpen && <BandEditPopup open={editOpen} onClose={editOnClose} band={currentBand!!} me={me}/>}
             {sessions?.map(session => {
                 return <SessionDisplay session={session} key={session.dataBaseID}/>
             })}

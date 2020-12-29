@@ -31,21 +31,11 @@ export const HeaderMenu = () => {
             </Dropdown>
             <Dropdown item placeholder={"Account"}>
                 <Dropdown.Menu>
-                    <Dropdown.Header>{selectedBand?.name}</Dropdown.Header>
-                    {<Dropdown.Item>Add Member</Dropdown.Item>}
-                    {<Dropdown.Item>
-                        <Dropdown direction={"left"} text={"Kick Member"}>
-                            <Dropdown.Menu>
-                                <Dropdown.Header>Search</Dropdown.Header>
-                                <Input icon={"search"}/>
-                                <Dropdown.Divider/>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Dropdown.Item>}
-                    <Dropdown.Item onClick={() => {memberOperation({type: "remove", payload: me!!}); setSelectedBand(undefined)}} >Leave Band</Dropdown.Item>
-                    <Dropdown.Divider/>
+                    {selectedBand && <Dropdown.Header>{selectedBand.name}</Dropdown.Header>}
+                    {selectedBand && <Dropdown.Item onClick={() => {memberOperation({type: "remove", payload: me!!}); setSelectedBand(undefined)}} >Leave Band</Dropdown.Item>}
+                    {selectedBand && <Dropdown.Divider/>}
                     <Dropdown.Header>Account</Dropdown.Header>
-                    <Dropdown.Item onClick={() => {signOut({type: "signOut"}); console.log(me)}} >Log out</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {signOut({type: "signOut"})}} >Log out</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             <Menu.Item>

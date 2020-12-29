@@ -1,5 +1,5 @@
 body {
-    background-color: #121212 !important;
+    background: #121212 !important;
     color: #dddddd !important;
 }
 
@@ -9,6 +9,13 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+}
+
+.background-layer1 {
+    background: #121212 !important;
+}
+.background-layer2 {
+    background: #323232 !important
 }
 
 /*noinspection ALL*/
@@ -123,6 +130,12 @@ body {
     display: inline-block;
     margin: .5%;
 }
+.member-display-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+
 
 /*noinspection ALL*/
 .single-vote-square {
@@ -134,7 +147,6 @@ body {
     display: block;
     top: -12px;
     left: 25px;
-
 }
 
 /*noinspection ALL*/
