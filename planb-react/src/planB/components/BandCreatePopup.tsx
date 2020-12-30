@@ -18,7 +18,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     }
 
 
-    const options = users?.filter(user => user.dataBaseID != me?.dataBaseID).map(user => {
+    const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
         return {key: user.dataBaseID, text: user.userName, value: user.dataBaseID, image: {avatar: true, src: user.photoUrl}}
     })
 

@@ -16,7 +16,7 @@ export const MemberDisplay = ({band, me}: MemberDisplayProps) => {
                     {user.userName}
 
                 </div>
-                {band.leader == me.dataBaseID && user.dataBaseID != me.dataBaseID &&
+                {band.leader === me.dataBaseID && user.dataBaseID !== me.dataBaseID &&
                 <Button size={"mini"} color={"red"} icon="close" onClick={() => memberOperation({type: "remove", payload: user})}/>}
             </Segment>
         })}

@@ -16,7 +16,7 @@ export const HeaderMenu = () => {
     const [editOpen, setEditOpen] = useState(false)
     const closeCreate = () => setCreateOpen(false)
     const closeEdit = () => setEditOpen(false)
-    const leader = me?.dataBaseID == band?.leader
+    const leader = me?.dataBaseID === band?.leader
 
     return <div className={"custom-menu"}>
         <Menu size={"large"} secondary>
