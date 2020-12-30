@@ -8,17 +8,17 @@ type OperationType =
     {type: "remove", payload: Song}
     ;
 
-export function useAssignSongService(band: (Band | undefined), session: (Session | undefined)): [(Song[] | undefined), ((operation: OperationType) => void)] {
+export function useAssignSongService(band: (Band | undefined), session: (Session | undefined)): [(Song[] | undefined), ((operation: OperationType) => Promise<void>)] {
     const [assignedSongs] = useDatabaseSpaceElements<Song>(band && session && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs`, band && `bandSpace/${band.dataBaseID}/songs`);
 
-    const assignSongOperation = useCallback((operation: OperationType) => {
+    const assignSongOperation = useCallback(async (operation: OperationType) => {
         if (band && session) {
             switch (operation.type) {
                 case "add":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${operation.payload.dataBaseID}`).set(true).catch(error => console.log(error));
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${operation.payload.dataBaseID}`).set(true);
                     break;
                 case "remove":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${operation.payload.dataBaseID}`).remove().catch(error => console.log(error));
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${operation.payload.dataBaseID}`).remove();
                     break;
             }
         }
