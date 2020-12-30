@@ -16,6 +16,8 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
             band: newBand,
             members: memberList as User[]
         }})
+        console.log(newBand);
+        
         selectBand(newBand)
     }, [bandOperation, memberList, selectBand, newBand]);
 

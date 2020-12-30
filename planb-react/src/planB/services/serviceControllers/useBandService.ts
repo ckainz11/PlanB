@@ -27,13 +27,14 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
             return;
         }
 
+        band.dataBaseID = bandID;
+
         const dataMembers = members.reduce((acc, curr) => {
             acc[curr.dataBaseID] = true;
             return acc
         }, {} as any)
 
         dataMembers[user.dataBaseID] = true;
-        console.log(dataMembers);
 
         await firebase.database().ref("bandSpace/" + bandID).set({
             members: dataMembers
