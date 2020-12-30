@@ -8,7 +8,7 @@ type OperationType =
     { type: "remove", payload: Session }
     ;
 
-export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => void] {
+export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => Promise<void>] {
     const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
@@ -22,7 +22,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         }
     }, [rawSessions]);
 
-    const sessionOperation = useCallback((operation: OperationType) => {
+    const sessionOperation = useCallback(async (operation: OperationType) => {
         if (band) {
             switch (operation.type) {
                 case "add":
@@ -30,7 +30,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                     if (!uid) {
                         return;
                     }
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
+                    const sessionID = firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
                         ...operation.payload,
                         start: operation.payload.start.toString(),
                         end: operation.payload.end.toString(),
@@ -40,11 +40,15 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                         if (err) {
                             console.log(err)
                         }
-                    });
+                    }).key;
+                    if (!sessionID) {
+                        return
+                    }
+                    operation.payload.dataBaseID = sessionID
                     break;
                 case "remove":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`).remove().catch(error => console.log(error));
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`).remove().catch(error => console.log(error));
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`);
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`);
                     break;
             }
         }
