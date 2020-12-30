@@ -52,16 +52,16 @@ export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandE
             </Form>}
             <Divider/>
             <div className={"edit-band-controls"}>
-                {leader ? <Button content={"Delete Band"} icon={"trash"} color={"red"} onClick={() => {
+                {leader ? <Button content={"Delete Band"} icon={"trash"} className={"color-negative"} onClick={() => {
                     bandOperation({type: "remove", payload: band});
                     close();
                     selectBand(undefined)
-                }}/> : <Button content="Leave Band" icon="log out" color={"red"} onClick={() => {
+                }}/> : <Button content="Leave Band" icon="log out" className={"color-negative"} onClick={() => {
                     memberOperation({type: "remove", payload: me});
                     close();
                     selectBand(undefined)
                 }}/>}
-                <Button content={"Done"} icon={"check"} color={"teal"} onClick={() => close()}/>
+                <Button content={"Done"} icon={"check"} className={"color-positive"} onClick={() => close()}/>
             </div>
 
 

@@ -12,18 +12,24 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     const [bands, bandOperation] = useBandService(me)
 
     const pushBand = useCallback(async () => {
-        await bandOperation({type: "addWithMembers", payload: {
-            band: newBand,
-            members: memberList as User[]
-        }})
-        console.log(newBand);
-        
+        await bandOperation({
+            type: "addWithMembers", payload: {
+                band: newBand,
+                members: memberList as User[]
+            }
+        })
+        onClose()
         selectBand(newBand)
     }, [bandOperation, memberList, selectBand, newBand]);
 
 
     const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
-        return {key: user.dataBaseID, text: user.userName, value: user.dataBaseID, image: {avatar: true, src: user.photoUrl}}
+        return {
+            key: user.dataBaseID,
+            text: user.userName,
+            value: user.dataBaseID,
+            image: {avatar: true, src: user.photoUrl}
+        }
     })
 
     return <Modal open={open} onClose={() => onClose()} closeIcon>
@@ -39,18 +45,20 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                               onChange={(event, data) => setNewBand({...newBand, description: data.value as string})}/>
                 </FormField>
                 <FormField>
-                    <Dropdown placeholder={"Members"} selection multiple fluid search pointing={"bottom"} options={options} onChange={((event, data) => {
+                    <Dropdown placeholder={"Members"} selection multiple fluid search pointing={"bottom"}
+                              options={options} onChange={((event, data) => {
                         const newMemberList: string[] = []
                         const m = data.value as []
-                        m.forEach(userid => {newMemberList.push(userid)})
-                        setMemberList(newMemberList.map((e) => {return {dataBaseID: e} as User}))
+                        m.forEach(userid => {
+                            newMemberList.push(userid)
+                        })
+                        setMemberList(newMemberList.map((e) => {
+                            return {dataBaseID: e} as User
+                        }))
                     })}>
                     </Dropdown>
                 </FormField>
-                <Button className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => {
-                    pushBand()
-                    onClose()
-                }} />
+                <Button className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
             </Form>
 
 

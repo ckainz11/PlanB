@@ -17,7 +17,7 @@ export const MemberDisplay = ({band, me}: MemberDisplayProps) => {
 
                 </div>
                 {band.leader === me.dataBaseID && user.dataBaseID !== me.dataBaseID &&
-                <Button size={"mini"} color={"red"} icon="close" onClick={() => memberOperation({type: "remove", payload: user})}/>}
+                <Button size={"mini"} className={"color-negative"} icon="close" onClick={() => memberOperation({type: "remove", payload: user})}/>}
             </Segment>
         })}
     </Segment.Group>

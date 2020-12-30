@@ -36,20 +36,28 @@ export const HeaderMenu = () => {
             <Dropdown item placeholder={"Account"}>
                 <Dropdown.Menu>
                     {band && <Dropdown.Header>{band.name}</Dropdown.Header>}
-                    {band && <Dropdown.Item onClick={() => setEditOpen(true)} >{leader ? "Edit Band" : "View Band"}</Dropdown.Item> }
-                    {band && <Dropdown.Item onClick={() => {memberOperation({type: "remove", payload: me!!}); setSelectedBand(undefined)}} >Leave Band</Dropdown.Item>}
+                    {band && <Dropdown.Item icon={leader ? "edit" : "eye"} text={leader ? "Edit Band" : "View Band"}
+                                            onClick={() => setEditOpen(true)}/>}
+                    {band && <Dropdown.Item icon={"sign out"} text={"Leave Band"} onClick={() => {
+                        memberOperation({type: "remove", payload: me!!});
+                        setSelectedBand(undefined)
+                    }}/>}
                     {band && <Dropdown.Divider/>}
                     <Dropdown.Header>Account</Dropdown.Header>
-                    <Dropdown.Item onClick={() => setCreateOpen(true)}>Create Band</Dropdown.Item>
-                    <Dropdown.Item onClick={() => {signOut({type: "signOut"})}} >Log out</Dropdown.Item>
+                    <Dropdown.Item icon={"plus"} text={"Create Band"} onClick={() => setCreateOpen(true)}/>
+                    <Dropdown.Item icon={"sign out"} text={"Log out"} onClick={() => {
+                        signOut({type: "signOut"})
+                    }}/>
                 </Dropdown.Menu>
             </Dropdown>
             <Menu.Item>
                 <Image size={"mini"} src={me?.photoUrl} avatar/>
             </Menu.Item>
         </Menu>
-        {createOpen && <BandCreatePopup open={createOpen} onClose={closeCreate} selectBand={setSelectedBand} me={me!!}/>}
-        {editOpen   && <BandEditPopup open={editOpen} leader={leader} close={closeEdit} band={band!!} me={me!!} selectBand={setSelectedBand}/>}
+        {createOpen &&
+        <BandCreatePopup open={createOpen} onClose={closeCreate} selectBand={setSelectedBand} me={me!!}/>}
+        {editOpen && <BandEditPopup open={editOpen} leader={leader} close={closeEdit} band={band!!} me={me!!}
+                                    selectBand={setSelectedBand}/>}
 
     </div>
 
