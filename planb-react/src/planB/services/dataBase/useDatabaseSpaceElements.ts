@@ -43,7 +43,6 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                             firebase.database().ref(pathToSpace + "/" + childSnapshot.key).remove()
                                 .then( r => {
                                     childSnapshot.key && listeners.get(childSnapshot.key)[0].off("value", listeners.get(listeners.get(childSnapshot.key)[1]));
-                                    console.log("Automatically removed band")
                                 })
                                 .catch(r => console.log(r));
                         }
@@ -53,9 +52,8 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
 
                     //Add a listener to listen to its value and store it for later cleaning
                      const elementListener = elementRef.on("value", snapshot => {
-                        console.log("Band changed: "+snapshot.key)
                         //Update or add the element
-                        snapshot.key && dispatch({
+                        snapshot.exists() && snapshot.key && dispatch({
                             type: ArrayAction.change,
                             payload: {dataBaseID: snapshot.key, ...snapshot.val()}
                         })
@@ -70,7 +68,6 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
             });
 
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
-                console.log("Band removed from list: " + oldChildSnapshot.key)
                 if (oldChildSnapshot.key) {
                     const listenerArr = listeners.get(oldChildSnapshot.key);
                     listenerArr[0].off("value", listenerArr[1]);

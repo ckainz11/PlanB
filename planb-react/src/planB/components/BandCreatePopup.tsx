@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {Button, Dropdown, Form, FormField, Input, Modal, TextArea} from "semantic-ui-react";
 import {Band, User} from "../resources";
 import {useBandService, useMemberService, usePersonalService, useUserService} from "../services";
@@ -8,14 +8,16 @@ import {BandContext} from "../contexts";
 export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopupProps) => {
     const [newBand, setNewBand] = useState<Band>({leader: me ? me.dataBaseID : ""} as Band)
     const [users] = useUserService()
-    const [memberList, setMemberList] = useState<string[]>([])
+    const [memberList, setMemberList] = useState<User[]>([])
     const [bands, bandOperation] = useBandService(me)
-    const [members, memberOperation] = useMemberService(newBand)
-    const pushBand = () => {
-        bandOperation({type: "add", payload: newBand})
-        memberList.forEach(userid => memberOperation({type: "add", payload: {dataBaseID: userid} as User}))
+
+    const pushBand = useCallback(async () => {
+        await bandOperation({type: "addWithMembers", payload: {
+            band: newBand,
+            members: memberList as User[]
+        }})
         selectBand(newBand)
-    }
+    }, [bandOperation, memberList, selectBand, newBand]);
 
 
     const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
@@ -39,7 +41,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                         const newMemberList: string[] = []
                         const m = data.value as []
                         m.forEach(userid => {newMemberList.push(userid)})
-                        setMemberList(newMemberList)
+                        setMemberList(newMemberList.map((e) => {return {dataBaseID: e} as User}))
                     })}>
                     </Dropdown>
                 </FormField>
