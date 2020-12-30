@@ -13,7 +13,7 @@ export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandE
 
 
 
-    const options = users?.filter(user => user.dataBaseID != me.dataBaseID).map(user => {
+    const options = users?.filter(user => user.dataBaseID !== me.dataBaseID).map(user => {
         return {
             key: user.dataBaseID,
             text: user.userName,
