@@ -20,7 +20,7 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
         let bandID = firebase.database().ref("bands/").push({
             ...band, dataBaseID: null, leader: user.dataBaseID
         }, (error) => {
-            error && console.log("1 " + error)
+            error && console.log(error)
         }).key;
 
         if (!bandID) {
@@ -33,15 +33,17 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
         }, {} as any)
 
         dataMembers[user.dataBaseID] = true;
+        console.log(dataMembers);
 
-        try {
-            await firebase.database().ref("bandSpace/" + bandID).set({
-                members: dataMembers
-            })
-            await firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + bandID).set(true)
-        } catch (err) {
-            console.error(err)
+        await firebase.database().ref("bandSpace/" + bandID).set({
+            members: dataMembers
+        })
+
+        await firebase.database().ref("userSpace/" + user.dataBaseID + "/bands/" + bandID).set(true)
+        for (let m of members) {
+            await firebase.database().ref("userSpace/" + m.dataBaseID + "/bands/" + bandID).set(true)
         }
+
     }, [user])
 
     const bandOperation = useCallback(async (operation: OperationType) => {

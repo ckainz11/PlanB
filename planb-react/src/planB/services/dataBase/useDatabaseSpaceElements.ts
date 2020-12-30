@@ -37,12 +37,19 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                     //Ref to the added element
 
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
-
+                    
+                    //If element doesn't exist remove it
                     elementRef.once("value", snapshot => {
                         if (!snapshot.exists()) {
                             firebase.database().ref(pathToSpace + "/" + childSnapshot.key).remove()
                                 .then( r => {
-                                    childSnapshot.key && listeners.get(childSnapshot.key)[0].off("value", listeners.get(listeners.get(childSnapshot.key)[1]));
+                                    if (!childSnapshot.key || !listeners) {
+                                        return;
+                                    }
+                                    const l = listeners.get(childSnapshot.key)
+                                    if (l) {
+                                        l[0].off("value", l[1])
+                                    }
                                 })
                                 .catch(r => console.log(r));
                         }
