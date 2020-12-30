@@ -8,7 +8,7 @@ type OperationType =
     { type: "signOut" }
     ;
 
-export function usePersonalService(): [User | undefined, (operation: OperationType) => void] {
+export function usePersonalService(): [User | undefined, (operation: OperationType) => Promise<void>] {
     const [uid, setUid] = useState<string>();
     const [currentUser] = useDatabaseSingleElement<User>(uid && `users/${uid}`)
 
@@ -33,14 +33,14 @@ export function usePersonalService(): [User | undefined, (operation: OperationTy
         });
     }, [setUid]);
 
-    const personalOperation = useCallback((operation: OperationType) => {
+    const personalOperation = useCallback(async (operation: OperationType) => {
         switch (operation.type) {
             case "signInWithGoogle":
                 const googleProvider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithPopup(googleProvider).catch(error => {alert(error)});
+                await firebase.auth().signInWithPopup(googleProvider);
                 break;
             case "signOut":
-                firebase.auth().signOut().catch(error => console.log(error));
+                await firebase.auth().signOut()
                 break;
         }
     }, []);
