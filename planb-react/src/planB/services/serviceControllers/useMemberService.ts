@@ -1,26 +1,26 @@
-import {Band, User} from "../../resources";
-import {useDatabaseSpaceElements} from "../index";
-import {useCallback} from "react";
+import { Band, User } from "../../resources";
+import { useDatabaseSpaceElements } from "../index";
+import { useCallback } from "react";
 import firebase from "firebase";
 
 type OperationType =
-    {type: "add", payload: User} |
-    {type: "remove", payload: User}
+    { type: "add", payload: User } |
+    { type: "remove", payload: User }
     ;
 
-export function useMemberService(band: Band | undefined): [User[] | undefined, (operation: OperationType) => void] {
+export function useMemberService(band: Band | undefined): [User[] | undefined, (operation: OperationType) => Promise<void>] {
     const [members] = useDatabaseSpaceElements<User>(band && `bandSpace/${band.dataBaseID}/members`, 'users');
 
-    const memberOperation = useCallback((operation: OperationType) => {
+    const memberOperation = useCallback(async (operation: OperationType) => {
         if (band) {
             switch (operation.type) {
                 case "add":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/members/${operation.payload.dataBaseID}`).set(true).catch(error => console.log(error));
-                    firebase.database().ref(`userSpace/${operation.payload.dataBaseID}/bands/${band.dataBaseID}`).set(true).catch(error => console.log(error));
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/members/${operation.payload.dataBaseID}`).set(true);
+                    await firebase.database().ref(`userSpace/${operation.payload.dataBaseID}/bands/${band.dataBaseID}`).set(true);
                     break;
                 case "remove":
-                    firebase.database().ref(`bandSpace/${band.dataBaseID}/members/${operation.payload.dataBaseID}`).remove().catch(error => console.log(error));
-                    firebase.database().ref(`userSpace/${operation.payload.dataBaseID}/bands/${band.dataBaseID}`).remove().catch(error => console.log(error));
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/members/${operation.payload.dataBaseID}`).remove();
+                    await firebase.database().ref(`userSpace/${operation.payload.dataBaseID}/bands/${band.dataBaseID}`).remove();
                     break;
             }
         }
