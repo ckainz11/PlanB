@@ -161,7 +161,7 @@ export function ServiceView() {
                 console.log(`Add random song`)
                 songOperation({
                     type: "add",
-                    payload: {dataBaseID: "", name: faker.random.word(), content: faker.hacker.phrase(), rating: 5}
+                    payload: {dataBaseID: "", name: faker.random.word(), content: faker.hacker.phrase(), rating: faker.random.number(10)}
                 });
             }}>
                 <button type={"submit"}>Add random song</button>
