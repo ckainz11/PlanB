@@ -14,7 +14,7 @@ export const NoBand = () => {
     return <Container>
         <h1>Looks like you are not in a band</h1>
         <h2>Ask your band to add you or get started by creating a band</h2>
-        <Button color="teal" icon="plus" content="Create a new Band" onClick={() => setOpen(true)}/>
+        <Button className="color-positive" icon="plus" content="Create a new Band" onClick={() => setOpen(true)}/>
         {open && <BandCreatePopup open={open} onClose={close} selectBand={selectBand} me={me!!}/>}
     </Container>
 }
