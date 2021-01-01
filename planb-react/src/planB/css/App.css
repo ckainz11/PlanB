@@ -113,6 +113,7 @@ body {
 .portfolio{
     background: #323232;
     border-radius: 5px;
+    padding-bottom: .7%;
 }
 .song-display-header {
     display: flex;
@@ -120,7 +121,9 @@ body {
     align-items: center;
 }
 
-
+.meeting-vote-controls{
+    width: 85px;
+}
 
 .meeting-header{
     background-color: #B464A8;
@@ -154,6 +157,7 @@ body {
 
 .meeting-date-info{
     display: flex;
+    padding-left: 45px;
 }
 
 /*noinspection ALL*/
