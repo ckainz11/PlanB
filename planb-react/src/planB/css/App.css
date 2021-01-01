@@ -123,6 +123,8 @@ body {
 
 .meeting-vote-controls{
     width: 85px;
+    display: flex;
+    justify-content: end;
 }
 
 .meeting-header{
