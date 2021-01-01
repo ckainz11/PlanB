@@ -38,10 +38,11 @@ export const HeaderMenu = () => {
                     {band && <Dropdown.Header>{band.name}</Dropdown.Header>}
                     {band && <Dropdown.Item icon={leader ? "edit" : "eye"} text={leader ? "Edit Band" : "View Band"}
                                             onClick={() => setEditOpen(true)}/>}
-                    {band && <Dropdown.Item icon={"sign out"} text={"Leave Band"} onClick={() => {
+                    {band && !leader && <Dropdown.Item icon={"sign out"} text={"Leave Band"} onClick={() => {
                         memberOperation({type: "remove", payload: me!!});
                         setSelectedBand(undefined)
                     }}/>}
+                    {band && leader && <Dropdown.Item icon={"trash"} text={"Delete Band"} onClick={() => {bandOperation({type: "remove", payload: band}); setSelectedBand(undefined)}}/>}
                     {band && <Dropdown.Divider/>}
                     <Dropdown.Header>Account</Dropdown.Header>
                     <Dropdown.Item icon={"plus"} text={"Create Band"} onClick={() => setCreateOpen(true)}/>

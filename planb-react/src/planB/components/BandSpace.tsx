@@ -1,11 +1,12 @@
 import React, {useContext, useState} from "react";
-import {Button, Divider} from "semantic-ui-react";
+import {Button, Divider, Grid} from "semantic-ui-react";
 import {SessionCreater} from "./SessionCreater";
 import {SessionDisplay} from "./SessionDisplay";
 import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
 import {BandCreatePopup} from "./BandCreatePopup";
 import {BandEditPopup} from "./BandEditPopup";
+import {SongPortfolio} from "./SongPortfolio";
 
 export const BandSpace = () => {
 
@@ -20,14 +21,21 @@ export const BandSpace = () => {
 
 
     if (me) {
-        return <div>
-            <h3>Hey, {me?.userName}! Here are your next scheduled sessions</h3>
-            <Divider/>
-            <SessionCreater/>
-            {sessions?.map(session => {
-                return <SessionDisplay session={session} key={session.dataBaseID}/>
-            })}
-        </div>
+        return <Grid stackable>
+            <Grid.Column width={1}/>
+            <Grid.Column width={10} >
+                <h3>Hey, {me?.userName}! Here are your next scheduled sessions</h3>
+                <Divider/>
+                <SessionCreater/>
+                {sessions?.map(session => {
+                    return <SessionDisplay session={session} key={session.dataBaseID}/>
+                })}
+            </Grid.Column>
+            <Grid.Column width={4}>
+                <SongPortfolio/>
+            </Grid.Column>
+            <Grid.Column width={1}/>
+        </Grid>
     } else {
         return <p>loading...</p>
     }

@@ -89,17 +89,42 @@ body {
 .dropdownWrapper {
     text-align: right;
 }
+.song-display {
+    padding: 2%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 5px;
+    background-color: #545454;
+    width: 90% !important;
+}
+.song-score {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
 
-
+.portfolio{
+    background: #323232;
+    border-radius: 5px;
+}
+.song-display-header {
+    display: flex;
+    justify-content: space-between;
+}
 
 
 
 .meeting-header{
     background-color: #B464A8;
     text-align: center;
+    border-radius: 5px 5px 0 0;
+
 }
 .meeting-display{
     margin: 5%;
+    border-radius: 5px;
     background-color: #323232;
 }
 .meeting-controls{
@@ -163,7 +188,10 @@ body {
     background-color: #121212;
     color: lawngreen;
 }
-
+.portfolio-header {
+    background: #6263C3;
+    border-radius: 5px 5px 0 0;
+}
 
 
 @keyframes spin {

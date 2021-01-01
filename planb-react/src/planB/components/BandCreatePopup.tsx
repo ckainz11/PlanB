@@ -11,6 +11,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     const [memberList, setMemberList] = useState<User[]>([])
     const [bands, bandOperation] = useBandService(me)
 
+
     const pushBand = useCallback(async () => {
         await bandOperation({
             type: "addWithMembers", payload: {
@@ -58,7 +59,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                     })}>
                     </Dropdown>
                 </FormField>
-                <Button className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
+                <Button icon={"check"}  className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
             </Form>
 
 
