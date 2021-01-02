@@ -9,6 +9,7 @@ export * from "./serviceControllers/useSongService";
 export * from "./serviceControllers/useAssignSongService";
 export * from "./serviceControllers/usePersonalService";
 export * from "./serviceControllers/useUserService";
+export * from "./serviceControllers/useLeaderService";
 
 export * from "./dataBase/useDatabase";
 export * from "./dataBase/useDatabaseElements";

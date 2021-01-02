@@ -75,3 +75,7 @@ useVoteService provides all votes on a specific session
 useUserService provides all users
 + data: Array of all users
 + dataOperation: No operations yet
+
+## useLeaderService
+useLeaderService provides the leader of the band
++ data: Leader as User objy
