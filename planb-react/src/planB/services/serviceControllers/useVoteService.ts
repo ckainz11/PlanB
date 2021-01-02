@@ -1,6 +1,6 @@
 import {Band, Session, User, Vote} from "../../resources";
 import {useCallback} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
 type OperationType =

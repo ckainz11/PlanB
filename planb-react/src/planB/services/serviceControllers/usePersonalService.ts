@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import {useCallback, useEffect, useState} from "react";
 import {User} from "../../resources";
 import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";

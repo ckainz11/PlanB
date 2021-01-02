@@ -1,5 +1,5 @@
 import {useEffect, useReducer, useRef} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import {DataBaseElement} from "../../resources";
 import {ArrayAction, ArrayReducer} from "../../reducers/ArrayReducer";
 

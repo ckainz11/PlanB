@@ -1,7 +1,7 @@
 import {useDatabaseElements} from "..";
 import {Band, Session} from "../../resources";
 import {useCallback, useEffect, useState} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 type OperationType =
     { type: "add", payload: Session } |

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 export function useDatabase(path: string | undefined) {
     const [value, setValue] = useState<firebase.database.DataSnapshot>();
