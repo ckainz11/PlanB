@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useState} from "react";
-import {Button, Dropdown, Form, FormField, Input, Modal, TextArea} from "semantic-ui-react";
-import {Band, User} from "../resources";
+import {Button, Dropdown, Form, FormField, FormGroup, Input, Modal, TextArea} from "semantic-ui-react";
+import {Band, Song, User} from "../resources";
 import {useBandService, useMemberService, usePersonalService, useUserService} from "../services";
 import {BandContext} from "../contexts";
 
@@ -24,6 +24,8 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     }, [bandOperation, memberList, selectBand, newBand]);
 
 
+
+
     const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
         return {
             key: user.dataBaseID,
@@ -32,6 +34,8 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
             image: {avatar: true, src: user.photoUrl}
         }
     })
+
+
 
     return <Modal open={open} onClose={() => onClose()} closeIcon>
         <Modal.Header>Create a new Band</Modal.Header>
@@ -59,10 +63,9 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                     })}>
                     </Dropdown>
                 </FormField>
+
                 <Button icon={"check"}  className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
             </Form>
-
-
         </Modal.Content>
 
 

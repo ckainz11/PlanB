@@ -1,24 +1,28 @@
-import React, {useContext} from "react";
-import {Container} from "semantic-ui-react";
+import React, {useContext, useState} from "react";
+import {Button, Container} from "semantic-ui-react";
 import {BandContext} from "../contexts";
 import {useSongService} from "../services";
 import {SongDisplay} from "./SongDisplay";
+import {SongCreatePopup} from "./SongCreatePopup";
 
 
 export const SongPortfolio = () => {
 
 
-    const [band, selectBand] = useContext(BandContext)
-
+    const [band] = useContext(BandContext)
+    const [open, setOpen] = useState(false)
     const [songs] = useSongService(band)
 
+    const close = () => setOpen(false)
 
     return <Container basic inverted className={"portfolio"}>
         <h1 className={"portfolio-header"}>Song Portfolio</h1>
+        {songs?.length === 0 && <h3>Looks like your portfolio is empty</h3>}
+        <Button content={"Add Song"} icon={"plus"} className={"color-positive"} onClick={() => setOpen(true)}/>
         {songs?.sort((a,b) => a.rating - b.rating).map(song => {
             return <SongDisplay song={song}/>
         })}
-        {songs?.length === 0 && <h3>Looks like your portfolio is empty</h3>}
+        {open && <SongCreatePopup open={open} close={close} />}
     </Container>
 
 
