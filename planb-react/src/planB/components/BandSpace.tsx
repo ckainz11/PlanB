@@ -4,8 +4,6 @@ import {SessionCreater} from "./SessionCreater";
 import {SessionDisplay} from "./SessionDisplay";
 import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
-import {BandCreatePopup} from "./BandCreatePopup";
-import {BandEditPopup} from "./BandEditPopup";
 import {SongPortfolio} from "./SongPortfolio";
 import useLeaderService from "../services/serviceControllers/useLeaderService";
 

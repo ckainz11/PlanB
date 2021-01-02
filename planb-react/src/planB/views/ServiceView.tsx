@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     useAssignSongService,
     useBandService,
@@ -7,10 +7,11 @@ import {
     usePersonalService,
     useSongService, useUserService
 } from "../services";
-import {Band, Session, Song, User} from "../resources";
-import {useVoteService} from "../services/serviceControllers/useVoteService";
-import {Link} from "react-router-dom";
+import { Band, Session, Song, User } from "../resources";
+import { useVoteService } from "../services/serviceControllers/useVoteService";
+import { Link } from "react-router-dom";
 import faker from 'faker';
+import useLeaderService from "../services/serviceControllers/useLeaderService";
 
 
 export function ServiceView() {
@@ -26,6 +27,7 @@ export function ServiceView() {
     const [selectedBand, setSelectedBand] = useState<Band>();
     const [members, memberOperation] = useMemberService(selectedBand);
     const [sessions, sessionOperation] = useSessionService(selectedBand);
+    const [bandLeader] = useLeaderService(selectedBand);
 
     //Band
     const [selectedMeeting, setSelectedMeeting] = useState<Session>();
@@ -55,9 +57,9 @@ export function ServiceView() {
         <Link to={""}>Back To landing page</Link>
         <h1>Authentication:</h1>
         {!me ?
-            <button onClick={() => personalOperation({type: "signInWithGoogle"})}>Authenticate with Google</button>
+            <button onClick={() => personalOperation({ type: "signInWithGoogle" })}>Authenticate with Google</button>
             :
-            <button onClick={() => personalOperation({type: "signOut"})}>Sign out </button>
+            <button onClick={() => personalOperation({ type: "signOut" })}>Sign out </button>
         }
         <h2>Current User:</h2>
         <pre>{JSON.stringify(me, null, 2)}</pre>
@@ -77,7 +79,7 @@ export function ServiceView() {
             }
         }}>
             <input onChange={(e) => setSearchUserEmail(e.target.value)} value={searchUserEmail} type="text"
-                   placeholder={"email"}/>
+                placeholder={"email"} />
             <button type={"submit"}>Search user by email</button>
         </form>
 
@@ -89,7 +91,7 @@ export function ServiceView() {
         <form onSubmit={(event) => {
             event.preventDefault();
             console.log(`Add random band`)
-            bandOperation({type: "add", payload: {dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase()} as Band});
+            bandOperation({ type: "add", payload: { dataBaseID: "noID", name: faker.company.companyName(), description: faker.company.catchPhrase() } as Band });
         }}>
             <button type={"submit"}>Add random band</button>
         </form>
@@ -97,10 +99,10 @@ export function ServiceView() {
         <form onSubmit={(event) => {
             event.preventDefault();
             console.log(`Remove band ${addMemberUid}`)
-            bandOperation({type: "remove", payload: {dataBaseID: removeBandId} as Band});
+            bandOperation({ type: "remove", payload: { dataBaseID: removeBandId } as Band });
         }}>
             <input onChange={(e) => setRemoveBandId(e.target.value)} value={removeBandId} type="text"
-                   placeholder={"id"}/>
+                placeholder={"id"} />
             <button type={"submit"}>Remove band</button>
         </form>
 
@@ -112,56 +114,60 @@ export function ServiceView() {
                             // checked={selectedBand && selectedBand.dataBaseID === band.dataBaseID}
                             onChange={() => setSelectedBand(() => band)} type="radio" id={band.dataBaseID}
                             name="band"
-                            value={band.dataBaseID}/><br/></div>
+                            value={band.dataBaseID} /><br /></div>
                 })
             }
         </form>
         {selectedBand && <div>
+            <h4>Band Leader</h4>
+            <pre>
+                {JSON.stringify(bandLeader, null, 2)}
+            </pre>
             <h4>Members</h4>
             <pre>
-            {JSON.stringify(members, null, 2)}
+                {JSON.stringify(members, null, 2)}
             </pre>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Add member ${addMemberUid}`)
-                memberOperation({type: "add", payload: {dataBaseID: addMemberUid} as User});
+                memberOperation({ type: "add", payload: { dataBaseID: addMemberUid } as User });
             }}>
                 <input onChange={(e) => setAddMemberUid(e.target.value)} value={addMemberUid} type="text"
-                       placeholder={"uid"}/>
+                    placeholder={"uid"} />
                 <button type={"submit"}>Add member</button>
             </form>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Remove member ${removeMemberID}`)
-                memberOperation({type: "remove", payload: {dataBaseID: removeMemberID} as User});
+                memberOperation({ type: "remove", payload: { dataBaseID: removeMemberID } as User });
             }}>
                 <input onChange={(e) => setRemoveMemberId(e.target.value)} value={removeMemberID} type="text"
-                       placeholder={"uid"}/>
+                    placeholder={"uid"} />
                 <button type={"submit"}>Remove member</button>
             </form>
             <h4>Sessions</h4>
             <pre>
-            {JSON.stringify(sessions, null, 2)}
+                {JSON.stringify(sessions, null, 2)}
             </pre>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Remove session ${removeSessionId}`)
-                sessionOperation({type: "remove", payload: {dataBaseID: removeSessionId} as Session});
+                sessionOperation({ type: "remove", payload: { dataBaseID: removeSessionId } as Session });
             }}>
                 <input onChange={(e) => setRemoveSessionId(e.target.value)} value={removeSessionId} type="text"
-                       placeholder={"uid"}/>
+                    placeholder={"uid"} />
                 <button type={"submit"}>Remove meeting</button>
             </form>
             <h4>Songs</h4>
             <pre>
-            {JSON.stringify(songs, null, 2)}
+                {JSON.stringify(songs, null, 2)}
             </pre>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Add random song`)
                 songOperation({
                     type: "add",
-                    payload: {dataBaseID: "", name: faker.random.word(), content: faker.hacker.phrase(), rating: faker.random.number(10)}
+                    payload: { dataBaseID: "", name: faker.random.word(), content: faker.hacker.phrase(), rating: faker.random.number(10) }
                 });
             }}>
                 <button type={"submit"}>Add random song</button>
@@ -169,10 +175,10 @@ export function ServiceView() {
             <form onSubmit={(event) => {
                 event.preventDefault();
                 console.log(`Remove song ${removeSongId}`)
-                songOperation({type: "remove", payload: {dataBaseID: removeSongId} as Song});
+                songOperation({ type: "remove", payload: { dataBaseID: removeSongId } as Song });
             }}>
                 <input onChange={(e) => setRemoveSongId(e.target.value)} value={removeSongId} type="text"
-                       placeholder={"uid"}/>
+                    placeholder={"uid"} />
                 <button type={"submit"}>Remove song</button>
             </form>
 
@@ -186,7 +192,7 @@ export function ServiceView() {
                                     // checked={selectedBand && selectedBand.dataBaseID === meeting.dataBaseID}
                                     onChange={() => setSelectedMeeting(() => meeting)} type="radio"
                                     id={meeting.dataBaseID} name="band"
-                                    value={meeting.dataBaseID}/><br/></div>
+                                    value={meeting.dataBaseID} /><br /></div>
                         })
                     }
                 </form>
@@ -198,19 +204,19 @@ export function ServiceView() {
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         console.log(`Assign Song ${addMemberUid}`)
-                        assOperation({type: "add", payload: {dataBaseID: assignSongId} as Song});
+                        assOperation({ type: "add", payload: { dataBaseID: assignSongId } as Song });
                     }}>
                         <input onChange={(e) => setAssignSongId(e.target.value)} value={assignSongId} type="text"
-                               placeholder={"uid"}/>
+                            placeholder={"uid"} />
                         <button type={"submit"}>Assign song</button>
                     </form>
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         console.log(`Un assign song ${unAssignSongId}`)
-                        assOperation({type: "remove", payload: {dataBaseID: unAssignSongId} as Song});
+                        assOperation({ type: "remove", payload: { dataBaseID: unAssignSongId } as Song });
                     }}>
                         <input onChange={(e) => setUnAssignSongId(e.target.value)} value={unAssignSongId} type="text"
-                               placeholder={"uid"}/>
+                            placeholder={"uid"} />
                         <button type={"submit"}>Un asign song</button>
                     </form>
                     <h4>Votes</h4>
@@ -218,7 +224,7 @@ export function ServiceView() {
                         return <div key={user.dataBaseID}>
                             <p>
                                 {user.userName}:
-                                {<VoteDisplay user={user} band={selectedBand} session={selectedMeeting}/>}
+                                {<VoteDisplay user={user} band={selectedBand} session={selectedMeeting} />}
                             </p>
                         </div>
                     })}
@@ -228,10 +234,10 @@ export function ServiceView() {
     </div>
 }
 
-function VoteDisplay({user, band, session}: { user: User, band: Band, session: Session }) {
+function VoteDisplay({ user, band, session }: { user: User, band: Band, session: Session }) {
     const [vote] = useVoteService(user, band, session);
 
     return <pre>
-                {JSON.stringify(vote, null, 2)}
-            </pre>
+        {JSON.stringify(vote, null, 2)}
+    </pre>
 }

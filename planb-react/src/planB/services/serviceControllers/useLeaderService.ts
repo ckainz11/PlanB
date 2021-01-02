@@ -7,7 +7,7 @@ export default function useLeaderService (band: Band | undefined): [User | undef
     const [leaderObj] = useDatabaseSingleElement<User>(leader && `users/${leader}`)
 
     useEffect(() => {
-        band && setLeader(band.dataBaseID)
+        setLeader(band?.leader)
     }, [band])
     
     return [
