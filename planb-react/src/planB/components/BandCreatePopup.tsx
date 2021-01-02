@@ -21,7 +21,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
         })
         onClose()
         selectBand(newBand)
-    }, [bandOperation, memberList, selectBand, newBand]);
+    }, [bandOperation, memberList, selectBand, newBand, onClose]);
 
 
 
