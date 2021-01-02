@@ -37,7 +37,6 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
             </div>
         </Modal.Content>
     </Modal>
-
 }
 
 type SongCreatePopupProps = {

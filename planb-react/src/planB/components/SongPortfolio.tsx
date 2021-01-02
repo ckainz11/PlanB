@@ -4,6 +4,7 @@ import {BandContext} from "../contexts";
 import {useSongService} from "../services";
 import {SongDisplay} from "./SongDisplay";
 import {SongCreatePopup} from "./SongCreatePopup";
+import {Band} from "../resources";
 
 
 export const SongPortfolio = () => {
@@ -20,7 +21,7 @@ export const SongPortfolio = () => {
         {songs?.length === 0 && <h3>Looks like your portfolio is empty</h3>}
         <Button content={"Add Song"} icon={"plus"} className={"color-positive"} onClick={() => setOpen(true)}/>
         {songs?.sort((a,b) => a.rating - b.rating).map(song => {
-            return <SongDisplay song={song}/>
+            return <SongDisplay band={band as Band} song={song}/>
         })}
         {open && <SongCreatePopup open={open} close={close} />}
     </Container>

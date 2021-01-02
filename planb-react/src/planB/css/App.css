@@ -105,6 +105,10 @@ body {
     font-size: 1.5rem;
     margin: 0;
 }
+.song-details {
+    display: flex;
+    justify-content: space-between;
+}
 
 .song-title {
     margin: 0;
