@@ -150,6 +150,12 @@ body {
     justify-content: space-between;
     padding: 0.5%;
 }
+.band-display {
+    background: #323232;
+    width: 40% !important;
+    border-radius: 5px;
+    margin: 2% !important;
+}
 .color-grey{
     background-color: #dddddd !important;
     color: #dddddd !important;
