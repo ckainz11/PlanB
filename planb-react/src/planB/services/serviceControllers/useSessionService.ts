@@ -45,10 +45,11 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (!sessionID) {
             return
         }
+        //Todo: optimize (not doing everything by its own)
         for (let song of songs) {
             await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${song.dataBaseID}`).set(true);
         }
-        
+
         session.dataBaseID = sessionID
     }, [band])
 
