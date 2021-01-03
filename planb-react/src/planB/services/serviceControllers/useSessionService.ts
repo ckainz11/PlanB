@@ -1,11 +1,12 @@
-import {useDatabaseElements} from "..";
-import {Band, Session} from "../../resources";
-import {useCallback, useEffect, useState} from "react";
+import { useDatabaseElements } from "..";
+import { Band, Session, Song } from "../../resources";
+import { useCallback, useEffect, useState } from "react";
 import firebase from "firebase/app";
 
 type OperationType =
     { type: "add", payload: Session } |
-    { type: "remove", payload: Session }
+    { type: "remove", payload: Session } |
+    { type: "addWithSongs", payload: { session: Session, songs: Song[] } }
     ;
 
 export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => Promise<void>] {
@@ -22,34 +23,47 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         }
     }, [rawSessions]);
 
+    const createSession = useCallback(async (session: Session, songs: Song[]) => {
+        if (!band) {
+            return;
+        }
+        const uid = firebase.auth().currentUser?.uid;
+        if (!uid) {
+            return;
+        }
+        const sessionID = firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
+            ...session,
+            start: session.start.toString(),
+            end: session.end.toString(),
+            proposer: uid,
+            dataBaseID: null
+        }, (err) => {
+            if (err) {
+                console.log(err)
+            }
+        }).key;
+        if (!sessionID) {
+            return
+        }
+        for (let song of songs) {
+            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${song.dataBaseID}`).set(true);
+        }
+        
+        session.dataBaseID = sessionID
+    }, [band])
+
     const sessionOperation = useCallback(async (operation: OperationType) => {
         if (band) {
             switch (operation.type) {
                 case "add":
-                    const uid = firebase.auth().currentUser?.uid;
-                    if (!uid) {
-                        return;
-                    }
-                    const sessionID = firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
-                        ...operation.payload,
-                        start: operation.payload.start.toString(),
-                        end: operation.payload.end.toString(),
-                        proposer: uid,
-                        dataBaseID: null
-                    }, (err) => {
-                        if (err) {
-                            console.log(err)
-                        }
-                    }).key;
-                    if (!sessionID) {
-                        return
-                    }
-                    operation.payload.dataBaseID = sessionID
+                    await createSession(operation.payload, [])
                     break;
                 case "remove":
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`);
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`);
                     break;
+                case "addWithSongs": 
+                    await createSession(operation.payload.session, operation.payload.songs)
             }
         }
     }, [band]);
