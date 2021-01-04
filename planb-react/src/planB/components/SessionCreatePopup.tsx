@@ -105,7 +105,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                     <TextArea onChange={(event, data) => {setSession({...session, description: data.value as string})}} />
                 </FormField>
                 <FormField>
-                    <Dropdown options={options} selection search multiple fluid onChange={((event, data) => {
+                    <Dropdown options={options || []} selection search multiple fluid onChange={((event, data) => {
                         const newSongs = data.value as []
                         setTempSongs(newSongs)
                     })} />
