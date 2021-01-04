@@ -1,12 +1,13 @@
 import React, {useContext, useState} from "react";
 
-import {Button, Form, FormField, FormGroup, Input, Modal, TextArea} from "semantic-ui-react";
+import {Button, Divider, Dropdown, Form, FormField, FormGroup, Input, Modal, TextArea} from "semantic-ui-react";
 
 import {BandContext} from "../contexts";
-import {Session} from "../resources";
+import {Session, Song} from "../resources";
 
-import {useSessionService} from "../services";
+import {useAssignSongService, useSessionService, useSongService} from "../services";
 import {DateInput, TimeInput} from "semantic-ui-calendar-react";
+import {SongTable} from "./SongTable";
 
 
 
@@ -34,7 +35,9 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
     const [band, selectBand] = useContext(BandContext);
 
     const [sessions, sessionOperation] = useSessionService(band);
-
+    const [songs, songOperation] = useAssignSongService(band, session)
+    const [allSongs, allSongOperation] = useSongService(band)
+    const [tempSongs, setTempSongs] = useState<String[]>([])
 
     const handleDateInput = (event: any, {value}: any) => {
         selectDate(value);
@@ -45,15 +48,32 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         else
             setEndTime(value);
     }
+    const options = allSongs?.map(s => {
+        return {
+            key: s.dataBaseID,
+            text: s.name,
+            value: s.dataBaseID
+        }
+    })
 
+    const getSongs = (): Song[] => {
+        const displaySongs: Song[] = []
+        tempSongs.forEach(id =>
+            displaySongs.push(allSongs?.find(s => id === s.dataBaseID) as Song)
+        )
+        return displaySongs
+    }
 
-    const pushSession = () => {
+    const pushSession = async() => {
         const finalSession: Session = {
             ...session,
             start: parseDateString(date, startTime),
             end: parseDateString(date, endTime),
         };
-        sessionOperation({type:"add", payload:finalSession})
+        const res = await sessionOperation({type:"add", payload:finalSession})
+        getSongs().forEach(song => {
+            songOperation({type: "add", payload: song})
+        })
 
     }
 
@@ -83,7 +103,14 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                 <FormField>
                     <TextArea onChange={(event, data) => {setSession({...session, description: data.value as string})}} />
                 </FormField>
-
+                <FormField>
+                    <Dropdown options={options} selection search multiple fluid onChange={((event, data) => {
+                        const newSongs = data.value as []
+                        setTempSongs(newSongs)
+                    })} />
+                </FormField>
+                {tempSongs.length > 0 && <SongTable songs={getSongs()}/>}
+                <Divider/>
                 <Button className={"color-positive"} content={"Create!"} onClick={() => {
                     pushSession();
                     closeModal();
