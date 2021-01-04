@@ -70,13 +70,13 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
             start: parseDateString(date, startTime),
             end: parseDateString(date, endTime),
         };
-        const res = await sessionOperation({type:"add", payload:finalSession})
-        getSongs().forEach(song => {
-            songOperation({type: "add", payload: song})
-        })
-
+        const res = await sessionOperation({type:"addWithSongs", payload:{
+            session: finalSession,
+            songs: tempSongs.map((e) => {
+                return {dataBaseID: e} as Song
+            })
+        }})
     }
-
 
     return <Modal open={open} onClose={() => closeModal()} closeIcon>
         <Modal.Header>Session Creation</Modal.Header>

@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && sudo firebase deploy",
+    "deploy": "react-scripts build && firebase deploy",
     "tsc": "tsc"
   },
   "eslintConfig": {

@@ -45,10 +45,15 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (!sessionID) {
             return
         }
-        //Todo: optimize (not doing everything by its own)
-        for (let song of songs) {
-            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/assignedSongs/${song.dataBaseID}`).set(true);
-        }
+        const songData = songs.reduce((acc, curr) => {
+            acc[curr.dataBaseID] = true;
+            return acc
+        }, {} as any)
+        console.log(songData);
+        
+        await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${sessionID}`).set({
+            assignedSongs: songData
+        });
 
         session.dataBaseID = sessionID
     }, [band])
@@ -63,7 +68,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`);
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`);
                     break;
-                case "addWithSongs": 
+                case "addWithSongs":
                     await createSession(operation.payload.session, operation.payload.songs)
             }
         }
