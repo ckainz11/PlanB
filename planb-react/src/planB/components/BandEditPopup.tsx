@@ -24,13 +24,13 @@ export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandE
 
 
     return <Modal open={open} onClose={() => close()}>
-        <Modal.Header>Edit Band: {band?.name}</Modal.Header>
-        <Modal.Content>
+        <Modal.Header className={"edit-header"}>Edit Band: {band?.name}</Modal.Header>
+        <Modal.Content className={"edit-content"}>
             <MemberDisplay me={me} band={band}/>
             {leader && <Form>
                <Form.Group>
                    <Form.Field width={12}>
-                       <Dropdown placeholder={"Members"} selection multiple fluid search pointing={"bottom"} options={options}
+                       <Dropdown className={"edit-dropdown"} placeholder={"Members"} selection multiple fluid search pointing={"bottom"} options={options}
                                  onChange={((event, data) => {
                                      const newMemberList: string[] = []
                                      const m = data.value as []
@@ -42,7 +42,7 @@ export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandE
                        </Dropdown>
                    </Form.Field>
                    <Form.Field width={3}>
-                       <Button content={"Add"} icon={"plus"} onClick={() => {
+                       <Button className={"edit-add-btn"} content={"Add"} icon={"plus"} onClick={() => {
                            memberList.forEach(id => {
                                memberOperation({type: "add", payload: {dataBaseID: id} as User})
                            })

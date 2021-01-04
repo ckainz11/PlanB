@@ -16,7 +16,7 @@ export const SessionCreater = () => {
 
 
     return <div>
-        <Input type={"text"} inverted placeholder={"Enter a name..."}
+        <Input className={"inp-create"} type={"text"} inverted placeholder={"Enter a name..."}
                onChange={(event, data) => setSessionName(data.value)}
                onKeyDown={(e: { keyCode: number; }) => {
                    if (e.keyCode === 13) {

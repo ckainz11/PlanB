@@ -57,10 +57,33 @@ body {
     text-align: center;
 }
 
+.edit-header{
+    background-color: #6263C3 !important;
+    color: #323232 !important;
+    text-align: center !important;
+}
+
+.edit-content{
+    background-color: #323232 !important;
+    color: white !important;
+}
+
+.segments >*, .edit-dropdown{
+    background-color: #545454 !important;
+    color: white !important;
+}
+
+.edit-add-btn{
+    background-color: #8662BC !important;
+}
+
+
+
 
 /*noinspection ALL*/
 .login-logo{
-    height: 40rem;
+    height: 25rem !important;
+    width: auto !important;
     margin: 2% auto;
 }
 
@@ -91,7 +114,6 @@ body {
 }
 .song-display {
     padding: 2%;
-    margin-top: 5%;
     margin-bottom: 5%;
     border-radius: 5px;
     background-color: #545454;
@@ -169,6 +191,10 @@ body {
     color: #dddddd !important;
 }
 
+.inp-create > input{
+    background-color: #323232 !important;
+    color: white !important;
+}
 
 .meeting-date-info{
     display: flex;
@@ -213,11 +239,16 @@ body {
     background-color: #121212;
     color: lawngreen;
 }
+
 .portfolio-header {
     background: #6263C3;
     border-radius: 5px 5px 0 0;
 }
 
+.add-song-btn{
+    margin-bottom: 5% !important;
+    width: 90% !important;
+}
 
 @keyframes spin {
     0% {

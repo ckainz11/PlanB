@@ -79,6 +79,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
 
 
     return <Modal open={open} onClose={() => closeModal()} closeIcon>
+        <Modal.Header>Session Creation</Modal.Header>
         <Modal.Content>
             <Form>
                 <FormField>

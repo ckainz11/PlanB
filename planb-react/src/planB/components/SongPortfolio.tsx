@@ -19,7 +19,7 @@ export const SongPortfolio = () => {
     return <Container basic inverted className={"portfolio"}>
         <h1 className={"portfolio-header"}>Song Portfolio</h1>
         {songs?.length === 0 && <h3>Looks like your portfolio is empty</h3>}
-        <Button content={"Add Song"} icon={"plus"} className={"color-positive"} onClick={() => setOpen(true)}/>
+        <Button content={"Add Song"} icon={"plus"} className={"color-positive add-song-btn"} onClick={() => setOpen(true)}/>
         {songs?.sort((a,b) => a.rating - b.rating).map(song => {
             return <SongDisplay band={band as Band} song={song}/>
         })}
