@@ -137,7 +137,19 @@ body {
     background: #323232;
     border-radius: 5px;
     padding-bottom: .7%;
+    position: sticky;
+    position: -webkit-sticky;
+    width: 100% !important;
+    top: 40px;
 }
+
+.songs-div{
+    max-height: 67vh;
+    overflow: auto;
+    scrollbar-width: none;
+    margin-bottom: 10px;
+}
+
 .song-display-header {
     display: flex;
     justify-content: space-between;
