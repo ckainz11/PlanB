@@ -16,12 +16,12 @@ export const SongPortfolio = () => {
 
     const close = () => setOpen(false)
 
-    return <Container basic inverted className={"portfolio"}>
+    return <Container className={"portfolio"}>
         <h1 className={"portfolio-header"}>Song Portfolio</h1>
         {songs?.length === 0 && <h3>Looks like your portfolio is empty</h3>}
         <Button content={"Add Song"} icon={"plus"} className={"color-positive add-song-btn"} onClick={() => setOpen(true)}/>
         <div className={"songs-div"}>{songs?.sort((a,b) => a.rating - b.rating).map(song => {
-            return <SongDisplay band={band as Band} song={song}/>
+            return <SongDisplay key={song.dataBaseID} band={band as Band} song={song}/>
         })}
         {open && <SongCreatePopup open={open} close={close} />}
         </div>
