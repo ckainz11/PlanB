@@ -75,9 +75,12 @@ body {
 
 .edit-add-btn{
     background-color: #8662BC !important;
+    color: #323232 !important;
 }
 
-
+.header.ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
+    color: white !important;
+}
 
 
 /*noinspection ALL*/
