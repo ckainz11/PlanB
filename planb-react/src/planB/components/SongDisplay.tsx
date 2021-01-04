@@ -17,7 +17,7 @@ export const SongDisplay = ({song, band}: SongDisplayProps) => {
     const [details, setDetails] = useState(false)
     const [songs, songOperation] = useSongService(band)
 
-    return <Container inverted basic className={"song-display"}>
+    return <Container className={"song-display"}>
         <div className={"song-display-header"}>
             <p className={getCSS(song.rating)} >{song.rating}</p>
             <h3 className={"song-title"}>{song.name}</h3>
