@@ -14,7 +14,7 @@ export const BandSelector = ({bands, selectBand, me}: BandSelectorProps) => {
     return <div>
         <Button icon="plus" content="Create new Band" className="color-positive" onClick={() => setOpen(true)} />
         {bands.map(band => {
-            return <Container className="band-display" basic inverted key={band.dataBaseID} onClick={() => selectBand(band)}>
+            return <Container className="band-display" key={band.dataBaseID} onClick={() => selectBand(band)}>
                 <h2>{band.name}</h2>
                 <h4>Leader: {users?.find(user => user.dataBaseID === band.leader)?.userName}</h4>
                 <pre>{band.description}</pre>
