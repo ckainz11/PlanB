@@ -67,7 +67,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
                     await createSession(operation.payload.session, operation.payload.songs)
             }
         }
-    }, [band]);
+    }, [band, createSession]);
 
     return [compiledSessions, sessionOperation];
 }
