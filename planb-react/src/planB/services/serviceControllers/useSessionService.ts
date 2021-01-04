@@ -49,7 +49,6 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
             acc[curr.dataBaseID] = true;
             return acc
         }, {} as any)
-        console.log(songData);
         
         await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${sessionID}`).set({
             assignedSongs: songData

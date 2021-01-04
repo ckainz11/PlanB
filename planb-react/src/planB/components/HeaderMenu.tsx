@@ -27,7 +27,7 @@ export const HeaderMenu = () => {
                       placeholder={"Bands"}>
                 <Dropdown.Menu>
                     {bands?.map(band => {
-                        return <Dropdown.Item icon={"check"} key={band.dataBaseID} onClick={() => {
+                        return <Dropdown.Item key={band.dataBaseID} onClick={() => {
                             setSelectedBand(band)
                         }}>{band.name}</Dropdown.Item>
                     })}
