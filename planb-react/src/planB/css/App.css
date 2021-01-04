@@ -65,23 +65,17 @@ body {
 
 .edit-content{
     background-color: #323232 !important;
-    color: white !important;
 }
 
 .segments >*, .edit-dropdown{
     background-color: #545454 !important;
-    color: white !important;
+    color: black !important;
 }
 
 .edit-add-btn{
     background-color: #8662BC !important;
     color: #323232 !important;
 }
-
-.header.ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
-    color: white !important;
-}
-
 
 /*noinspection ALL*/
 .login-logo{
