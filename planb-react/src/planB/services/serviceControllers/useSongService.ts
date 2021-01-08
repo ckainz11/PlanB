@@ -13,10 +13,10 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
 
     const songOperation = useCallback(async (operation: OperationType) => {
         if (band) {
-
             switch (operation.type) {
                 case "add":
                     if(songValidation(operation.payload) < 0) {return;}
+                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
                     const songID = firebase.database().ref(`bandSpace/${band.dataBaseID}/songs`).push({...operation.payload, dataBaseID: null}, (err) => {if (err) {console.log(err)}}).key;
                     if (songID)
                         operation.payload.dataBaseID = songID
@@ -29,7 +29,7 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
     }, [band]);
 
     const songValidation = useCallback((song: Song) => {
-        if(song.name.split(" ")[0] === " ") { return -1}
+        //if(song.name.split(" ")[0] === " ") { return -1}
         if(song.name.length > 50) {return -2}
         if(song.rating < 0 ) { return -3}
         if(song.rating > 10) { return -4}

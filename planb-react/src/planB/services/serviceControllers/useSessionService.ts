@@ -62,6 +62,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
             switch (operation.type) {
                 case "add":
                     if(await sessionValidation(operation.payload) < 0) {return;}
+                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
                     await createSession(operation.payload, [])
                     break;
                 case "remove":
@@ -78,7 +79,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     const sessionValidation = useCallback((session: Session) => {
         if(session.start > session.end) {return -1}
         if(session.name.length < 3) {return -2}
-        if(session.name.split("")[0] === " ") {return -3}
+        //if(session.name.split("")[0] === " ") {return -3}
         if(session.name.length > 50) {return -4}
         if(session.start === undefined) {return -5}
         if(session.end === undefined) {return -6}
