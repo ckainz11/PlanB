@@ -1,6 +1,6 @@
-import { useDatabaseElements } from "..";
-import { Band, Session, Song } from "../../resources";
-import { useCallback, useEffect, useState } from "react";
+import {useDatabaseElements} from "..";
+import {Band, Session, Song} from "../../resources";
+import {useCallback, useEffect, useState} from "react";
 import firebase from "firebase/app";
 
 type OperationType =
@@ -58,34 +58,72 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [band])
 
     const sessionOperation = useCallback(async (operation: OperationType) => {
-        if (band) {
-            switch (operation.type) {
-                case "add":
-                    if(await sessionValidation(operation.payload) < 0) {return;}
-                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                    await createSession(operation.payload, [])
-                    break;
-                case "remove":
-                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`);
-                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`);
-                    break;
-                case "addWithSongs":
-                    if(await sessionValidation(operation.payload.session) < 0) {return;}
-                    await createSession(operation.payload.session, operation.payload.songs)
+            if (band) {
+                switch (operation.type) {
+                    case "add":
+                        if (await sessionValidation(operation.payload) < 0) {
+                            return;
+                        }
+                        operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
+                        try {
+                            await createSession(operation.payload, [])
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        break;
+                    case "remove":
+                        try {
+                            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`).remove();
+                            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`).remove();
+                        } catch (e) {
+                            console.log(e)
+                        }
+
+                        break;
+                    case "addWithSongs":
+                        try {
+                            if (await sessionValidation(operation.payload.session) < 0) {
+                                return;
+                            }
+                            await createSession(operation.payload.session, operation.payload.songs)
+                        } catch (e) {
+                            console.log(e)
+                        }
+                }
             }
         }
-    }, [band, createSession]);
+
+        ,
+        [band, createSession]
+        )
+    ;
 
     const sessionValidation = useCallback((session: Session) => {
-        if(session.start > session.end) {return -1}
-        if(session.name.length < 3) {return -2}
+        if (session.start > session.end) {
+            return -1
+        }
+        if (session.name.length < 3) {
+            return -2
+        }
         //if(session.name.split("")[0] === " ") {return -3}
-        if(session.name.length > 50) {return -4}
-        if(session.start === undefined) {return -5}
-        if(session.end === undefined) {return -6}
-        if(session.start < new Date()) {return -7}
-        if(session.location.length > 100) {return -8}
-        if(session.description.length > 2000) {return -9}
+        if (session.name.length > 50) {
+            return -4
+        }
+        if (session.start === undefined) {
+            return -5
+        }
+        if (session.end === undefined) {
+            return -6
+        }
+        if (session.start < new Date()) {
+            return -7
+        }
+        if (session.location.length > 100) {
+            return -8
+        }
+        if (session.description.length > 2000) {
+            return -9
+        }
 
         return 1;
     }, []);
