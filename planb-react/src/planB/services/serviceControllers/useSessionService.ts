@@ -9,7 +9,7 @@ type OperationType =
     { type: "addWithSongs", payload: { session: Session, songs: Song[] } }
     ;
 
-export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => Promise<number>)] {
+export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => number)] {
     const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
@@ -31,7 +31,6 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         if (!uid) {
             return;
         }
-        if(await sessionValidation(session) < 0) {return;}
         const sessionID = firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
             ...session,
             start: session.start.toString(),
@@ -50,7 +49,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
             acc[curr.dataBaseID] = true;
             return acc
         }, {} as any)
-        
+
         await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${sessionID}`).set({
             assignedSongs: songData
         });
@@ -62,6 +61,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         if (band) {
             switch (operation.type) {
                 case "add":
+                    if(await sessionValidation(operation.payload) < 0) {return;}
                     await createSession(operation.payload, [])
                     break;
                 case "remove":
@@ -69,12 +69,13 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`);
                     break;
                 case "addWithSongs":
+                    if(await sessionValidation(operation.payload.session) < 0) {return;}
                     await createSession(operation.payload.session, operation.payload.songs)
             }
         }
     }, [band, createSession]);
 
-    const sessionValidation = useCallback(async (session: Session) => {
+    const sessionValidation = useCallback((session: Session) => {
         if(session.start > session.end) {return -1}
         if(session.name.length < 3) {return -2}
         if(session.name.split("")[0] === " ") {return -3}
