@@ -57,9 +57,13 @@ body {
     text-align: center;
 }
 
+.session-view-votes {
+    background: #545454;
+}
+
 .edit-header{
     background-color: #6263C3 !important;
-    color: #323232 !important;
+    color: #dddddd !important;
     text-align: center !important;
 }
 
@@ -69,12 +73,21 @@ body {
 
 .segments >*, .edit-dropdown{
     background-color: #545454 !important;
-    color: black !important;
+    color: #dddddd !important;
+}
+.edit-dropdown .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
+    color: #dddddd !important
 }
 
 .edit-add-btn{
     background-color: #8662BC !important;
-    color: #323232 !important;
+    color: #dddddd !important;
+}
+.edit-dropdown {
+    color: #dddddd !important
+}
+.default.text {
+    color: #dddddd !important
 }
 
 /*noinspection ALL*/
@@ -241,6 +254,9 @@ body {
 .vote-display-wrapper{
     display: flex;
     margin-left: 0.1%;
+}
+.vote-display-vertical {
+    flex-direction: column;
 }
 
 /*noinspection ALL*/

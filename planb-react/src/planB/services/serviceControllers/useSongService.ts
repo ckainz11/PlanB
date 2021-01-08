@@ -31,8 +31,8 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
     const songValidation = useCallback((song: Song) => {
         if(song.name.split(" ")[0] === " ") { return -1}
         if(song.name.length > 50) {return -2}
-        if(song.rating <= 0 ) { return -3}
-        if(song.rating >= 10) { return -4}
+        if(song.rating < 0 ) { return -3}
+        if(song.rating > 10) { return -4}
 
         return 1;
     }, []);
