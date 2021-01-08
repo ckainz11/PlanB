@@ -75,7 +75,7 @@ body {
     background-color: #545454 !important;
     color: #dddddd !important;
 }
-.edit-dropdown .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
+.edit-dropdown.ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
     color: #dddddd !important
 }
 
