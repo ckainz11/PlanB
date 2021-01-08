@@ -10,13 +10,13 @@ export const HeaderMenu = () => {
     const [me, signOut] = usePersonalService();
     const [bands, bandOperation] = useBandService(me);
     const [band, setSelectedBand] = useContext(BandContext);
-    const [members, memberOperation] = useMemberService(band)
+    const [members, memberOperation] = useMemberService(band);
 
-    const [createOpen, setCreateOpen] = useState(false)
-    const [editOpen, setEditOpen] = useState(false)
-    const closeCreate = () => setCreateOpen(false)
-    const closeEdit = () => setEditOpen(false)
-    const leader = me?.dataBaseID === band?.leader
+    const [createOpen, setCreateOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
+    const closeCreate = () => setCreateOpen(false);
+    const closeEdit = () => setEditOpen(false);
+    const leader = me?.dataBaseID === band?.leader;
 
     return <div className={"custom-menu"}>
         <Menu size={"large"} secondary>
@@ -42,7 +42,10 @@ export const HeaderMenu = () => {
                         memberOperation({type: "remove", payload: me!!});
                         setSelectedBand(undefined)
                     }}/>}
-                    {band && leader && <Dropdown.Item icon={"trash"} text={"Delete Band"} onClick={() => {bandOperation({type: "remove", payload: band}); setSelectedBand(undefined)}}/>}
+                    {band && leader && <Dropdown.Item icon={"trash"}  text={"Delete Band"} onClick={async () => {
+                        await bandOperation({type: "remove", payload: band});
+                        setSelectedBand(undefined)
+                    }}/>}
                     {band && <Dropdown.Divider/>}
                     <Dropdown.Header>Account</Dropdown.Header>
                     <Dropdown.Item icon={"plus"} text={"Create Band"} onClick={() => setCreateOpen(true)}/>

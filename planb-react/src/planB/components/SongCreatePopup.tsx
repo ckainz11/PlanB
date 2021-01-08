@@ -13,13 +13,15 @@ import {
 import {BandContext} from "../contexts";
 import {useSongService} from "../services";
 import {Song} from "../resources";
-
+const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
 
     const [band] = useContext(BandContext)
     const [songs, songOperation, validateSong] = useSongService(band)
     const [song, setSong] = useState<Song>({} as Song)
-
+    const [creating, setCreating] = useState(false)
 
     const onChange = (event: any, {value}: InputOnChangeData) => {
         let num = Number(value)
@@ -47,10 +49,11 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
             <Divider/>
             <div className={"create-song-controls"} >
                 <Button className={"color-negative"} content="Cancel" icon="close" onClick={() => close()} />
-                <Button className={"color-positive"} content={"Add"} icon="check" onClick={async () => {
+                <Button className={"color-positive"} loading={creating} content={"Add"} icon="check" onClick={async () => {
+                    setCreating(true)
+                    await sleep(500)
                     const promise = await songOperation({type: "add", payload: song})
-                    console.log("Rating: "+ song.rating)
-                    console.log("Validate: "+validateSong(song))
+                    setCreating(false)
                     close();
                 }} />
             </div>

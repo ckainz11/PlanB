@@ -3,7 +3,9 @@ import {Button, Dropdown, Form, FormField, FormGroup, Input, Modal, TextArea} fr
 import {Band, Song, User} from "../resources";
 import {useBandService, useMemberService, usePersonalService, useUserService} from "../services";
 import {BandContext} from "../contexts";
-
+const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function getOptions (users: User[], me: User) {
     const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
         return {
@@ -21,15 +23,18 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     const [users] = useUserService()
     const [memberList, setMemberList] = useState<User[]>([])
     const [bands, bandOperation] = useBandService(me)
-
+    const [creating, setCreating] = useState(false)
 
     const pushBand = useCallback(async () => {
+        setCreating(true)
+        await sleep(500)
         await bandOperation({
             type: "addWithMembers", payload: {
                 band: newBand,
                 members: memberList as User[]
             }
         })
+        setCreating(false)
         onClose()
         selectBand(newBand)
     }, [bandOperation, memberList, selectBand, newBand, onClose]);
@@ -61,7 +66,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                     </Dropdown>
                 </FormField>
 
-                <Button icon={"check"}  className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
+                <Button icon={"check"} loading={creating}  className={"color-positive"} content={"Create!"} floated={"right"} onClick={() => pushBand()}/>
             </Form>
         </Modal.Content>
 

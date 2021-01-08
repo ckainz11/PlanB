@@ -3,14 +3,17 @@ import {Button, Container, Divider, Dropdown, Form, Modal} from "semantic-ui-rea
 import {Band, User} from "../resources";
 import {MemberDisplay} from "./MemberDisplay";
 import {useBandService, useMemberService, useUserService} from "../services";
-
+const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandEditPopupProps) => {
 
     const [memberList, setMemberList] = useState<string[]>([])
     const [members, memberOperation] = useMemberService(band)
     const [bands, bandOperation] = useBandService(me)
     const [users] = useUserService()
-
+    const [deleting, setDeleting] = useState(false)
+    const [leaving, setLeaving] = useState(false)
 
 
     const options = users?.filter(user => user.dataBaseID !== me.dataBaseID).map(user => {
@@ -52,12 +55,20 @@ export const BandEditPopup = ({open, band, close, me, selectBand, leader}: BandE
             </Form>}
             <Divider/>
             <div className={"edit-band-controls"}>
-                {leader ? <Button content={"Delete Band"} icon={"trash"} className={"color-negative"} onClick={() => {
-                    bandOperation({type: "remove", payload: band});
+                {leader ? <Button content={"Delete Band"} loading={deleting} icon={"trash"} className={"color-negative"} onClick={async () => {
+                    setDeleting(true)
+                    await sleep(500)
                     close();
+                    await bandOperation({type: "remove", payload: band});
                     selectBand(undefined)
-                }}/> : <Button content="Leave Band" icon="log out" className={"color-negative"} onClick={() => {
-                    memberOperation({type: "remove", payload: me});
+                    setDeleting(false)
+
+
+                }}/> : <Button content="Leave Band" loading={leaving} icon="log out" className={"color-negative"} onClick={async () => {
+                    setLeaving(true)
+                    await sleep(500)
+                    await memberOperation({type: "remove", payload: me});
+                    setLeaving(false)
                     close();
                     selectBand(undefined)
                 }}/>}

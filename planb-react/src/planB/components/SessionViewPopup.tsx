@@ -1,16 +1,20 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {Button, Divider, Grid, Modal, Segment} from "semantic-ui-react";
 import {Session, Song} from "../resources";
 import {VoteDisplay} from "./VoteDisplay";
 import {SongTable} from "./SongTable";
 import {useAssignSongService, useSessionService, useSongService} from "../services";
 import {BandContext} from "../contexts";
-
+const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export const SessionViewPopup = ({session, open, close}: SessionViewPopupProps) => {
 
     const [band] = useContext(BandContext)
     const [songs, songOperatoin] = useAssignSongService(band, session)
     const [sessions, sessionOperation] = useSessionService(band)
+    const [deleting, setDeleting] = useState(false)
+
 
 
     return <Modal open={open} onClose={close} closeIcon>
@@ -37,9 +41,11 @@ export const SessionViewPopup = ({session, open, close}: SessionViewPopupProps) 
                 <br/>
                 <Divider inverted/>
                 <div className={"create-song-controls"}>
-                    <Button className={"color-negative"}  icon="trash" onClick={async () => {
+                    <Button className={"color-negative"} loading={deleting}  icon="trash" onClick={async () => {
+                        setDeleting(true)
+                        await sleep(500)
                         const p = await sessionOperation({type: "remove", payload: session})
-                        console.log(p);
+                        setDeleting(false)
                         close()
 
                     }
