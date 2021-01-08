@@ -9,7 +9,7 @@ type OperationType =
     { type: "addWithSongs", payload: { session: Session, songs: Song[] } }
     ;
 
-export function useSessionService(band: Band | undefined): [Session[] | undefined, (operation: OperationType) => Promise<void>] {
+export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => Promise<number>)] {
     const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
@@ -31,6 +31,7 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         if (!uid) {
             return;
         }
+        if(await sessionValidation(session) < 0) {return;}
         const sessionID = firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions`).push({
             ...session,
             start: session.start.toString(),
@@ -73,5 +74,19 @@ export function useSessionService(band: Band | undefined): [Session[] | undefine
         }
     }, [band, createSession]);
 
-    return [compiledSessions, sessionOperation];
+    const sessionValidation = useCallback(async (session: Session) => {
+        if(session.start > session.end) {return -1}
+        if(session.name.length < 3) {return -2}
+        if(session.name.split("")[0] === " ") {return -3}
+        if(session.name.length > 50) {return -4}
+        if(session.start === undefined) {return -5}
+        if(session.end === undefined) {return -6}
+        if(session.start < new Date()) {return -7}
+        if(session.location.length > 100) {return -8}
+        if(session.description.length > 2000) {return -9}
+
+        return 1;
+    }, []);
+
+    return [compiledSessions, sessionOperation, sessionValidation];
 }
