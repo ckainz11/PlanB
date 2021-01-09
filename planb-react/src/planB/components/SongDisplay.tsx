@@ -24,8 +24,12 @@ export const SongDisplay = ({song, band}: SongDisplayProps) => {
             <Button circular  icon={details ? "arrow up" : "arrow down"} basic inverted onClick={() => setDetails(!details)} />
         </div>
       {details && <div className={"song-details"} >
+          <div className={"song-display-score-vote"}>
+              <Button size={"mini"} className={"color-positive song-btn"} icon="plus" />
+              <Button size={"mini"} className={"color-negative song-btn"} icon="minus" />
+          </div>
             <p>{song.content}</p>
-          <Button size={"mini"} className={"color-negative"} icon="trash" onClick={() => songOperation({type: "remove", payload: song})} />
+          <Button size={"mini"} className={"color-negative song-btn"} icon="trash" onClick={() => songOperation({type: "remove", payload: song})} />
         </div>}
 
 
