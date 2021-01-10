@@ -68,10 +68,10 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         if (session.name.length > 50) {
             return -4
         }
-        if (isNaN(session.start.getTime())) {
+        if (!isNaN(session.start.getTime())) {
             return -5
         }
-        if (isNaN(session.end.getTime())) {
+        if (!isNaN(session.end.getTime())) {
             return -6
         }
         if (session.start < new Date()) {
