@@ -8,12 +8,17 @@ import {useSongService} from "../services";
 import {SessionViewPopup} from "./SessionViewPopup";
 
 
+const getRandomColour = () => {
+    const colour = Math.floor(Math.random() * 5)
+    return "yep"
+}
+
 export const SessionDisplay = ({session}: MeetingDisplayProps) => {
 
 
 
     return <Container className={"meeting-display"}>
-        <h1 className={"meeting-header"}>{session.name}</h1>
+        <h1 className={"meeting-header "+getRandomColour()}>{session.name}</h1>
         <VoteDisplay session={session} />
         <SessionControls session={session}/>
     </Container>
