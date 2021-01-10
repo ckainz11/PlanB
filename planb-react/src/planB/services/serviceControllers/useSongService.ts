@@ -5,7 +5,8 @@ import {useDatabaseElements} from "..";
 
 type OperationType =
     { type: "add", payload: Song } |
-    { type: "remove", payload: Song }
+    { type: "remove", payload: Song } |
+    { type: "update", payload: Song }
     ;
 
 export function useSongService(band: Band | undefined): [Song[] | undefined ,((operation: OperationType) => Promise<void>),((song: Song) => number)] {
@@ -33,6 +34,8 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
                 case "remove":
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/songs/${operation.payload.dataBaseID}`).remove();
                     break;
+                case "update":
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/songs/${operation.payload.dataBaseID}`).update({...operation.payload, dataBaseID: undefined})
             }
         }
     }, [band, songValidation]);
