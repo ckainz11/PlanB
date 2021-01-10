@@ -250,6 +250,19 @@ body {
     left: 25px;
 }
 
+.song-display-score-vote{
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    align-items: flex-start;
+}
+
+.song-btn{
+    width: auto !important;
+    align-self: flex-end;
+    margin: 2px !important;
+}
+
 /*noinspection ALL*/
 .vote-display-wrapper{
     display: flex;
