@@ -35,7 +35,7 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/songs/${operation.payload.dataBaseID}`).remove();
                     break;
                 case "update":
-                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/songs/${operation.payload.dataBaseID}`).update({...operation.payload, dataBaseID: undefined})
+                    await firebase.database().ref(`bandSpace/${band.dataBaseID}/songs/${operation.payload.dataBaseID}`).update({...operation.payload, dataBaseID: null})
             }
         }
     }, [band, songValidation]);
