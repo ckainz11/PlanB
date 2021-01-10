@@ -25,8 +25,8 @@ export const SongDisplay = ({song, band}: SongDisplayProps) => {
         </div>
       {details && <div className={"song-details"} >
           <div className={"song-display-score-vote"}>
-              <Button size={"mini"} className={"color-positive song-btn"} icon="plus" />
-              <Button size={"mini"} className={"color-negative song-btn"} icon="minus" />
+              <Button size={"mini"} disabled={song.rating === 10} className={"color-positive song-btn"} icon="plus" onClick={() => songOperation({type: "update", payload: {...song, rating: song.rating + 1}})} />
+              <Button size={"mini"} disabled={song.rating === 0} className={"color-negative song-btn"} icon="minus" onClick={() => songOperation({type: "update", payload: {...song, rating: song.rating - 1}})} />
           </div>
             <p>{song.content}</p>
           <Button size={"mini"} className={"color-negative song-btn"} icon="trash" onClick={() => songOperation({type: "remove", payload: song})} />

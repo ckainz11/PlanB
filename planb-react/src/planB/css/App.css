@@ -198,9 +198,13 @@ i.icon.logo-google {
 }
 .band-display {
     background: #323232;
-    width: 40% !important;
+    width: 25% !important;
     border-radius: 5px;
     margin: 2% !important;
+}
+.band-display-header {
+    background: #8662BC;
+    border-radius: 5px 5px 0 0;
 }
 .color-grey{
     background-color: #dddddd !important;
