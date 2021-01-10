@@ -88,7 +88,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                     }}/>
                 </FormField>
                 <FormField>
-                    <DateInput inline name="date" value={date} onChange={handleDateInput}/>
+                    <DateInput enable={"01-01-2021"} inline name="date" value={date} onChange={handleDateInput}/>
                 </FormField>
                 <FormGroup widths={"equal"} >
                     <FormField>
