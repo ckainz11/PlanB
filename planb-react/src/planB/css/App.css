@@ -206,6 +206,11 @@ i.icon.logo-google {
     background: #8662BC;
     border-radius: 5px 5px 0 0;
 }
+.band-member {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
 .color-grey{
     background-color: #dddddd !important;
     color: #dddddd !important;
@@ -232,7 +237,7 @@ i.icon.logo-google {
 /*noinspection ALL*/
 .single-vote-display{
     display: inline-block;
-    margin: .5%;
+    margin: 7.5px;
 }
 .member-display-row {
     display: flex;
