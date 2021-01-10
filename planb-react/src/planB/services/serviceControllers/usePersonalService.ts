@@ -5,6 +5,7 @@ import {useDatabaseSingleElement} from "../dataBase/useDatabaseSingleElement";
 
 type OperationType =
     { type: "signInWithGoogle" } |
+    { type: "signInWithGithub" } |
     { type: "signOut" }
     ;
 
@@ -38,6 +39,10 @@ export function usePersonalService(): [User | undefined, (operation: OperationTy
             case "signInWithGoogle":
                 const googleProvider = new firebase.auth.GoogleAuthProvider();
                 await firebase.auth().signInWithPopup(googleProvider);
+                break;
+            case "signInWithGithub":
+                const githubProvider = new firebase.auth.GithubAuthProvider();
+                await firebase.auth().signInWithPopup(githubProvider)
                 break;
             case "signOut":
                 await firebase.auth().signOut()
