@@ -13,10 +13,7 @@ export const Planner = () => {
     return <div className={"Planner"}>
         <BandContext.Provider value={[selectedBand, (band) => {setSelectedBand(band)}]}>
             <Header/>
-            <Link to="/console">Link to Developer Console</Link>
-            <p/>
-            <p/>
-            <div style={{color: "#dddddd", textAlign: "center"}}>
+            <div style={{color: "#dddddd", textAlign: "center", marginTop: "20px"}}>
                 {selectedBand ? <BandSpace/> : <BandSelection/> }
             </div>
         </BandContext.Provider>

@@ -11,7 +11,7 @@ export const BandSelection = () => {
     const [currentBand, selectBand] = useContext(BandContext);
 
     if (bands) {
-        return <div>
+        return <div style={{marginTop: "10px"}}>
             {!currentBand &&
             <div>
                 {bands.length > 0 ?
