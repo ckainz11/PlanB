@@ -55,7 +55,37 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         });
 
         session.dataBaseID = sessionID
-    }, [band])
+    }, [band]);
+
+    const sessionValidation = useCallback((session: Session) => {
+        if (session.start > session.end) {
+            return -1
+        }
+        if (session.name.length < 3) {
+            return -2
+        }
+        //if(session.name.split("")[0] === " ") {return -3}
+        if (session.name.length > 50) {
+            return -4
+        }
+        if (session.start === undefined) {
+            return -5
+        }
+        if (session.end === undefined) {
+            return -6
+        }
+        if (session.start < new Date()) {
+            return -7
+        }
+        if (session.location.length > 100) {
+            return -8
+        }
+        if (session.description.length > 2000) {
+            return -9
+        }
+
+        return 1;
+    }, []);
 
     const sessionOperation = useCallback(async (operation: OperationType) => {
             if (band) {
@@ -94,39 +124,11 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         }
 
         ,
-        [band, createSession]
+        [band, createSession, sessionValidation]
         )
     ;
 
-    const sessionValidation = useCallback((session: Session) => {
-        if (session.start > session.end) {
-            return -1
-        }
-        if (session.name.length < 3) {
-            return -2
-        }
-        //if(session.name.split("")[0] === " ") {return -3}
-        if (session.name.length > 50) {
-            return -4
-        }
-        if (session.start === undefined) {
-            return -5
-        }
-        if (session.end === undefined) {
-            return -6
-        }
-        if (session.start < new Date()) {
-            return -7
-        }
-        if (session.location.length > 100) {
-            return -8
-        }
-        if (session.description.length > 2000) {
-            return -9
-        }
 
-        return 1;
-    }, []);
 
     return [compiledSessions, sessionOperation, sessionValidation];
 }
