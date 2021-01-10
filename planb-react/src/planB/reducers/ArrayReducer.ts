@@ -36,12 +36,15 @@ export function ArrayReducer<T extends DataBaseElement>(state: undefined | T[], 
                 return [...state.slice(0, action.index), action.payload, ...state.slice(action.index + 1)];
             }
             if (state) {
-                return state.map((e) => {
+                let foundSomething = 0;
+                const newState = state.map((e) => {
                     if (e.dataBaseID === action.payload.dataBaseID) {
+                        foundSomething++;
                         return action.payload;
                     }
                     return e;
                 });
+                return foundSomething ? newState : [...state, action.payload]
             }
             return [action.payload]
         case ArrayAction.remove:
