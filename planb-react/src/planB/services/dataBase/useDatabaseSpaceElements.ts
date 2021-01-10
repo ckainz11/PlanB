@@ -37,7 +37,7 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
                     //Ref to the added element
 
                     const elementRef = firebase.database().ref(pathToElements + "/" + childSnapshot.key)
-                    
+
                     //If element doesn't exist remove it
                     elementRef.once("value", snapshot => {
                         if (!snapshot.exists()) {
@@ -77,7 +77,8 @@ export function useDatabaseSpaceElements<T extends DataBaseElement>(pathToSpace:
             const childRemove = ref.on('child_removed', function (oldChildSnapshot) {
                 if (oldChildSnapshot.key) {
                     const listenerArr = listeners.get(oldChildSnapshot.key);
-                    listenerArr[0].off("value", listenerArr[1]);
+                    if (listenerArr)
+                        listenerArr[0].off("value", listenerArr[1]);
                     listeners.delete(oldChildSnapshot.key);
                     dispatch({
                         type: ArrayAction.remove,
