@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import { useCallback, useEffect } from "react";
+import { useCallback} from "react";
 import { useDatabaseSpaceElements } from "../index";
 import { Band, User } from "../../resources";
 
@@ -9,7 +9,7 @@ type OperationType =
     { type: "addWithMembers", payload: { band: Band, members: User[] } }
     ;
 
-export function useBandService(user: User | undefined): [Band[] | undefined, (operation: OperationType) => Promise<void>] {
+export function useBandService(user: User | undefined): [(Band[] | undefined), ((operation: OperationType) => Promise<void>), ((band: Band) => Promise<number>)] {
     let [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
 
     const createBand = useCallback(async (band: Band, members: User[]) => {
@@ -77,15 +77,26 @@ export function useBandService(user: User | undefined): [Band[] | undefined, (op
                     }
                     break;
                 case "add":
-                    createBand(operation.payload, [])
+                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
+                    if(await bandValidation(operation.payload) < 0) {return}
+                    await createBand(operation.payload, [])
                     break;
                 case "addWithMembers":
-                    createBand(operation.payload.band, operation.payload.members)
+                    operation.payload.band.name = operation.payload.band.name.replace(/^\s*\w+,\s\w+!\s*/, "")
+                    if(await bandValidation(operation.payload.band) < 0) {return}
+                    await createBand(operation.payload.band, operation.payload.members)
                     break;
             }
         }
     }, [user, createBand]);
 
+    const bandValidation = useCallback(async (band: Band) => {
+        if(band.name.length < 3) {return -1}
+        if(band.name.length > 30) {return -2}
+        if(band.description.length > 500) {return -3}
 
-    return [bands, bandOperation];
+        return 1
+    }, [])
+
+    return [bands, bandOperation, bandValidation];
 }

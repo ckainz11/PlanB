@@ -4,6 +4,7 @@ import {useBandService, useMemberService, usePersonalService, useUserService} fr
 import {Band, User} from "../resources";
 import {Button, Container} from "semantic-ui-react";
 import {BandCreatePopup} from "./BandCreatePopup";
+import {BandMembers} from "./BandMembers";
 
 export const BandSelector = ({bands, selectBand, me}: BandSelectorProps) => {
     const [users] = useUserService()
@@ -17,6 +18,7 @@ export const BandSelector = ({bands, selectBand, me}: BandSelectorProps) => {
         {bands.map(band => {
             return <Container className="band-display" key={band.dataBaseID} onClick={() => selectBand(band)}>
                 <h2 className={"band-display-header"} >{band.name}</h2>
+                <BandMembers band={band}/>
                 <h3>Leader: {users?.find(user => user.dataBaseID === band.leader)?.userName}</h3>
             </Container>
         })}
