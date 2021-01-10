@@ -11,6 +11,15 @@ type OperationType =
 export function useSongService(band: Band | undefined): [Song[] | undefined ,((operation: OperationType) => Promise<void>),((song: Song) => number)] {
     const [songs] = useDatabaseElements<Song>(band && `bandSpace/${band.dataBaseID}/songs`);
 
+    const songValidation = useCallback((song: Song) => {
+        //if(song.name.split(" ")[0] === " ") { return -1}
+        if(song.name.length > 50) {return -2}
+        if(song.rating < 0 ) { return -3}
+        if(song.rating > 10) { return -4}
+
+        return 1;
+    }, []);
+
     const songOperation = useCallback(async (operation: OperationType) => {
         if (band) {
             switch (operation.type) {
@@ -26,16 +35,7 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
                     break;
             }
         }
-    }, [band]);
-
-    const songValidation = useCallback((song: Song) => {
-        //if(song.name.split(" ")[0] === " ") { return -1}
-        if(song.name.length > 50) {return -2}
-        if(song.rating < 0 ) { return -3}
-        if(song.rating > 10) { return -4}
-
-        return 1;
-    }, []);
+    }, [band, songValidation]);
 
     return [
         songs,
