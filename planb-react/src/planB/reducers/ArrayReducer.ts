@@ -35,13 +35,15 @@ export function ArrayReducer<T extends DataBaseElement>(state: undefined | T[], 
             if (state && action.index) {
                 return [...state.slice(0, action.index), action.payload, ...state.slice(action.index + 1)];
             }
-            state && state.map((e) => {
-                if (e.dataBaseID === action.payload.dataBaseID) {
-                    return action.payload;
-                }
-                return e;
-            });
-            return state ? [...state, action.payload] : [action.payload]
+            if (state) {
+                return state.map((e) => {
+                    if (e.dataBaseID === action.payload.dataBaseID) {
+                        return action.payload;
+                    }
+                    return e;
+                });
+            }
+            return [action.payload]
         case ArrayAction.remove:
             if (state && action.index) {
                 return [...state.slice(0, action.index), ...state.slice(action.index + 1)];
