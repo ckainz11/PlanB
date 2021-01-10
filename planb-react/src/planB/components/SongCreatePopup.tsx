@@ -38,7 +38,7 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
                             <Input placeholder="Song name" onChange={(event, data) => setSong({...song, name: data.value})} />
                         </FormField>
                         <FormField width={2}>
-                            <Input type="text" value={song.rating ? song.rating : 0} min={0} max={10}
+                            <Input type="number" value={song.rating ? song.rating : 0} min={0} max={10}
                                    placeholder="Rating" onChange={(event, data) => onChange(event, data)}/>
                         </FormField>
                         <FormField width={7}>

@@ -31,7 +31,9 @@ body {
     height: 5rem;
     display: flex;
 }
-
+i.icon.logo-google {
+    content: url("/src/images/logo-google.png")
+}
 .nav {
     background-color: #8662BC !important;
     height: 5rem;
