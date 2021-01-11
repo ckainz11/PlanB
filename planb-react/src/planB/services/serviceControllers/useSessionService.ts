@@ -116,11 +116,11 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
             if (band) {
                 switch (operation.type) {
                     case "add":
+                        operation.payload.name = operation.payload.name.trim()
                         if (sessionValidation(operation.payload).length > 0) {
                             console.log("%c Validation failed. SessionService: 'add'", 'color: #D100D0')
                             return;
                         }
-                        operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
                         await createSession(operation.payload, [])
                         break;
 
@@ -130,6 +130,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                         break;
 
                     case "addWithSongs":
+                        operation.payload.session.name = operation.payload.session.name.trim()
                         if (sessionValidation(operation.payload.session).length > 0) {
                             console.log("%c Validation failed. SessionService: 'addWithSongs'", 'color: #D100D0')
                             return;

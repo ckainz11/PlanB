@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import {useCallback} from "react";
 import {useDatabaseSpaceElements} from "../index";
-import {Band, User} from "../../resources";
+import {Band, CustomError, User} from "../../resources";
 
 type OperationType =
     { type: "add", payload: Band } |
@@ -9,7 +9,7 @@ type OperationType =
     { type: "addWithMembers", payload: { band: Band, members: User[] } }
     ;
 
-export function useBandService(user: User | undefined): [(Band[] | undefined), ((operation: OperationType) => Promise<void>), ((band: Band) => Promise<number>)] {
+export function useBandService(user: User | undefined): [(Band[] | undefined), ((operation: OperationType) => Promise<void>), ((band: Band) => CustomError[])] {
     let [bands] = useDatabaseSpaceElements<Band>(user && `userSpace/${user.dataBaseID}/bands`, 'bands');
 
     const createBand = useCallback(async (band: Band, members: User[]) => {
@@ -47,18 +47,29 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
 
     }, [user])
 
-    const bandValidation = useCallback(async (band: Band) => {
+    const bandValidation = useCallback( (band: Band) => {
+        let error = []
+
         if (!band.name || band.name.length < 3) {
-            return -1
+            error.push({
+                field: "name",
+                message: "Name is too short."
+            })
         }
         if (!band.name || band.name.length > 30) {
-            return -2
+            error.push({
+                field: "name",
+                message: "Name is too long."
+            })
         }
         if (!band.description || band.description.length > 500) {
-            return -3
+            error.push({
+                field: "description",
+                message: "Description is too long."
+            })
         }
 
-        return 1
+        return error
     }, [])
 
 
@@ -92,18 +103,16 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
                     }
                     break;
                 case "add":
-                    if (operation.payload.name)
-                        operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                    if (await bandValidation(operation.payload) < 0) {
+                    operation.payload.name = operation.payload.name.trim()
+                    if (bandValidation(operation.payload).length > 0) {
                         console.log("%c Validation failed. BandService: 'add'", 'color: #D100D0')
                         return
                     }
                     await createBand(operation.payload, [])
                     break;
                 case "addWithMembers":
-                    if (operation.payload.band.name)
-                        operation.payload.band.name = operation.payload.band.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                    if (await bandValidation(operation.payload.band) < 0) {
+                    operation.payload.band.name = operation.payload.band.name.trim()
+                    if (bandValidation(operation.payload.band).length > 0) {
                         console.log("%c Validation failed. BandService: 'addWithMembers'", 'color: #D100D0')
                         return
                     }
