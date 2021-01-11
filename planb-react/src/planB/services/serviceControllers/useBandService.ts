@@ -50,19 +50,32 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
     const bandValidation = useCallback( (band: Band) => {
         let error = []
 
-        if (!band.name || band.name.length < 3) {
+        if (!band.name) {
+            error.push({
+                field: "name",
+                message: "Name must be filled out."
+            })
+        }
+        if (!band.description) {
+            error.push({
+                field: "description",
+                message: "Description must be filled out."
+            })
+        }
+
+        if (band.name.length < 3) {
             error.push({
                 field: "name",
                 message: "Name is too short."
             })
         }
-        if (!band.name || band.name.length > 30) {
+        if (band.name.length > 30) {
             error.push({
                 field: "name",
                 message: "Name is too long."
             })
         }
-        if (!band.description || band.description.length > 500) {
+        if (band.description.length > 500) {
             error.push({
                 field: "description",
                 message: "Description is too long."
