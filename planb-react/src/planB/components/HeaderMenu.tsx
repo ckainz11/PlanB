@@ -33,7 +33,7 @@ export const HeaderMenu = () => {
                     })}
                 </Dropdown.Menu>
             </Dropdown>
-            <Dropdown item placeholder={"Account"}>
+            <Dropdown className="purple-input" item placeholder={"Account"}>
                 <Dropdown.Menu>
                     {band && <Dropdown.Header>{band.name}</Dropdown.Header>}
                     {band && <Dropdown.Item icon={leader ? "edit" : "eye"} text={leader ? "Edit Band" : "View Band"}

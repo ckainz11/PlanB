@@ -1,4 +1,4 @@
-import {Band, Song} from "../../resources";
+import {Band, CustomError, Song} from "../../resources";
 import {useCallback} from "react";
 import firebase from "firebase/app";
 import {useDatabaseElements} from "..";
@@ -9,28 +9,76 @@ type OperationType =
     { type: "update", payload: Song }
     ;
 
-export function useSongService(band: Band | undefined): [Song[] | undefined ,((operation: OperationType) => Promise<void>),((song: Song) => number)] {
+export function useSongService(band: Band | undefined): [Song[] | undefined ,((operation: OperationType) => Promise<void>),((song: Song) => CustomError[])] {
     const [songs] = useDatabaseElements<Song>(band?.dataBaseID && `bandSpace/${band.dataBaseID}/songs`);
 
     const songValidation = useCallback((song: Song) => {
-        //if(song.name.split(" ")[0] === " ") { return -1}
-        if(!song.name || song.name.length > 50) {return -2}
-        if(!song.rating || song.rating < 0 ) { return -3}
-        if(!song.rating || song.rating > 10) { return -4}
-        if(!song.content) { return -4}
+        const error = []
 
-        return 1;
+        if (!song.name) {
+            error.push({
+                field: "name",
+                message: "Name must be filled out."
+            })
+        }
+        if (!song.rating && song.rating !== 0) {
+            error.push({
+                field: "rating",
+                message: "Rating must be filled out."
+            })
+        }
+        if (!song.content) {
+            error.push({
+                field: "content",
+                message: "Content must be filled out."
+            })
+        }
+
+        if(error.length > 0) return error
+
+        if(song.name.length < 1) {
+            error.push({
+                field: "name",
+                message: "Name is too short."
+            })
+        }
+        if(song.name.length > 50) {
+            error.push({
+                field: "name",
+                message: "Name is too long."
+            })
+        }
+        if(song.rating < 0 ) {
+            error.push({
+                field: "rating",
+                message: "Rating must be above 0."
+            })
+        }
+        if(song.rating > 10) {
+            error.push({
+                field: "rating",
+                message: "Rating must be under 10."
+            })
+        }
+        if(song.content.length > 200) {
+            error.push({
+                field: "content",
+                message: "Content is too long."
+            })
+        }
+
+        return error;
     }, []);
 
     const songOperation = useCallback(async (operation: OperationType) => {
         if (band?.dataBaseID) {
             switch (operation.type) {
                 case "add":
-                    if(songValidation(operation.payload) < 0) {
+                    operation.payload.name = operation.payload.name.trim()
+                    if(songValidation(operation.payload).length > 0) {
                         console.log("%c Validation failed. SongService: 'add'", 'color: #D100D0')
                         return;
                     }
-                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
                     const songID = firebase.database().ref(`bandSpace/${band.dataBaseID}/songs`).push({...operation.payload, dataBaseID: null}, (err) => {if (err) {console.log(err)}}).key;
                     if (songID)
                         operation.payload.dataBaseID = songID

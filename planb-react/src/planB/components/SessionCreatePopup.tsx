@@ -1,14 +1,25 @@
 import React, {useContext, useState} from "react";
 
-import {Button, Divider, Dropdown, Form, FormField, FormGroup, Input, Modal, TextArea} from "semantic-ui-react";
+import {
+    Button,
+    Divider,
+    Dropdown,
+    Form,
+    FormField,
+    FormGroup,
+    Input,
+    Message,
+    Modal,
+    TextArea
+} from "semantic-ui-react";
 
 import {BandContext} from "../contexts";
-import {Session, Song} from "../resources";
+import {CustomError, Session, Song} from "../resources";
 
 import {useAssignSongService, useSessionService, useSongService} from "../services";
 import {DateInput, TimeInput} from "semantic-ui-calendar-react";
 import {SongTable} from "./SongTable";
-
+import {CustomErrorComponent} from "./CustomErrorComponent";
 
 
 const parseDateString = (date: string, time: string): Date => {
@@ -26,17 +37,20 @@ const parseDateString = (date: string, time: string): Date => {
 
 
 export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreatePopupProps) => {
-    const [session, setSession] = useState<Session>({name: sessionName} as Session);
+
+    const [session, setSession] = useState<Session>({name: sessionName, description: ""} as Session);
     const [date, selectDate] = useState<string>("");
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
 
     const [band, selectBand] = useContext(BandContext);
 
-    const [sessions, sessionOperation] = useSessionService(band);
+    const [sessions, sessionOperation, validateSession] = useSessionService(band);
     const [songs, songOperation] = useAssignSongService(band, session)
     const [allSongs, allSongOperation] = useSongService(band)
     const [tempSongs, setTempSongs] = useState<String[]>([])
+    const [errors, setErrors] = useState<CustomError[]>([]);
+
 
     const handleDateInput = (event: any, {value}: any) => {
         selectDate(value);
@@ -55,7 +69,8 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         }
     })
 
-    const getSongs = () => {
+
+    const getSongs = (): Song[] => {
         const displaySongs: Song[] = []
         tempSongs.forEach(id =>
             displaySongs.push(allSongs?.find(s => id === s.dataBaseID) as Song)
@@ -63,58 +78,97 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         return displaySongs
     }
 
-    const pushSession = async() => {
-
+    const pushSession = async () => {
         const finalSession: Session = {
             ...session,
             start: parseDateString(date, startTime),
             end: parseDateString(date, endTime),
         };
-        const res = await sessionOperation({type:"addWithSongs", payload:{
-            session: finalSession,
-            songs: tempSongs.map((e) => {
-                return {dataBaseID: e} as Song
-            })
-        }})
+        const res = await sessionOperation({
+            type: "addWithSongs", payload: {
+                session: finalSession,
+                songs: tempSongs.map((e) => {
+                    return {dataBaseID: e} as Song
+                })
+            }
+        })
+    }
+
+    const containsError = (field: string) => {
+        for(let e of errors){
+            if(e.field === field)
+                return e
+        }
+        return undefined
     }
 
     return <Modal open={open} onClose={() => closeModal()} closeIcon>
-        <Modal.Header>Session Creation</Modal.Header>
-        <Modal.Content>
-            <Form>
-                <FormField>
-                    <Input defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
-                        setSession((oldValue) => {return {...session, name: data.value}})
+        <Modal.Header className="edit-header">Session Creation</Modal.Header>
+        <Modal.Content className={"edit-content"}>
+            <Form error>
+                <h3>Name</h3>
+                <FormField  error={containsError("name")}>
+                    <Input className="dark-input" defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
+                        setSession((oldValue) => {
+                            return {...session, name: data.value}
+                        })
                     }}/>
                 </FormField>
+                <CustomErrorComponent customError={containsError("name")}/>
+                <h3>Choose a date</h3>
                 <FormField>
-                    <DateInput enable={"01-01-2021"} inline name="date" value={date} onChange={handleDateInput}/>
+                    <DateInput inline className="dark-input" placeholder="Date" minDate={new Date()}  name="date" value={date} onChange={handleDateInput}/>
+                    <CustomErrorComponent customError={containsError("date")}/>
                 </FormField>
-                <FormGroup widths={"equal"} >
-                    <FormField>
-                        <TimeInput value={startTime} name={"start"} onChange={handleTimeInput}/>
+                <FormGroup widths={"equal"}>
+                    <FormField error={containsError("start")}>
+                        <h4>Start Time</h4>
+                        <TimeInput className="dark-input" placeholder="Start"  value={startTime} name={"start"} onChange={handleTimeInput}/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("start")}/>
                     </FormField>
-                    <FormField>
-                        <TimeInput value={endTime} name={"end"} onChange={handleTimeInput}/>
+                    <FormField error={containsError("end")}>
+                        <h4>End Time</h4>
+                        <TimeInput className="dark-input" placeholder="End" value={endTime} name={"end"} onChange={handleTimeInput}/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("end")}/>
                     </FormField>
-                    <FormField>
-                        <Input onChange={((event, data) => {setSession({...session, location: data.value})})} />
+                    <FormField  error={containsError("location")} >
+                        <h4>Location</h4>
+                        <Input className="dark-input" placeholder="Location" onChange={((event, data) => {
+                            setSession({...session, location: data.value})
+                        })}/>
+                        <br/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("location")}/>
                     </FormField>
                 </FormGroup>
-                <FormField>
-                    <TextArea onChange={(event, data) => {setSession({...session, description: data.value as string})}} />
+                <h3>Description</h3>
+                <FormField error={containsError("description")}>
+                    <TextArea className="dark-textarea" placeholder="Description" onChange={(event, data) => {
+                        setSession({...session, description: data.value as string})
+                    }}/>
+                    <label className="font-color-grey">{session.description.length}/2000</label>
+                    <CustomErrorComponent customError={containsError("description")}/>
                 </FormField>
-                <FormField>
-                    <Dropdown options={options || []} selection search multiple fluid onChange={((event, data) => {
+                <FormField error={containsError("songs")}>
+                    <h3>Add the songs you want to practice at this session</h3>
+                    <Dropdown className="dark-dropdown" options={options || []} selection search multiple fluid onChange={((event, data) => {
                         const newSongs = data.value as []
                         setTempSongs(newSongs)
-                    })} />
+                    })}/>
                 </FormField>
                 {tempSongs.length > 0 && <SongTable songs={getSongs()}/>}
                 <Divider/>
                 <Button className={"color-positive"} content={"Create!"} onClick={() => {
-                    pushSession();
-                    closeModal();
+                    const errors = validateSession(session)
+                    if (errors.length === 0) {
+                        pushSession();
+                        closeModal();
+                    }
+                    else
+                        setErrors(errors)
+                    console.log(errors);
                 }}/>
             </Form>
         </Modal.Content>

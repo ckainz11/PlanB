@@ -1,5 +1,5 @@
 import {useDatabaseElements} from "..";
-import {Band, Session, Song} from "../../resources";
+import {Band, Session, Song, CustomError} from "../../resources";
 import {useCallback, useEffect, useState} from "react";
 import firebase from "firebase/app";
 
@@ -9,7 +9,7 @@ type OperationType =
     { type: "addWithSongs", payload: { session: Session, songs: Song[] } }
     ;
 
-export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => number)] {
+export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => CustomError[])] {
     const [rawSessions] = useDatabaseElements<Session>(band?.dataBaseID && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
@@ -58,44 +58,118 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [band]);
 
     const sessionValidation = useCallback((session: Session) => {
-        if (!session.start || !session.end || session.start > session.end) {
-            return -1
+        const error = []
+
+        if(!session.start) {
+            error.push({
+                field: "start",
+                message: "Start must be filled out."
+            })
         }
-        if (!session.name || session.name.length < 3) {
-            return -2
+        if(!session.end) {
+            error.push({
+                field: "end",
+                message: "End must be filled out."
+            })
         }
-        //if(session.name.split("")[0] === " ") {return -3}
-        if (!session.name || session.name.length > 50) {
-            return -4
+        if(!session.name) {
+            error.push({
+                field: "name",
+                message: "Name must be filled out."
+            })
         }
-        if (!session.start || !isNaN(session.start.getTime())) {
-            return -5
+        if(!session.location) {
+            error.push({
+                field: "location",
+                message: "Location must be filled out."
+            })
         }
-        if (!session.end || !isNaN(session.end.getTime())) {
-            return -6
-        }
-        if (!session.start || session.start < new Date()) {
-            return -7
-        }
-        if (!session.location || session.location.length > 100) {
-            return -8
-        }
-        if (!session.description || session.description.length > 2000) {
-            return -9
+        if(!session.description) {
+            error.push({
+                field: "description",
+                message: "Description must be filled out."
+            })
         }
 
-        return 1;
+        if(error.length > 0) {return error}
+
+        if (session.start > session.end) {
+            error.push({
+                field: "date",
+                message: "Start must not be after end."
+                })
+        }
+        if (session.name.length < 3) {
+            error.push({
+                field: "name",
+                message: "Name is too short."
+            })
+        }
+        if (session.name.length > 50) {
+            error.push({
+                field: "name",
+                message: "Name is too long."
+            })
+        }
+        if (isNaN(session.start.getTime())) {
+            error.push({
+                field: "time",
+                message: "Start is not a valid time."
+            })
+        }
+        if (isNaN(session.start.getDate())) {
+            error.push({
+                field: "date",
+                message: "Start is not a valid date."
+            })
+        }
+        if (isNaN(session.end.getTime())) {
+            error.push({
+                field: "time",
+                message: "End is not a valid time."
+            })
+        }
+        if (isNaN(session.end.getDate())) {
+            error.push({
+                field: "date",
+                message: "End is not a valid date."
+            })
+        }
+        if (session.start < new Date()) {
+            error.push({
+                field: "date",
+                message: "Start must not be in the past."
+            })
+            error.push({
+                field: "time",
+                message: "Start must not be in the past."
+            })
+        }
+        if (session.location.length > 100) {
+            error.push({
+                field: "location",
+                message: "Location is too long."
+            })
+        }
+        if (session.description.length > 2000) {
+            error.push({
+                field: "description",
+                message: "Description is too long."
+            })
+        }
+
+        return error;
     }, []);
 
     const sessionOperation = useCallback(async (operation: OperationType) => {
             if (band) {
                 switch (operation.type) {
                     case "add":
-                        if (await sessionValidation(operation.payload) < 0) {
+                        operation.payload.name = operation.payload.name.trim()
+                        if (sessionValidation(operation.payload).length > 0) {
                             console.log("%c Validation failed. SessionService: 'add'", 'color: #D100D0')
                             return;
                         }
-                        operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
                         await createSession(operation.payload, [])
                         break;
 
@@ -105,7 +179,8 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                         break;
 
                     case "addWithSongs":
-                        if (await sessionValidation(operation.payload.session) < 0) {
+                        operation.payload.session.name = operation.payload.session.name.trim()
+                        if (sessionValidation(operation.payload.session).length > 0) {
                             console.log("%c Validation failed. SessionService: 'addWithSongs'", 'color: #D100D0')
                             return;
                         }

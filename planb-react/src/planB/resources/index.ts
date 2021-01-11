@@ -4,4 +4,6 @@ export * from "./Song";
 export * from "./User";
 export * from "./Vote";
 
+export * from "./CustomError";
+
 export * from "./DataBaseElement";

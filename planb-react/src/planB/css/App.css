@@ -10,7 +10,10 @@ body {
     flex-direction: column;
     height: 100vh;
 }
+.purple-input > .ui.item.dropdown {
+    background: #8662BC !important;
 
+}
 .background-layer1 {
     background: #121212 !important;
 }
@@ -247,8 +250,21 @@ i.icon.logo-google {
     display: flex;
     justify-content: space-between;
 }
-
-
+.dark-input > input, textarea {
+    background: #545454 !important;
+    color: #dddddd !important;
+}
+.dark-input > .ui.input > input{
+    background: #545454 !important;
+    color: #dddddd !important;
+}
+.font-color-grey {
+    color: #dddddd !important
+}
+.dark-dropdown {
+    background: #545454 !important;
+    color: #dddddd !important;
+}
 /*noinspection ALL*/
 .single-vote-square {
     position: relative;
@@ -273,7 +289,10 @@ i.icon.logo-google {
     align-self: flex-end;
     margin: 2px !important;
 }
-
+.create-band-controls {
+    display: flex;
+    justify-content: space-between;
+}
 /*noinspection ALL*/
 .vote-display-wrapper{
     display: flex;
