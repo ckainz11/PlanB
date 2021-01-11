@@ -290,8 +290,32 @@ i.icon.logo-google {
 }
 
 .portfolio-header {
+    margin-bottom: 20px;
+    padding: 10px 5%;
     background: #6263C3;
     border-radius: 5px 5px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.portfolio-header-left{
+    flex: 1
+}
+
+.portfolio-header-center {
+    margin: 0 !important;
+    flex: 5
+}
+
+.portfolio-header-right {
+    flex: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: right;
+}
+
+.portfolio-header-right i {
+    height: unset !important;
 }
 
 .add-song-btn{
