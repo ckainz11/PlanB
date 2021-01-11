@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
-import { useCallback} from "react";
-import { useDatabaseSpaceElements } from "../index";
-import { Band, User } from "../../resources";
+import {useCallback} from "react";
+import {useDatabaseSpaceElements} from "../index";
+import {Band, User} from "../../resources";
 
 type OperationType =
     { type: "add", payload: Band } |
@@ -47,8 +47,23 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
 
     }, [user])
 
+    const bandValidation = useCallback(async (band: Band) => {
+        if (!band.name || band.name.length < 3) {
+            return -1
+        }
+        if (!band.name || band.name.length > 30) {
+            return -2
+        }
+        if (!band.description || band.description.length > 500) {
+            return -3
+        }
+
+        return 1
+    }, [])
+
+
     const bandOperation = useCallback(async (operation: OperationType) => {
-        if (user) {
+        if (user?.dataBaseID) {
             switch (operation.type) {
                 case "remove":
                     try {
@@ -77,26 +92,27 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
                     }
                     break;
                 case "add":
-                    operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                    if(await bandValidation(operation.payload) < 0) {return}
+                    if (operation.payload.name)
+                        operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
+                    if (await bandValidation(operation.payload) < 0) {
+                        console.log("%c Validation failed. BandService: 'add'", 'color: #D100D0')
+                        return
+                    }
                     await createBand(operation.payload, [])
                     break;
                 case "addWithMembers":
-                    operation.payload.band.name = operation.payload.band.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                    if(await bandValidation(operation.payload.band) < 0) {return}
+                    if (operation.payload.band.name)
+                        operation.payload.band.name = operation.payload.band.name.replace(/^\s*\w+,\s\w+!\s*/, "")
+                    if (await bandValidation(operation.payload.band) < 0) {
+                        console.log("%c Validation failed. BandService: 'addWithMembers'", 'color: #D100D0')
+                        return
+                    }
                     await createBand(operation.payload.band, operation.payload.members)
                     break;
             }
         }
-    }, [user, createBand]);
+    }, [user, createBand, bandValidation]);
 
-    const bandValidation = useCallback(async (band: Band) => {
-        if(band.name.length < 3) {return -1}
-        if(band.name.length > 30) {return -2}
-        if(band.description.length > 500) {return -3}
-
-        return 1
-    }, [])
 
     return [bands, bandOperation, bandValidation];
 }

@@ -8,10 +8,10 @@ type OperationType =
     ;
 
 export function useVoteService(user:User | undefined, band:Band | undefined, session:Session | undefined): [Vote | undefined, (operation: OperationType) => Promise<void>] {
-    const [vote] = useDatabaseSingleElement<Vote>(band && session && user && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`);
+    const [vote] = useDatabaseSingleElement<Vote>(band?.dataBaseID && session?.dataBaseID && user?.dataBaseID && `bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`);
 
     const voteOperation = useCallback(async (operation: OperationType) => {
-        if (band && session && user) {
+        if (band?.dataBaseID && session?.dataBaseID && user?.dataBaseID) {
             switch (operation.type) {
                 case "add":
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${session.dataBaseID}/votes/${user.dataBaseID}`).set({...operation.payload, dataBaseID: null});
