@@ -65,7 +65,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
         } else {
             setErrors(errors)
         }
-    }, [bandOperation, memberList, selectBand, newBand, onClose]);
+    }, [bandOperation, memberList, selectBand, newBand, onClose, validateBand]);
 
     return <Modal open={open} onClose={() => onClose()} closeIcon>
         <Modal.Header className="edit-header">Create a new Band</Modal.Header>

@@ -4,4 +4,5 @@ export interface Song extends DataBaseElement{
     name: string;
     rating: number;
     content: string;
+    location: string;
 }

@@ -1,5 +1,5 @@
 
 export type CustomError = {
-    field: string,
+    field: string
     message: string
 }
