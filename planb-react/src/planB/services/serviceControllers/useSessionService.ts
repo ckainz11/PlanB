@@ -62,7 +62,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
 
         if (!session.start || !session.end || session.start > session.end) {
             error.push({
-                field: "start",
+                field: "date",
                 message: "Start must not be after end."
                 })
         }
@@ -80,19 +80,19 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
         }
         if (!session.start || isNaN(session.start.getTime())) {
             error.push({
-                field: "start",
+                field: "date",
                 message: "Start is not a valid date."
             })
         }
         if (!session.end || isNaN(session.end.getTime())) {
             error.push({
-                field: "end",
+                field: "date",
                 message: "End is not a valid date."
             })
         }
         if (!session.start || session.start < new Date()) {
             error.push({
-                field: "start",
+                field: "date",
                 message: "Start must not be in the past."
             })
         }
