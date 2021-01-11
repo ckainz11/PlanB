@@ -84,19 +84,26 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
             start: parseDateString(date, startTime),
             end: parseDateString(date, endTime),
         };
-        const res = await sessionOperation({
-            type: "addWithSongs", payload: {
-                session: finalSession,
-                songs: tempSongs.map((e) => {
-                    return {dataBaseID: e} as Song
-                })
-            }
-        })
+
+        const errors = validateSession(finalSession)
+        console.log(errors);
+        if (errors.length === 0) {
+            const res = await sessionOperation({
+                type: "addWithSongs", payload: {
+                    session: finalSession,
+                    songs: tempSongs.map((e) => {
+                        return {dataBaseID: e} as Song
+                    })
+                }
+            })
+            closeModal();
+        } else
+            setErrors(errors)
     }
 
     const containsError = (field: string) => {
-        for(let e of errors){
-            if(e.field === field)
+        for (let e of errors) {
+            if (e.field === field)
                 return e
         }
         return undefined
@@ -107,33 +114,37 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         <Modal.Content className={"edit-content"}>
             <Form error>
                 <h3>Name</h3>
-                <FormField  error={containsError("name")}>
-                    <Input className="dark-input" defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
-                        setSession((oldValue) => {
-                            return {...session, name: data.value}
-                        })
-                    }}/>
+                <FormField error={containsError("name")}>
+                    <Input className="dark-input" defaultValue={sessionName} placeholder={"Name"}
+                           onChange={(event, data) => {
+                               setSession((oldValue) => {
+                                   return {...session, name: data.value}
+                               })
+                           }}/>
                 </FormField>
                 <CustomErrorComponent customError={containsError("name")}/>
                 <h3>Choose a date</h3>
                 <FormField>
-                    <DateInput inline className="dark-input" placeholder="Date" minDate={new Date()}  name="date" value={date} onChange={handleDateInput}/>
+                    <DateInput inline className="dark-input" placeholder="Date" minDate={new Date()} name="date"
+                               value={date} onChange={handleDateInput}/>
                     <CustomErrorComponent customError={containsError("date")}/>
                 </FormField>
                 <FormGroup widths={"equal"}>
                     <FormField error={containsError("start")}>
                         <h4>Start Time</h4>
-                        <TimeInput className="dark-input" placeholder="Start"  value={startTime} name={"start"} onChange={handleTimeInput}/>
+                        <TimeInput className="dark-input" placeholder="Start" value={startTime} name={"start"}
+                                   onChange={handleTimeInput}/>
                         <br/>
                         <CustomErrorComponent customError={containsError("start")}/>
                     </FormField>
                     <FormField error={containsError("end")}>
                         <h4>End Time</h4>
-                        <TimeInput className="dark-input" placeholder="End" value={endTime} name={"end"} onChange={handleTimeInput}/>
+                        <TimeInput className="dark-input" placeholder="End" value={endTime} name={"end"}
+                                   onChange={handleTimeInput}/>
                         <br/>
                         <CustomErrorComponent customError={containsError("end")}/>
                     </FormField>
-                    <FormField  error={containsError("location")} >
+                    <FormField error={containsError("location")}>
                         <h4>Location</h4>
                         <Input className="dark-input" placeholder="Location" onChange={((event, data) => {
                             setSession({...session, location: data.value})
@@ -153,22 +164,16 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                 </FormField>
                 <FormField error={containsError("songs")}>
                     <h3>Add the songs you want to practice at this session</h3>
-                    <Dropdown className="dark-dropdown" options={options || []} selection search multiple fluid onChange={((event, data) => {
-                        const newSongs = data.value as []
-                        setTempSongs(newSongs)
-                    })}/>
+                    <Dropdown className="dark-dropdown" options={options || []} selection search multiple fluid
+                              onChange={((event, data) => {
+                                  const newSongs = data.value as []
+                                  setTempSongs(newSongs)
+                              })}/>
                 </FormField>
                 {tempSongs.length > 0 && <SongTable songs={getSongs()}/>}
                 <Divider/>
                 <Button className={"color-positive"} content={"Create!"} onClick={() => {
-                    const errors = validateSession(session)
-                    if (errors.length === 0) {
-                        pushSession();
-                        closeModal();
-                    }
-                    else
-                        setErrors(errors)
-                    console.log(errors);
+                    pushSession();
                 }}/>
             </Form>
         </Modal.Content>
