@@ -26,7 +26,6 @@ const parseDateString = (date: string, time: string): Date => {
 
 
 export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreatePopupProps) => {
-
     const [session, setSession] = useState<Session>({name: sessionName} as Session);
     const [date, selectDate] = useState<string>("");
     const [startTime, setStartTime] = useState<string>("");
@@ -56,7 +55,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         }
     })
 
-    const getSongs = (): Song[] => {
+    const getSongs = () => {
         const displaySongs: Song[] = []
         tempSongs.forEach(id =>
             displaySongs.push(allSongs?.find(s => id === s.dataBaseID) as Song)
@@ -65,6 +64,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
     }
 
     const pushSession = async() => {
+
         const finalSession: Session = {
             ...session,
             start: parseDateString(date, startTime),

@@ -24,15 +24,14 @@ export function usePersonalService(): [User | undefined, (operation: OperationTy
                     userName: user.displayName || undefined
                 };
                 const {dataBaseID, ...userData} = newUser;
-                firebase.database().ref(`users/${dataBaseID}`).update(userData, err => err && console.error(err));
+                firebase.database().ref(`users/${dataBaseID}`).update(userData, (err) => err && console.log(err));
 
                 setUid(newUser.dataBaseID);
-
             } else {
                 setUid(undefined);
             }
         });
-    }, [setUid]);
+    }, []);
 
     const personalOperation = useCallback(async (operation: OperationType) => {
         switch (operation.type) {

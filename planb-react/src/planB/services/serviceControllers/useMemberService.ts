@@ -9,10 +9,10 @@ type OperationType =
     ;
 
 export function useMemberService(band: Band | undefined): [User[] | undefined, (operation: OperationType) => Promise<void>] {
-    const [members] = useDatabaseSpaceElements<User>(band && `bandSpace/${band.dataBaseID}/members`, 'users');
+    const [members] = useDatabaseSpaceElements<User>(band?.dataBaseID && `bandSpace/${band.dataBaseID}/members`, 'users');
 
     const memberOperation = useCallback(async (operation: OperationType) => {
-        if (band) {
+        if (band?.dataBaseID) {
             switch (operation.type) {
                 case "add":
                     await firebase.database().ref(`bandSpace/${band.dataBaseID}/members/${operation.payload.dataBaseID}`).set(true);

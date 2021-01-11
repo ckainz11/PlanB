@@ -52,7 +52,7 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
                 <Button className={"color-positive"} loading={creating} content={"Add"} icon="check" onClick={async () => {
                     setCreating(true)
                     await sleep(500)
-                    const promise = await songOperation({type: "add", payload: song})
+                    await songOperation({type: "add", payload: song})
                     setCreating(false)
                     close();
                 }} />

@@ -10,7 +10,7 @@ type OperationType =
     ;
 
 export function useSessionService(band: Band | undefined): [Session[], ((operation: OperationType) => Promise<void>), ((session: Session) => number)] {
-    const [rawSessions] = useDatabaseElements<Session>(band && `bandSpace/${band.dataBaseID}/sessions`);
+    const [rawSessions] = useDatabaseElements<Session>(band?.dataBaseID && `bandSpace/${band.dataBaseID}/sessions`);
     const [compiledSessions, setCompiledSessions] = useState<Session[]>(rawSessions || []);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [rawSessions]);
 
     const createSession = useCallback(async (session: Session, songs: Song[]) => {
-        if (!band) {
+        if (!(band?.dataBaseID)) {
             return;
         }
         const uid = firebase.auth().currentUser?.uid;
@@ -58,29 +58,29 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [band]);
 
     const sessionValidation = useCallback((session: Session) => {
-        if (session.start > session.end) {
+        if (!session.start || !session.end || session.start > session.end) {
             return -1
         }
-        if (session.name.length < 3) {
+        if (!session.name || session.name.length < 3) {
             return -2
         }
         //if(session.name.split("")[0] === " ") {return -3}
-        if (session.name.length > 50) {
+        if (!session.name || session.name.length > 50) {
             return -4
         }
-        if (!isNaN(session.start.getTime())) {
+        if (!session.start || !isNaN(session.start.getTime())) {
             return -5
         }
-        if (!isNaN(session.end.getTime())) {
+        if (!session.end || !isNaN(session.end.getTime())) {
             return -6
         }
-        if (session.start < new Date()) {
+        if (!session.start || session.start < new Date()) {
             return -7
         }
-        if (session.location.length > 100) {
+        if (!session.location || session.location.length > 100) {
             return -8
         }
-        if (session.description.length > 2000) {
+        if (!session.description || session.description.length > 2000) {
             return -9
         }
 
@@ -92,42 +92,32 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                 switch (operation.type) {
                     case "add":
                         if (await sessionValidation(operation.payload) < 0) {
+                            console.log("%c Validation failed. SessionService: 'add'", 'color: #D100D0')
                             return;
                         }
                         operation.payload.name = operation.payload.name.replace(/^\s*\w+,\s\w+!\s*/, "")
-                        try {
-                            await createSession(operation.payload, [])
-                        } catch (e) {
-                            console.log(e)
-                        }
+                        await createSession(operation.payload, [])
                         break;
-                    case "remove":
-                        try {
-                            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`).remove();
-                            await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`).remove();
-                        } catch (e) {
-                            console.log(e)
-                        }
 
+                    case "remove":
+                        await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessionSpace/${operation.payload.dataBaseID}`).remove();
+                        await firebase.database().ref(`bandSpace/${band.dataBaseID}/sessions/${operation.payload.dataBaseID}`).remove();
                         break;
+
                     case "addWithSongs":
-                        try {
-                            if (await sessionValidation(operation.payload.session) < 0) {
-                                return;
-                            }
-                            await createSession(operation.payload.session, operation.payload.songs)
-                        } catch (e) {
-                            console.log(e)
+                        if (await sessionValidation(operation.payload.session) < 0) {
+                            console.log("%c Validation failed. SessionService: 'addWithSongs'", 'color: #D100D0')
+                            return;
                         }
+                        await createSession(operation.payload.session, operation.payload.songs)
+                    }
                 }
             }
-        }
 
         ,
-        [band, createSession, sessionValidation]
+            [band, createSession, sessionValidation]
         )
     ;
-
 
 
     return [compiledSessions, sessionOperation, sessionValidation];
