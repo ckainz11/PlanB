@@ -58,7 +58,7 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [band]);
 
     const sessionValidation = useCallback((session: Session) => {
-        let error = []
+        const error = []
 
         if (!session.start || !session.end || session.start > session.end) {
             error.push({
