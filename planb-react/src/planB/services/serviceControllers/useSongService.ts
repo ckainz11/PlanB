@@ -15,31 +15,50 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
     const songValidation = useCallback((song: Song) => {
         let error = []
 
-        if(!song.name || song.name.length < 1) {
+        if (!song.name) {
+            error.push({
+                field: "name",
+                message: "Name must be filled out."
+            })
+        }
+        if (!song.rating) {
+            error.push({
+                field: "rating",
+                message: "Rating must be filled out."
+            })
+        }
+        if (!song.content) {
+            error.push({
+                field: "content",
+                message: "Content must be filled out."
+            })
+        }
+
+        if(song.name.length < 1) {
             error.push({
                 field: "name",
                 message: "Name is too short."
             })
         }
-        if(!song.name || song.name.length > 50) {
+        if(song.name.length > 50) {
             error.push({
                 field: "name",
                 message: "Name is too long."
             })
         }
-        if(!song.rating || song.rating < 0 ) {
+        if(song.rating < 0 ) {
             error.push({
                 field: "rating",
                 message: "Rating must be above 0."
             })
         }
-        if(!song.rating || song.rating > 10) {
+        if(song.rating > 10) {
             error.push({
                 field: "rating",
                 message: "Rating must be under 10."
             })
         }
-        if(!song.content || song.content.length > 200) {
+        if(song.content.length > 200) {
             error.push({
                 field: "content",
                 message: "Content is too long."
