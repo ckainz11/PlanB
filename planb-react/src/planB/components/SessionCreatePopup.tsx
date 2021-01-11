@@ -56,6 +56,20 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
         }
     })
 
+
+    const getDisabledDates = (): string[] => {
+        const dates: string[] = []
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = today.getMonth()
+        const day = today.getDay()
+        for(let i = 1; i < day; i++){
+            dates.push(i+"-"+month+"-"+year)
+        }
+        console.log(dates)
+        return dates
+    }
+
     const getSongs = (): Song[] => {
         const displaySongs: Song[] = []
         tempSongs.forEach(id =>
@@ -88,7 +102,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                     }}/>
                 </FormField>
                 <FormField>
-                    <DateInput enable={"01-01-2021"} inline name="date" value={date} onChange={handleDateInput}/>
+                    <DateInput disable={getDisabledDates()} inline name="date" value={date} onChange={handleDateInput}/>
                 </FormField>
                 <FormGroup widths={"equal"} >
                     <FormField>
