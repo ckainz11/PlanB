@@ -31,6 +31,7 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
         if (num >= 0 && num <= 10)
             setSong({...song, rating: num})
     }
+
     const containsError = (field: string) => {
         for (let e of errors) {
             if (e.field === field)
@@ -38,6 +39,7 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
         }
         return undefined
     }
+
     return <Modal open={open} onClose={() => close()} fluid closeIcon>
         <Modal.Header className="edit-header">Create a Song</Modal.Header>
         <Modal.Content className="edit-content">
@@ -79,8 +81,9 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
                                 await songOperation({type: "add", payload: song})
                                 setCreating(false)
                                 close();
-                            } else
+                            } else {
                                 setErrors(errors)
+                            }
                         }}/>
             </div>
         </Modal.Content>
