@@ -62,13 +62,13 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
 
         if(!session.start) {
             error.push({
-                field: "time",
+                field: "start",
                 message: "Start must be filled out."
             })
         }
         if(!session.end) {
             error.push({
-                field: "time",
+                field: "end",
                 message: "End must be filled out."
             })
         }
@@ -90,6 +90,8 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                 message: "Description must be filled out."
             })
         }
+
+        if(error.length > 0) {return error}
 
         if (session.start > session.end) {
             error.push({

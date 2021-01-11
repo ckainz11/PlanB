@@ -13,7 +13,7 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
     const [songs] = useDatabaseElements<Song>(band?.dataBaseID && `bandSpace/${band.dataBaseID}/songs`);
 
     const songValidation = useCallback((song: Song) => {
-        let error = []
+        const error = []
 
         if (!song.name) {
             error.push({
@@ -21,7 +21,7 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
                 message: "Name must be filled out."
             })
         }
-        if (!song.rating) {
+        if (!song.rating && song.rating !== 0) {
             error.push({
                 field: "rating",
                 message: "Rating must be filled out."
@@ -33,6 +33,8 @@ export function useSongService(band: Band | undefined): [Song[] | undefined ,((o
                 message: "Content must be filled out."
             })
         }
+
+        if(error.length > 0) return error
 
         if(song.name.length < 1) {
             error.push({

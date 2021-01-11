@@ -19,6 +19,7 @@ import {CustomError, Session, Song} from "../resources";
 import {useAssignSongService, useSessionService, useSongService} from "../services";
 import {DateInput, TimeInput} from "semantic-ui-calendar-react";
 import {SongTable} from "./SongTable";
+import {CustomErrorComponent} from "./CustomErrorComponent";
 
 
 const parseDateString = (date: string, time: string): Date => {
@@ -102,43 +103,57 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
     }
 
     return <Modal open={open} onClose={() => closeModal()} closeIcon>
-        <Modal.Header>Session Creation</Modal.Header>
-        <Modal.Content>
-            <Form>
+        <Modal.Header className="edit-header">Session Creation</Modal.Header>
+        <Modal.Content className={"edit-content"}>
+            <Form error>
+                <h3>Name</h3>
                 <FormField  error={containsError("name")}>
-                    <Input  defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
+                    <Input className="dark-input" defaultValue={sessionName} placeholder={"Name"} onChange={(event, data) => {
                         setSession((oldValue) => {
                             return {...session, name: data.value}
                         })
                     }}/>
                 </FormField>
-                <label>Choose a date</label>
-                <FormField >
-                    <DateInput minDate={new Date()} inline name="date" value={date} onChange={handleDateInput}/>
-                    {containsError("date") && <Message error={true} header={"Error"} content={"Please select a valid date"} />}
+                <CustomErrorComponent customError={containsError("name")}/>
+                <h3>Choose a date</h3>
+                <FormField>
+                    <DateInput inline className="dark-input" placeholder="Date" minDate={new Date()}  name="date" value={date} onChange={handleDateInput}/>
+                    <CustomErrorComponent customError={containsError("date")}/>
                 </FormField>
                 <FormGroup widths={"equal"}>
                     <FormField error={containsError("start")}>
-                        <TimeInput  value={startTime} name={"start"} onChange={handleTimeInput}/>
+                        <h4>Start Time</h4>
+                        <TimeInput className="dark-input" placeholder="Start"  value={startTime} name={"start"} onChange={handleTimeInput}/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("start")}/>
                     </FormField>
                     <FormField error={containsError("end")}>
-                        <TimeInput value={endTime} name={"end"} onChange={handleTimeInput}/>
+                        <h4>End Time</h4>
+                        <TimeInput className="dark-input" placeholder="End" value={endTime} name={"end"} onChange={handleTimeInput}/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("end")}/>
                     </FormField>
-                    <FormField error={containsError("location")} >
-                        <Input onChange={((event, data) => {
+                    <FormField  error={containsError("location")} >
+                        <h4>Location</h4>
+                        <Input className="dark-input" placeholder="Location" onChange={((event, data) => {
                             setSession({...session, location: data.value})
                         })}/>
+                        <br/>
+                        <br/>
+                        <CustomErrorComponent customError={containsError("location")}/>
                     </FormField>
                 </FormGroup>
                 <h3>Description</h3>
-                <label>{session.description.length}/2000</label>
                 <FormField error={containsError("description")}>
-                    <TextArea onChange={(event, data) => {
+                    <TextArea className="dark-textarea" placeholder="Description" onChange={(event, data) => {
                         setSession({...session, description: data.value as string})
                     }}/>
+                    <label className="font-color-grey">{session.description.length}/2000</label>
+                    <CustomErrorComponent customError={containsError("description")}/>
                 </FormField>
                 <FormField error={containsError("songs")}>
-                    <Dropdown options={options || []} selection search multiple fluid onChange={((event, data) => {
+                    <h3>Add the songs you want to practice at this session</h3>
+                    <Dropdown className="dark-dropdown" options={options || []} selection search multiple fluid onChange={((event, data) => {
                         const newSongs = data.value as []
                         setTempSongs(newSongs)
                     })}/>

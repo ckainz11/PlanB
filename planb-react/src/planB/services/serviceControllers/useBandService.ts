@@ -63,6 +63,8 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
             })
         }
 
+        if(error.length > 0) return error
+
         if (band.name.length < 3) {
             error.push({
                 field: "name",

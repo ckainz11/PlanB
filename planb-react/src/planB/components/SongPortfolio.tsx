@@ -20,7 +20,7 @@ export const SongPortfolio = () => {
             <div className={"portfolio-header-left"}/>
             <h1 className={"portfolio-header-center"}>Songs</h1>
             <div>
-                <Dropdown className={"portfolio-header-right"}  icon={"sort"} text={"sort"}>
+                <Dropdown className={"portfolio-header-right"}  icon={"sort"} text={"Sort By"}>
                     <Dropdown.Menu>
                         <Dropdown.Item active={sortBy==="none"} onClick={() => setSortBy("none")}>Default</Dropdown.Item>
                         <Dropdown.Item active={sortBy==="highest"} onClick={() => setSortBy("highest")}>Highest</Dropdown.Item>
