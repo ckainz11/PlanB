@@ -14,11 +14,11 @@ export const Login = () => {
         <LoginHeader/>
         <h1>Welcome to</h1>
         <Image size="huge" className={"login-logo"} src={purpleLogo} alt={"logo"}/>
-        <Button size={"huge"} icon="google" className={"color-positive"} content={"Authenticate with google"}
+        <Button size={"huge"} icon="google" className={"color-positive"} content={"Authenticate with Google"}
                 onClick={() => personalOperation({type: "signInWithGoogle"}).catch(err => {
                     alert(err.message)
                 })}/>
-        <Button size={"huge"} icon="github" className={"color-positive "} content={"Authenticate with google"}
+        <Button size={"huge"} icon="github" className={"color-positive "} content={"Authenticate with Github"}
                 onClick={() => personalOperation({type: "signInWithGithub"}).catch(err => {
                     alert(err.message)
                 })}/>

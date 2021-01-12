@@ -105,7 +105,7 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
                 <Divider/>
 
                 <div className="create-band-controls">
-                    <Button icon={"cancel"} loading={creating} className={"color-negative"} content={"Close"}
+                    <Button icon={"cancel"} className={"color-negative"} content={"Close"}
                             onClick={() => onClose()}/>
                     <Button icon={"check"} loading={creating} className={"color-positive"} content={"Create!"}
                             onClick={() => pushBand()}/>
