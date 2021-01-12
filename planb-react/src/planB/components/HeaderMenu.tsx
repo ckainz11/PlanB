@@ -38,8 +38,8 @@ export const HeaderMenu = () => {
                     {band && <Dropdown.Header>{band.name}</Dropdown.Header>}
                     {band && <Dropdown.Item icon={leader ? "edit" : "eye"} text={leader ? "Edit Band" : "View Band"}
                                             onClick={() => setEditOpen(true)}/>}
-                    {band && !leader && <Dropdown.Item icon={"sign out"} text={"Leave Band"} onClick={() => {
-                        memberOperation({type: "remove", payload: me!!});
+                    {band && !leader && <Dropdown.Item icon={"sign out"} text={"Leave Band"} onClick={async () => {
+                        await memberOperation({type: "remove", payload: me!!});
                         setSelectedBand(undefined)
                     }}/>}
                     {band && leader && <Dropdown.Item icon={"trash"}  text={"Delete Band"} onClick={async () => {
