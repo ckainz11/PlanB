@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import {
     Button,
@@ -20,6 +20,7 @@ import {useAssignSongService, useSessionService, useSongService} from "../servic
 import {DateInput, TimeInput} from "semantic-ui-calendar-react";
 import {SongTable} from "./SongTable";
 import {CustomErrorComponent} from "./CustomErrorComponent";
+import moment from "moment";
 
 
 const parseDateString = (date: string, time: string): Date => {
@@ -37,30 +38,42 @@ const parseDateString = (date: string, time: string): Date => {
 
 
 export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreatePopupProps) => {
+    const [band, selectBand] = useContext(BandContext);
+    const [sessions, sessionOperation, validateSession] = useSessionService(band);
 
     const [session, setSession] = useState<Session>({name: sessionName, description: ""} as Session);
-    const [date, selectDate] = useState<string>("");
+    const [date, selectDate] = useState<string>(moment().format("DD-MM-YYYY"));
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
 
-    const [band, selectBand] = useContext(BandContext);
+    const [touched, setTouched] = useState<boolean>(false)
 
-    const [sessions, sessionOperation, validateSession] = useSessionService(band);
-    const [songs, songOperation] = useAssignSongService(band, session)
     const [allSongs, allSongOperation] = useSongService(band)
     const [tempSongs, setTempSongs] = useState<String[]>([])
     const [errors, setErrors] = useState<CustomError[]>([]);
-
+    useEffect(() => {
+        if (touched) {
+            const finalSession: Session = {
+                ...session,
+                start: parseDateString(date, startTime),
+                end: parseDateString(date, endTime),
+            };
+            const newErrors = validateSession(finalSession)
+            setErrors(newErrors)
+        }
+    }, [touched, setErrors, validateSession, session, date, endTime, startTime])
 
     const handleDateInput = (event: any, {value}: any) => {
         selectDate(value);
     }
+
     const handleTimeInput = (event: any, {value, name}: any) => {
         if (name === "start")
             setStartTime(value);
         else
             setEndTime(value);
     }
+
     const options = allSongs?.map(s => {
         return {
             key: s.dataBaseID,
@@ -85,8 +98,8 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
             end: parseDateString(date, endTime),
         };
 
+        setTouched(true)
         const errors = validateSession(finalSession)
-        console.log(errors);
         if (errors.length === 0) {
             const res = await sessionOperation({
                 type: "addWithSongs", payload: {
@@ -97,8 +110,7 @@ export const SessionCreatePopup = ({sessionName, open, closeModal}: SessionCreat
                 }
             })
             closeModal();
-        } else
-            setErrors(errors)
+        }
     }
 
     const containsError = (field: string) => {

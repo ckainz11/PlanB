@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
     Button,
     Container,
@@ -26,11 +26,14 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
     const [creating, setCreating] = useState(false)
     const [errors, setErrors] = useState<CustomError[]>([]);
 
+    const [touched, setTouched] = useState(false)
+
     const onChange = (event: any, {value}: InputOnChangeData) => {
         let num = Number(value)
         if (num >= 0 && num <= 10)
             setSong({...song, rating: num})
     }
+
     const containsError = (field: string) => {
         for (let e of errors) {
             if (e.field === field)
@@ -38,6 +41,13 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
         }
         return undefined
     }
+
+    useEffect(() => {
+        if (touched) {
+            setErrors(validateSong(song))
+        }
+    }, [touched, setErrors, validateSong, song])
+
     return <Modal open={open} onClose={() => close()} fluid closeIcon>
         <Modal.Header className="edit-header">Create a Song</Modal.Header>
         <Modal.Content className="edit-content">
@@ -79,8 +89,10 @@ export const SongCreatePopup = ({open, close}: SongCreatePopupProps) => {
                                 await songOperation({type: "add", payload: song})
                                 setCreating(false)
                                 close();
-                            } else
+                            } else {
                                 setErrors(errors)
+                                setTouched(true)
+                            }
                         }}/>
             </div>
         </Modal.Content>

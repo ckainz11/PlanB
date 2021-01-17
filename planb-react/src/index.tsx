@@ -4,7 +4,9 @@ import './index.css';
 import App from './planB/App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
+import {BService} from "./planB/services";
 
+const bService = new BService();
 
 ReactDOM.render(
     <React.StrictMode>

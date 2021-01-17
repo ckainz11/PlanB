@@ -10,7 +10,7 @@ export const BandMembers = ({band}: BandMembersProps) => {
 
     return <div>
         {members?.map(m => {
-            return <Image  className="band-member" size={"tiny"} avatar src={m.photoUrl} />
+            return <Image key={m.dataBaseID} className="band-member" size={"tiny"} avatar src={m.photoUrl} />
         })}
     </div>
 }

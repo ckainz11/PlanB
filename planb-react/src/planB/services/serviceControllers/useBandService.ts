@@ -48,7 +48,7 @@ export function useBandService(user: User | undefined): [(Band[] | undefined), (
     }, [user])
 
     const bandValidation = useCallback( (band: Band) => {
-        let error = []
+        let error : CustomError[] = []
 
         if (!band.name) {
             error.push({

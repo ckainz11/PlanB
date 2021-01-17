@@ -58,100 +58,88 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
     }, [band]);
 
     const sessionValidation = useCallback((session: Session) => {
-        const error = []
+        const error: CustomError[] = []
 
-        if(!session.start) {
-            error.push({
-                field: "start",
-                message: "Start must be filled out."
-            })
-        }
-        if(!session.end) {
-            error.push({
-                field: "end",
-                message: "End must be filled out."
-            })
-        }
-        if(!session.name) {
-            error.push({
-                field: "name",
-                message: "Name must be filled out."
-            })
-        }
-        if(!session.location) {
-            error.push({
-                field: "location",
-                message: "Location must be filled out."
-            })
-        }
-        if(!session.description) {
-            error.push({
-                field: "description",
-                message: "Description must be filled out."
-            })
-        }
-
-        if(error.length > 0) return error
-
-        if (session.start > session.end) {
-            error.push({
-                field: "date",
-                message: "Start must not be after end."
-                })
-        }
-        if (session.name.length < 3) {
-            error.push({
-                field: "name",
-                message: "Name is too short."
-            })
-        }
-        if (session.name.length > 50) {
-            error.push({
-                field: "name",
-                message: "Name is too long."
-            })
-        }
-        if (isNaN(session.start.getTime())) {
+        if (!session.start || isNaN(session.start.getTime())) {
             error.push({
                 field: "start",
                 message: "Start is not a valid time."
             })
         }
-        if (isNaN(session.start.getDate())) {
-            error.push({
-                field: "date",
-                message: "Start is not a valid date."
-            })
-        }
-        if (isNaN(session.end.getTime())) {
+
+        if (!session.end || isNaN(session.end.getTime())) {
             error.push({
                 field: "end",
                 message: "End is not a valid time."
             })
         }
-        if (isNaN(session.end.getDate())) {
-            error.push({
-                field: "date",
-                message: "End is not a valid date."
-            })
+
+        if (session.start && session.end) {
+            if (session.start < new Date()) {
+                error.push({
+                    field: "start",
+                    message: "Start must not be in the past."
+                })
+            }
+
+            if (session.start > session.end) {
+                error.push({
+                    field: "end",
+                    message: "End must not be after start"
+                })
+            }
         }
-        if (session.start < new Date()) {
+
+        if (!session.name) {
             error.push({
-                field: "start",
-                message: "Start must not be in the past."
+                field: "name",
+                message: "Name must be filled out."
             })
+        } else {
+            if (session.name.length < 3) {
+                error.push({
+                    field: "name",
+                    message: "Name is too short."
+                })
+            }
+            if (session.name.length > 50) {
+                error.push({
+                    field: "name",
+                    message: "Name is too long."
+                })
+            }
         }
-        if (session.location.length > 100) {
+
+
+
+
+
+        if (!session.location) {
             error.push({
                 field: "location",
-                message: "Location is too long."
+                message: "Location must be filled out."
             })
+        } else {
+            if (session.location.length > 100) {
+                error.push({
+                    field: "location",
+                    message: "Location is too long."
+                })
+            }
         }
-        if (session.description.length > 2000) {
+
+        if (!session.description) {
             error.push({
                 field: "description",
-                message: "Description is too long."
+                message: "Description must be filled out."
             })
+        } else {
+            if (session.description.length > 2000) {
+                error.push({
+                    field: "description",
+                    message: "Description is too long."
+                })
+            }
         }
 
         return error;
@@ -181,12 +169,12 @@ export function useSessionService(band: Band | undefined): [Session[], ((operati
                             return;
                         }
                         await createSession(operation.payload.session, operation.payload.songs)
-                    }
                 }
             }
+        }
 
         ,
-            [band, createSession, sessionValidation]
+        [band, createSession, sessionValidation]
         )
     ;
 

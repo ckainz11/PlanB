@@ -1,19 +1,7 @@
-import React, {useCallback, useContext, useState} from "react";
-import {
-    Button,
-    Divider,
-    Dropdown,
-    Form,
-    FormField,
-    FormGroup,
-    Input,
-    Message,
-    Modal,
-    TextArea
-} from "semantic-ui-react";
-import {Band, CustomError, Song, User} from "../resources";
-import {useBandService, useMemberService, usePersonalService, useUserService} from "../services";
-import {BandContext} from "../contexts";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Divider, Dropdown, Form, FormField, Input, Modal, TextArea} from "semantic-ui-react";
+import {Band, CustomError, User} from "../resources";
+import {useBandService, useUserService} from "../services";
 import {CustomErrorComponent} from "./CustomErrorComponent";
 
 const sleep = (ms: number) => {
@@ -21,15 +9,14 @@ const sleep = (ms: number) => {
 }
 
 function getOptions(users: User[], me: User) {
-    const options = users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
+    return users?.filter(user => user.dataBaseID !== me?.dataBaseID).map(user => {
         return {
             key: user.dataBaseID,
             text: user.userName,
             value: user.dataBaseID,
             image: {avatar: true, src: user.photoUrl}
         }
-    })
-    return options;
+    });
 }
 
 export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopupProps) => {
@@ -40,6 +27,8 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
     const [creating, setCreating] = useState(false)
     const [errors, setErrors] = useState<CustomError[]>([]);
 
+    const [touched, setTouched] = useState(false)
+
 
     const containsError = (field: string) => {
         for (let e of errors) {
@@ -48,6 +37,13 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
         }
         return undefined
     }
+
+    useEffect(() => {
+        if (touched) {
+            setErrors(validateBand(newBand));
+        }
+    }, [setErrors, touched, validateBand, newBand])
+
     const pushBand = useCallback(async () => {
         const errors = validateBand(newBand)
         if (errors.length === 0) {
@@ -64,8 +60,9 @@ export const BandCreatePopup = ({open, onClose, selectBand, me}: BandCreatePopup
             selectBand(newBand)
         } else {
             setErrors(errors)
+            setTouched(true)
         }
-    }, [bandOperation, memberList, selectBand, newBand, onClose]);
+    }, [bandOperation, memberList, selectBand, newBand, onClose, validateBand]);
 
     return <Modal open={open} onClose={() => onClose()} closeIcon>
         <Modal.Header className="edit-header">Create a new Band</Modal.Header>
