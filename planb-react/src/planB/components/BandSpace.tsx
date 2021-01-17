@@ -6,6 +6,9 @@ import {usePersonalService, useSessionService} from "../services";
 import {BandContext} from "../contexts";
 import {SongPortfolio} from "./SongPortfolio";
 import useLeaderService from "../services/serviceControllers/useLeaderService";
+import moment from "moment";
+
+
 
 export const BandSpace = () => {
 
@@ -21,7 +24,7 @@ export const BandSpace = () => {
                 <h3><b>{currentBand?.name}</b> by {leader?.userName}</h3>
                 <Divider/>
                 <SessionCreater/>
-                {sessions?.map(session => {
+                {sessions?.sort( (a, b) => {return moment(a.start).diff(b.start, 'hours')} )?.map(session => {
                     return <SessionDisplay session={session} key={session.dataBaseID}/>
                 })}
             </Grid.Column>
