@@ -2,7 +2,7 @@
 
 ## General Information
 
-  PlanB is a band management webapp, that allows bands to organize their sessions and songs. Plan B provides a way to __Plan__ your **B**and
+  PlanB is a band management webapp, that allows bands to organize their sessions and songs. Plan B provides a way to __Plan__ your **B**and.
 
 ## Team
 
